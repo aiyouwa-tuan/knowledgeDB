@@ -1,0 +1,3314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高效学习指南 · 让知识真正留下来</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f13;
+    --bg2: #17171d;
+    --bg3: #1f1f28;
+    --border: #2a2a38;
+    --text: #e8e8f0;
+    --text2: #9090a8;
+    --text3: #5a5a72;
+    --accent: #7c6ff7;
+    --accent2: #9f97ff;
+    --green: #4ade80;
+    --yellow: #fbbf24;
+    --red: #f87171;
+    --pink: #f472b6;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f5f5fa;
+      --bg2: #ffffff;
+      --bg3: #eeeef6;
+      --border: #dddde8;
+      --text: #1a1a2e;
+      --text2: #5a5a78;
+      --text3: #9090aa;
+      --accent: #6259e8;
+      --accent2: #7a72f5;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Noto Sans SC', 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+    min-height: 100vh;
+  }
+  .container { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+  /* HEADER */
+  header {
+    padding: 48px 0 24px;
+    text-align: center;
+  }
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, var(--text) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .subtitle {
+    color: var(--text2);
+    font-size: 16px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* MYTH BANNER */
+  .myth-banner {
+    background: linear-gradient(135deg, rgba(124,111,247,0.12) 0%, rgba(244,114,182,0.08) 100%);
+    border: 1px solid rgba(124,111,247,0.25);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin: 32px 0;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .myth-icon { font-size: 28px; flex-shrink: 0; }
+  .myth-content h3 { font-size: 15px; font-weight: 700; color: var(--accent2); margin-bottom: 6px; }
+  .myth-content p { font-size: 14px; color: var(--text2); }
+  .myth-content strong { color: var(--text); }
+
+  /* DIAGNOSE */
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 14px;
+  }
+  .diagnose-section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .diagnose-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .diagnose-sub {
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 18px;
+  }
+  .pain-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .pain-btn {
+    padding: 10px 18px;
+    border-radius: 40px;
+    border: 1.5px solid var(--border);
+    background: var(--bg3);
+    color: var(--text2);
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.18s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pain-btn:hover { border-color: var(--accent); color: var(--text); }
+  .pain-btn.active { border-color: var(--accent); background: rgba(124,111,247,0.15); color: var(--accent2); font-weight: 600; }
+  .diagnose-result {
+    display: none;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    background: rgba(124,111,247,0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+  .diagnose-result.show { display: block; }
+  .diagnose-result strong { color: var(--text); }
+
+  /* COMPARISON */
+  .compare-section {
+    margin-bottom: 32px;
+  }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 560px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .compare-card.bad { border-color: rgba(248,113,113,0.3); }
+  .compare-card.good { border-color: rgba(74,222,128,0.3); }
+  .compare-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .compare-card.bad .compare-label { color: var(--red); }
+  .compare-card.good .compare-label { color: var(--green); }
+  .compare-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+  .compare-item .dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+  .compare-card.bad .dot { background: var(--red); }
+  .compare-card.good .dot { background: var(--green); }
+
+  /* METHODS */
+  .methods-section { margin-bottom: 32px; }
+  .methods-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 640px) { .methods-grid { grid-template-columns: 1fr; } }
+  .method-card {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+    position: relative;
+  }
+  .method-card.highlighted { border-color: var(--accent); }
+  .method-card.completed { border-color: rgba(74,222,128,0.5); }
+  .method-header {
+    padding: 18px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    user-select: none;
+  }
+  .method-header:hover { background: rgba(255,255,255,0.02); }
+  .method-emoji {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .method-meta { flex: 1; min-width: 0; }
+  .method-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .method-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .tag-memory { background: rgba(251,191,36,0.15); color: var(--yellow); }
+  .tag-focus { background: rgba(244,114,182,0.15); color: var(--pink); }
+  .tag-speed { background: rgba(74,222,128,0.15); color: var(--green); }
+  .tag-all { background: rgba(124,111,247,0.15); color: var(--accent2); }
+  .method-brief {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+  .method-chevron {
+    font-size: 18px;
+    color: var(--text3);
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+    margin-top: 2px;
+  }
+  .method-card.open .method-chevron { transform: rotate(90deg); }
+  .method-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .method-card.open .method-body { display: block; }
+  .method-body-inner { padding-top: 16px; }
+  .steps-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 12px;
+  }
+  .steps {
+    list-style: none;
+    counter-reset: step;
+  }
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+    align-items: flex-start;
+  }
+  .steps li::before {
+    content: counter(step);
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg3);
+    color: var(--accent2);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .steps li strong { color: var(--text); }
+  .method-tip {
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: rgba(124,111,247,0.07);
+    border-radius: var(--radius-sm);
+    border-left: 2px solid var(--accent);
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .method-tip strong { color: var(--accent2); }
+  .mark-done-btn {
+    margin-top: 14px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .mark-done-btn:hover { border-color: var(--green); color: var(--green); }
+  .method-card.completed .mark-done-btn { background: rgba(74,222,128,0.1); border-color: rgba(74,222,128,0.5); color: var(--green); }
+
+  /* HIGHLIGHT BADGE */
+  .highlight-badge {
+    display: none;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--accent);
+    color: white;
+    letter-spacing: 0.05em;
+  }
+  .method-card.highlighted .highlight-badge { display: block; }
+
+  /* FEYNMAN EXERCISE */
+  .feynman-section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .feynman-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .feynman-emoji { font-size: 28px; }
+  .feynman-title { font-size: 17px; font-weight: 700; }
+  .feynman-sub { font-size: 13px; color: var(--text2); margin-bottom: 18px; }
+  .topic-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .topic-label { font-size: 13px; color: var(--text2); white-space: nowrap; }
+  .topic-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--bg3);
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .topic-input:focus { border-color: var(--accent); }
+  .feynman-textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--bg3);
+    color: var(--text);
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.7;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+    margin-bottom: 10px;
+  }
+  .feynman-textarea:focus { border-color: var(--accent); }
+  .feynman-textarea::placeholder { color: var(--text3); }
+  .feynman-analyze-btn {
+    padding: 9px 18px;
+    border-radius: var(--radius-sm);
+    border: none;
+    background: var(--accent);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .feynman-analyze-btn:hover { opacity: 0.88; }
+  .feynman-feedback {
+    display: none;
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .feynman-feedback.show { display: block; }
+  .feynman-feedback.good { background: rgba(74,222,128,0.08); border-left: 3px solid var(--green); }
+  .feynman-feedback.ok { background: rgba(251,191,36,0.08); border-left: 3px solid var(--yellow); }
+  .feynman-feedback.need-work { background: rgba(248,113,113,0.08); border-left: 3px solid var(--red); }
+  .feynman-feedback .fb-title { font-weight: 700; margin-bottom: 6px; }
+  .feynman-feedback.good .fb-title { color: var(--green); }
+  .feynman-feedback.ok .fb-title { color: var(--yellow); }
+  .feynman-feedback.need-work .fb-title { color: var(--red); }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .progress-text {
+    font-size: 13px;
+    color: var(--text2);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .progress-bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--bg3);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--green));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-count {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+
+  /* MENTAL MODELS SECTION */
+  .mm-section { margin-bottom: 32px; }
+  .mm-hero {
+    background: linear-gradient(135deg, rgba(124,111,247,0.12) 0%, rgba(74,222,128,0.08) 100%);
+    border: 1px solid rgba(124,111,247,0.3);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .mm-hero-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .mm-hero-sub { font-size: 13px; color: var(--text2); line-height: 1.7; max-width: 560px; margin: 0 auto; }
+
+  .thinker-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 640px) { .thinker-grid { grid-template-columns: 1fr; } }
+  .thinker-card {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .thinker-card:hover, .thinker-card.active { border-color: var(--accent); }
+  .thinker-name { font-size: 15px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .thinker-label { font-size: 10px; padding: 2px 7px; border-radius: 4px; background: rgba(124,111,247,0.15); color: var(--accent2); font-weight: 600; }
+  .thinker-brief { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+  .thinker-pattern {
+    font-size: 12px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: var(--bg3);
+    color: var(--text2);
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .thinker-detail {
+    display: none;
+    background: var(--bg2);
+    border: 1.5px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 12px;
+    animation: fadeIn 0.2s ease;
+  }
+  .thinker-detail.show { display: block; }
+  .thinker-detail-name { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: var(--accent2); }
+  .thinker-rows { display: flex; flex-direction: column; gap: 10px; }
+  .thinker-row { display: flex; gap: 12px; font-size: 13px; line-height: 1.6; }
+  .thinker-row-label { font-weight: 700; color: var(--text); min-width: 80px; flex-shrink: 0; }
+  .thinker-row-val { color: var(--text2); }
+  .thinker-row-val strong { color: var(--text); }
+
+  /* mechanism */
+  .mechanism-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .mechanism-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+  .mechanism-steps { display: flex; flex-direction: column; gap: 0; }
+  .mechanism-step {
+    display: flex;
+    gap: 0;
+    position: relative;
+  }
+  .mechanism-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 32px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .mstep-left { display: flex; flex-direction: column; align-items: center; margin-right: 14px; }
+  .mstep-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(124,111,247,0.15);
+    border: 2px solid var(--accent);
+    color: var(--accent2);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+    position: relative;
+  }
+  .mstep-content { padding-bottom: 20px; flex: 1; }
+  .mstep-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; margin-top: 4px; }
+  .mstep-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .mstep-desc strong { color: var(--text); }
+  .mstep-example {
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: var(--bg3);
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+    border-left: 2px solid var(--accent);
+  }
+  .mstep-example strong { color: var(--accent2); }
+
+  /* 985 vs 大专 */
+  .gap-section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .gap-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+  .gap-truth {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 560px) { .gap-truth { grid-template-columns: 1fr; } }
+  .gap-card {
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+  }
+  .gap-card.brutal { border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.04); }
+  .gap-card.hopeful { border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.04); }
+  .gap-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .gap-card.brutal .gap-card-label { color: var(--red); }
+  .gap-card.hopeful .gap-card-label { color: var(--green); }
+  .gap-card-text { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .gap-card-text strong { color: var(--text); }
+  .gap-factors { display: flex; flex-direction: column; gap: 8px; }
+  .gap-factor {
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+    align-items: flex-start;
+  }
+  .gap-factor-icon { font-size: 16px; flex-shrink: 0; }
+  .gap-factor-text strong { color: var(--text); }
+
+  /* practice table */
+  .practice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  @media (max-width: 560px) { .practice-grid { grid-template-columns: 1fr; } }
+  .practice-item {
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg3);
+  }
+  .practice-item-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .practice-item-how { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .practice-item-how strong { color: var(--text); }
+
+  /* BECOME SECTION */
+  .become-section { margin-bottom: 32px; }
+
+  .honest-banner {
+    border-radius: var(--radius);
+    border: 1.5px solid rgba(251,191,36,0.3);
+    background: rgba(251,191,36,0.06);
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .honest-icon { font-size: 26px; flex-shrink: 0; }
+  .honest-text { font-size: 13px; color: var(--text2); line-height: 1.75; }
+  .honest-text strong { color: var(--text); }
+  .honest-text .warn { color: var(--yellow); font-weight: 700; }
+
+  /* habit cards */
+  .habit-grid { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+  .habit-card {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .habit-card.open { border-color: var(--accent); }
+  .habit-header {
+    padding: 16px 20px;
+    cursor: pointer;
+    display: flex; gap: 14px; align-items: flex-start;
+    user-select: none;
+  }
+  .habit-header:hover { background: rgba(255,255,255,0.02); }
+  .habit-num {
+    min-width: 30px; height: 30px; border-radius: 8px;
+    background: rgba(124,111,247,0.12);
+    color: var(--accent2); font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .habit-meta { flex: 1; }
+  .habit-name { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+  .habit-brief { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .habit-who {
+    font-size: 10px; padding: 2px 7px; border-radius: 4px;
+    font-weight: 700; white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+    background: rgba(124,111,247,0.12); color: var(--accent2);
+  }
+  .habit-chevron { font-size: 18px; color: var(--text3); flex-shrink: 0; transition: transform 0.2s; margin-top: 5px; }
+  .habit-card.open .habit-chevron { transform: rotate(90deg); }
+  .habit-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border); }
+  .habit-card.open .habit-body { display: block; }
+  .habit-body-inner { padding-top: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .habit-mechanism {
+    padding: 12px 14px; border-radius: var(--radius-sm);
+    background: var(--bg3); font-size: 13px; color: var(--text2); line-height: 1.7;
+  }
+  .habit-mechanism strong { color: var(--text); }
+  .habit-daily {
+    padding: 12px 14px; border-radius: var(--radius-sm);
+    border: 1px solid rgba(74,222,128,0.2); background: rgba(74,222,128,0.04);
+  }
+  .habit-daily-label { font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .habit-daily-items { display: flex; flex-direction: column; gap: 6px; }
+  .habit-daily-item { font-size: 13px; color: var(--text2); line-height: 1.6; display: flex; gap: 8px; }
+  .habit-daily-item::before { content: '→'; color: var(--green); flex-shrink: 0; font-weight: 700; }
+  .habit-daily-item strong { color: var(--text); }
+  .habit-example {
+    padding: 12px 14px; border-radius: var(--radius-sm);
+    border-left: 3px solid var(--accent); background: rgba(124,111,247,0.05);
+    font-size: 12px; color: var(--text2); line-height: 1.7;
+  }
+  .habit-example strong { color: var(--accent2); }
+
+  /* 90-day protocol */
+  .protocol-block {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 14px;
+  }
+  .protocol-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+  .protocol-phases { display: flex; flex-direction: column; gap: 10px; }
+  .phase-card {
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .phase-header {
+    padding: 12px 14px;
+    display: flex; gap: 12px; align-items: center;
+  }
+  .phase-num {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .phase-card:nth-child(1) .phase-num { background: rgba(248,113,113,0.12); color: var(--red); }
+  .phase-card:nth-child(2) .phase-num { background: rgba(251,191,36,0.12); color: var(--yellow); }
+  .phase-card:nth-child(3) .phase-num { background: rgba(74,222,128,0.12); color: var(--green); }
+  .phase-title { font-size: 14px; font-weight: 700; }
+  .phase-body { padding: 0 14px 14px; }
+  .phase-goal { font-size: 12px; color: var(--text3); margin-bottom: 10px; font-style: italic; }
+  .phase-items { display: flex; flex-direction: column; gap: 6px; }
+  .phase-item { font-size: 13px; color: var(--text2); line-height: 1.6; display: flex; gap: 8px; align-items: flex-start; }
+  .phase-item::before { content: '·'; color: var(--accent2); font-weight: 700; flex-shrink: 0; }
+  .phase-item strong { color: var(--text); }
+
+  /* self-assessment */
+  .selfcheck-block {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 14px;
+  }
+  .sc-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .sc-sub { font-size: 13px; color: var(--text2); margin-bottom: 16px; }
+  .sc-items { display: flex; flex-direction: column; gap: 10px; }
+  .sc-item { display: flex; gap: 12px; align-items: flex-start; }
+  .sc-check {
+    width: 18px; height: 18px; border-radius: 4px;
+    border: 1.5px solid var(--border); background: var(--bg3);
+    flex-shrink: 0; cursor: pointer; margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .sc-check.checked { background: var(--accent); border-color: var(--accent); color: white; font-size: 10px; }
+  .sc-label { font-size: 13px; color: var(--text2); line-height: 1.6; cursor: pointer; }
+  .sc-label strong { color: var(--text); }
+  .sc-score-bar {
+    margin-top: 16px; padding: 14px;
+    border-radius: var(--radius-sm); background: var(--bg3);
+    border: 1px solid var(--border);
+  }
+  .sc-score-label { font-size: 12px; color: var(--text2); margin-bottom: 8px; }
+  .sc-score-track { height: 8px; background: var(--bg2); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
+  .sc-score-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); border-radius: 4px; width: 0%; transition: width 0.4s ease; }
+  .sc-score-msg { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .sc-score-msg strong { color: var(--text); }
+
+  /* survivorship */
+  .surv-block {
+    padding: 16px 18px;
+    border-radius: var(--radius);
+    border: 1px solid rgba(248,113,113,0.2);
+    background: rgba(248,113,113,0.04);
+    margin-bottom: 14px;
+  }
+  .surv-title { font-size: 13px; font-weight: 700; color: var(--red); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .surv-text { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .surv-text strong { color: var(--text); }
+
+  /* NOTES SECTION */
+  .notes-section { margin-bottom: 32px; }
+
+  .three-types {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 640px) { .three-types { grid-template-columns: 1fr; } }
+  .type-card {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    position: relative;
+  }
+  .type-card:hover, .type-card.active { border-color: var(--accent); }
+  .type-card.active { background: rgba(124,111,247,0.05); }
+  .type-icon { font-size: 26px; margin-bottom: 8px; }
+  .type-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 5px;
+  }
+  .type-card:nth-child(1) .type-label { color: var(--accent2); }
+  .type-card:nth-child(2) .type-label { color: var(--green); }
+  .type-card:nth-child(3) .type-label { color: var(--red); }
+  .type-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .type-brief { font-size: 12px; color: var(--text2); line-height: 1.5; }
+
+  .type-detail {
+    display: none;
+    background: var(--bg2);
+    border: 1.5px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 14px;
+    animation: fadeIn 0.2s ease;
+  }
+  .type-detail.show { display: block; }
+  .type-detail-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: var(--accent2); }
+  .type-detail-rows { display: flex; flex-direction: column; gap: 10px; }
+  .type-detail-row { display: flex; gap: 12px; font-size: 13px; line-height: 1.6; }
+  .type-detail-label { font-weight: 700; color: var(--text); min-width: 72px; flex-shrink: 0; }
+  .type-detail-val { color: var(--text2); }
+  .type-detail-val strong { color: var(--text); }
+
+  /* transcribe vs synthesize */
+  .mode-compare {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .mode-compare-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 560px) { .mode-grid { grid-template-columns: 1fr; } }
+  .mode-card {
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .mode-card-header {
+    padding: 10px 14px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .mode-card.record .mode-card-header { background: rgba(248,113,113,0.1); color: var(--red); }
+  .mode-card.synth .mode-card-header { background: rgba(74,222,128,0.1); color: var(--green); }
+  .mode-card-body { padding: 12px 14px; }
+  .mode-note-lines { display: flex; flex-direction: column; gap: 5px; }
+  .note-line {
+    font-size: 12px; padding: 5px 8px; border-radius: 4px;
+    line-height: 1.5; color: var(--text2);
+  }
+  .note-line.dense { background: rgba(248,113,113,0.06); border: 1px solid rgba(248,113,113,0.15); }
+  .note-line.sparse { background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.15); }
+  .note-line.question { background: rgba(124,111,247,0.08); border: 1px solid rgba(124,111,247,0.2); color: var(--accent2); font-style: italic; }
+  .note-line.connection { background: rgba(251,191,36,0.07); border: 1px solid rgba(251,191,36,0.2); color: var(--yellow); }
+  .note-line.h1 { font-weight: 700; color: var(--text); font-size: 13px; background: var(--bg3); }
+  .mode-verdict {
+    margin-top: 10px; padding: 8px 10px;
+    border-radius: 5px; font-size: 12px; color: var(--text2); line-height: 1.5;
+  }
+  .mode-card.record .mode-verdict { background: rgba(248,113,113,0.05); }
+  .mode-card.synth .mode-verdict { background: rgba(74,222,128,0.05); }
+
+  /* root cause */
+  .rootcause-block {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .rootcause-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  .rootcause-chain {
+    display: flex; flex-direction: column; gap: 0; margin-bottom: 14px;
+  }
+  .rc-step {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(42,42,56,0.6);
+    position: relative;
+  }
+  .rc-step:last-child { border-bottom: none; }
+  .rc-arrow {
+    min-width: 24px; height: 24px;
+    background: rgba(248,113,113,0.1); border-radius: 50%;
+    color: var(--red); font-size: 13px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .rc-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .rc-text strong { color: var(--text); }
+  .rootcause-rule {
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: rgba(124,111,247,0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 13px; color: var(--text2); line-height: 1.7;
+  }
+  .rootcause-rule strong { color: var(--text); }
+
+  /* techniques */
+  .notes-techniques {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .nt-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+  .nt-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  .nt-tab {
+    padding: 6px 14px; border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--bg3); color: var(--text2);
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all 0.15s; font-family: inherit;
+  }
+  .nt-tab:hover { border-color: var(--accent); color: var(--text); }
+  .nt-tab.active { border-color: var(--accent); background: rgba(124,111,247,0.15); color: var(--accent2); }
+  .nt-panel { display: none; }
+  .nt-panel.show { display: block; animation: fadeIn 0.2s ease; }
+  .nt-panel-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .nt-panel-when { font-size: 11px; color: var(--accent2); font-weight: 600; margin-bottom: 10px; }
+  .nt-panel-desc { font-size: 13px; color: var(--text2); line-height: 1.7; margin-bottom: 12px; }
+  .nt-panel-desc strong { color: var(--text); }
+  .nt-example-label { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .nt-example-box {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 14px;
+    font-size: 12px; color: var(--text2); line-height: 1.8;
+  }
+  .nt-example-box .note-h1 { color: var(--text); font-weight: 700; font-size: 13px; }
+  .nt-example-box .note-h2 { color: var(--accent2); font-weight: 600; padding-left: 12px; }
+  .nt-example-box .note-body { color: var(--text2); padding-left: 24px; }
+  .nt-example-box .note-q { color: var(--yellow); padding-left: 12px; font-style: italic; }
+  .nt-example-box .note-link { color: var(--pink); padding-left: 12px; }
+  .nt-example-box .note-sep { border: none; border-top: 1px solid var(--border); margin: 8px 0; }
+
+  /* SCHEMA SECTION */
+  .schema-section { margin-bottom: 32px; }
+
+  .schema-core {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 12px;
+  }
+  .schema-core-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+
+  .schema-analogy {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 580px) {
+    .schema-analogy { grid-template-columns: 1fr; }
+    .schema-arrow { transform: rotate(90deg); text-align: center; }
+  }
+  .schema-box {
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+  }
+  .schema-box.no-schema { border-color: rgba(248,113,113,0.3); background: rgba(248,113,113,0.04); }
+  .schema-box.has-schema { border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.04); }
+  .schema-box-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .schema-box.no-schema .schema-box-label { color: var(--red); }
+  .schema-box.has-schema .schema-box-label { color: var(--green); }
+  .schema-box-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .schema-box-text strong { color: var(--text); }
+  .schema-arrow { font-size: 22px; color: var(--text3); text-align: center; }
+
+  .schema-insight {
+    padding: 13px 15px;
+    border-radius: var(--radius-sm);
+    background: rgba(124,111,247,0.08);
+    border-left: 3px solid var(--accent);
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+  .schema-insight strong { color: var(--text); }
+
+  /* working memory viz */
+  .wm-block {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 12px;
+  }
+  .wm-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .wm-sub { font-size: 13px; color: var(--text2); margin-bottom: 16px; line-height: 1.6; }
+  .wm-rows { display: flex; flex-direction: column; gap: 14px; }
+  .wm-row-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text3); margin-bottom: 6px;
+  }
+  .wm-slots { display: flex; gap: 5px; flex-wrap: wrap; }
+  .wm-slot {
+    height: 34px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; padding: 0 8px;
+    white-space: nowrap;
+  }
+  .wm-slot.used-decode { background: rgba(248,113,113,0.15); border-color: rgba(248,113,113,0.4); color: var(--red); }
+  .wm-slot.used-concept { background: rgba(251,191,36,0.12); border-color: rgba(251,191,36,0.35); color: var(--yellow); }
+  .wm-slot.used-think { background: rgba(74,222,128,0.12); border-color: rgba(74,222,128,0.35); color: var(--green); }
+  .wm-slot.free { background: rgba(124,111,247,0.1); border-color: rgba(124,111,247,0.3); color: var(--accent2); }
+  .wm-slot.overflow { background: rgba(248,113,113,0.08); border-color: rgba(248,113,113,0.2); color: var(--text3); font-style: italic; }
+  .wm-legend { display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+  .wm-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text2); }
+  .wm-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+  /* delta viz */
+  .delta-block {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 12px;
+  }
+  .delta-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .delta-sub { font-size: 13px; color: var(--text2); margin-bottom: 16px; line-height: 1.6; }
+  .delta-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 560px) { .delta-compare { grid-template-columns: 1fr; } }
+  .delta-card {
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg3);
+  }
+  .delta-card-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+  .delta-card.novice .delta-card-label { color: var(--red); }
+  .delta-card.expert .delta-card-label { color: var(--green); }
+  .delta-bar-row { margin-bottom: 7px; }
+  .delta-bar-label { font-size: 11px; color: var(--text2); margin-bottom: 3px; }
+  .delta-bar-track { height: 14px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
+  .delta-bar-fill { height: 100%; border-radius: 3px; }
+  .delta-note { font-size: 12px; color: var(--text2); margin-top: 8px; line-height: 1.5; font-style: italic; }
+
+  /* fix techniques */
+  .fix-block {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 12px;
+  }
+  .fix-title { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+  .fix-list { display: flex; flex-direction: column; gap: 0; }
+  .fix-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .fix-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .fix-item:first-child { padding-top: 0; }
+  .fix-num {
+    min-width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(124,111,247,0.12);
+    border: 1.5px solid rgba(124,111,247,0.3);
+    color: var(--accent2); font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .fix-content { flex: 1; }
+  .fix-name { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+  .fix-when { font-size: 11px; color: var(--accent2); font-weight: 600; margin-bottom: 5px; }
+  .fix-how { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .fix-how strong { color: var(--text); }
+  .fix-example {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--bg3);
+    font-size: 12px; color: var(--text2); line-height: 1.7;
+    border-left: 2px solid var(--accent);
+  }
+  .fix-example.show { display: block; }
+  .fix-example strong { color: var(--accent2); }
+  .fix-chevron { font-size: 16px; color: var(--text3); flex-shrink: 0; transition: transform 0.2s; margin-top: 6px; }
+  .fix-item.open .fix-chevron { transform: rotate(90deg); }
+
+  /* REALTIME SECTION */
+  .realtime-section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .realtime-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .realtime-emoji { font-size: 28px; }
+  .realtime-title { font-size: 17px; font-weight: 700; }
+  .realtime-sub { font-size: 13px; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
+  .processing-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 560px) { .processing-compare { grid-template-columns: 1fr; } }
+  .proc-card {
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+  }
+  .proc-card.slow { border-color: rgba(248,113,113,0.25); background: rgba(248,113,113,0.04); }
+  .proc-card.fast { border-color: rgba(74,222,128,0.25); background: rgba(74,222,128,0.04); }
+  .proc-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .proc-card.slow .proc-label { color: var(--red); }
+  .proc-card.fast .proc-label { color: var(--green); }
+  .proc-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+  .proc-desc strong { color: var(--text); }
+  .rt-methods { display: flex; flex-direction: column; gap: 12px; }
+  .rt-method {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+  }
+  .rt-num {
+    min-width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(124,111,247,0.2);
+    color: var(--accent2);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .rt-content { flex: 1; }
+  .rt-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .rt-how { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .rt-how strong { color: var(--text); }
+  .rt-timeline {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    background: rgba(124,111,247,0.07);
+    border-left: 3px solid var(--accent);
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+  .rt-timeline strong { color: var(--accent2); }
+
+  /* CASE STUDY SECTION */
+  .case-section {
+    margin-bottom: 32px;
+  }
+  .case-intro-banner {
+    background: linear-gradient(135deg, rgba(251,191,36,0.10) 0%, rgba(124,111,247,0.10) 100%);
+    border: 1px solid rgba(251,191,36,0.25);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .case-intro-icon { font-size: 26px; flex-shrink: 0; }
+  .case-intro-text { font-size: 13px; color: var(--text2); line-height: 1.7; }
+  .case-intro-text strong { color: var(--text); }
+  .case-intro-text .highlight { color: var(--yellow); font-weight: 700; }
+
+  .case-step {
+    background: var(--bg2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .case-step-header {
+    padding: 18px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    user-select: none;
+  }
+  .case-step-header:hover { background: rgba(255,255,255,0.02); }
+  .case-step-num {
+    min-width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(124,111,247,0.15);
+    color: var(--accent2);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .case-step-meta { flex: 1; }
+  .case-step-title { font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+  .case-step-brief { font-size: 13px; color: var(--text2); }
+  .case-method-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: rgba(124,111,247,0.15);
+    color: var(--accent2);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .case-chevron {
+    font-size: 18px;
+    color: var(--text3);
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    margin-top: 6px;
+  }
+  .case-step.open .case-chevron { transform: rotate(90deg); }
+  .case-step-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .case-step.open .case-step-body { display: block; }
+  .case-step-body-inner { padding-top: 16px; }
+
+  /* 7-layer map */
+  .layer-map { display: flex; flex-direction: column; gap: 6px; margin: 14px 0; }
+  .layer-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg3);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .layer-row:hover, .layer-row.active { border-color: var(--accent); background: rgba(124,111,247,0.07); }
+  .layer-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent2);
+    min-width: 20px;
+  }
+  .layer-name { font-size: 13px; font-weight: 600; color: var(--text); flex: 1; }
+  .layer-desc { font-size: 12px; color: var(--text2); }
+  .layer-detail {
+    display: none;
+    padding: 10px 14px;
+    margin-top: -4px;
+    margin-bottom: 2px;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    background: rgba(124,111,247,0.05);
+    border: 1px solid rgba(124,111,247,0.2);
+    border-top: none;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+  .layer-detail.show { display: block; }
+  .layer-detail .inv-q {
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: rgba(251,191,36,0.07);
+    border-left: 2px solid var(--yellow);
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .layer-detail .inv-q strong { color: var(--yellow); }
+
+  /* investment question table */
+  .iq-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  .iq-table th {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text3);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .iq-table td {
+    font-size: 13px;
+    color: var(--text2);
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(42,42,56,0.5);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  .iq-table td:first-child { color: var(--text); font-weight: 600; white-space: nowrap; }
+  .iq-table tr:last-child td { border-bottom: none; }
+
+  /* feynman test in case */
+  .case-feynman {
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--bg3);
+  }
+  .case-feynman-label { font-size: 12px; font-weight: 700; color: var(--text3); margin-bottom: 8px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .case-feynman-q {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .case-feynman textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--bg2);
+    color: var(--text);
+    font-size: 13px;
+    font-family: inherit;
+    line-height: 1.6;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .case-feynman textarea:focus { border-color: var(--accent); }
+  .case-feynman textarea::placeholder { color: var(--text3); }
+  .cf-hint {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text3);
+    font-style: italic;
+  }
+
+  /* so-what */
+  .sowhat-box {
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    background: rgba(74,222,128,0.05);
+    border: 1.5px solid rgba(74,222,128,0.2);
+  }
+  .sowhat-label { font-size: 11px; font-weight: 700; color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .sowhat-examples { display: flex; flex-direction: column; gap: 7px; }
+  .sowhat-item {
+    display: flex;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+    align-items: flex-start;
+  }
+  .sowhat-arrow { color: var(--green); flex-shrink: 0; font-weight: 700; }
+
+  /* blind spots */
+  .blind-spots { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+  .blind-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .blind-item:hover { border-color: var(--accent); }
+  .blind-emoji { font-size: 20px; flex-shrink: 0; }
+  .blind-content { flex: 1; }
+  .blind-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .blind-preview { font-size: 12px; color: var(--text2); }
+  .blind-full {
+    display: none;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+  .blind-full.show { display: block; }
+  .blind-full strong { color: var(--text); }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 32px 0 48px;
+    font-size: 12px;
+    color: var(--text3);
+  }
+  footer a { color: var(--text3); text-decoration: none; }
+
+  /* ANIMATIONS */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .method-card { animation: fadeIn 0.3s ease both; }
+  .method-card:nth-child(2) { animation-delay: 0.04s; }
+  .method-card:nth-child(3) { animation-delay: 0.08s; }
+  .method-card:nth-child(4) { animation-delay: 0.12s; }
+  .method-card:nth-child(5) { animation-delay: 0.16s; }
+  .method-card:nth-child(6) { animation-delay: 0.20s; }
+  .method-card:nth-child(7) { animation-delay: 0.24s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .method-card { animation: none; }
+    * { transition: none !important; }
+  }
+
+  /* SECTION DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0 28px;
+  }
+
+  /* PILL TAGS IN DIAGNOSE */
+  .method-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .method-pill {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    background: rgba(124,111,247,0.15);
+    color: var(--accent2);
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="eyebrow">高效学习方法论</div>
+    <h1>让知识真正留下来</h1>
+    <p class="subtitle">记不住、抓不住重点、学得慢——这三个问题都有对应的解法，而且都有科学依据</p>
+  </header>
+
+  <!-- MYTH BANNER -->
+  <div class="myth-banner">
+    <div class="myth-icon">💡</div>
+    <div class="myth-content">
+      <h3>关于「别人一听就会」的真相</h3>
+      <p>那些看起来「一听就懂」的人，其实多半是<strong>之前接触过类似概念</strong>，或者正在经历「流畅性错觉」——感觉听懂了，但过两天就忘了。<strong>需要多次重复才能理解，是大脑形成长期记忆的正常过程，不是你的问题</strong>。间隔重复法就是利用这个规律来加速学习的。</p>
+    </div>
+  </div>
+
+  <!-- DIAGNOSE -->
+  <div class="diagnose-section">
+    <div class="diagnose-title">你现在最大的困扰是什么？</div>
+    <div class="diagnose-sub">选一个，下面会高亮最适合你的方法</div>
+    <div class="pain-buttons">
+      <button class="pain-btn" data-pain="memory" onclick="diagnose(this)">
+        🧠 记不住，学了就忘
+      </button>
+      <button class="pain-btn" data-pain="focus" onclick="diagnose(this)">
+        🎯 抓不住重点，总是一锅粥
+      </button>
+      <button class="pain-btn" data-pain="speed" onclick="diagnose(this)">
+        🐢 学得很慢，别人早学完了
+      </button>
+    </div>
+    <div id="diagnoseResult" class="diagnose-result">
+      <span id="diagnoseText"></span>
+      <div class="method-pills" id="diagnosePills"></div>
+    </div>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-bar-wrap">
+    <span class="progress-text">已了解的方法</span>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <span class="progress-count" id="progressCount">0 / 7</span>
+  </div>
+
+  <!-- COMPARE -->
+  <div class="compare-section">
+    <div class="section-title">传统 vs 高效学习方式</div>
+    <div class="compare-grid">
+      <div class="compare-card bad">
+        <div class="compare-label">❌ 低效方式</div>
+        <div class="compare-item"><span class="dot"></span>反复阅读同一段文字</div>
+        <div class="compare-item"><span class="dot"></span>划线/抄笔记当主要方法</div>
+        <div class="compare-item"><span class="dot"></span>连续几小时不休息</div>
+        <div class="compare-item"><span class="dot"></span>学完就扔，不回顾</div>
+        <div class="compare-item"><span class="dot"></span>只输入，从不输出</div>
+        <div class="compare-item"><span class="dot"></span>按顺序从头学到尾</div>
+      </div>
+      <div class="compare-card good">
+        <div class="compare-label">✅ 高效方式</div>
+        <div class="compare-item"><span class="dot"></span>主动回忆：合上书尝试复述</div>
+        <div class="compare-item"><span class="dot"></span>间隔重复：定期复习，越来越稀</div>
+        <div class="compare-item"><span class="dot"></span>番茄工作法：专注 25 分钟 + 短暂休息</div>
+        <div class="compare-item"><span class="dot"></span>费曼技巧：用简单语言解释出来</div>
+        <div class="compare-item"><span class="dot"></span>大量输出：做题、讲给别人听</div>
+        <div class="compare-item"><span class="dot"></span>先建框架，再填细节</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- METHODS -->
+  <div class="methods-section">
+    <div class="section-title">7 个核心方法（点击展开）</div>
+    <div class="methods-grid">
+
+      <!-- 1. 费曼技巧 -->
+      <div class="method-card" id="method-feynman" data-tags="memory focus speed">
+        <div class="highlight-badge">推荐</div>
+        <div class="method-header" onclick="toggleCard(this.parentElement)">
+          <div class="method-emoji">🧑‍🏫</div>
+          <div class="method-meta">
+            <div class="method-name">费曼技巧 <span class="method-tag tag-all">全能</span></div>
+            <div class="method-brief">用自己的话讲出来，是检验真正理解的最强方法</div>
+          </div>
+          <div class="method-chevron">›</div>
+        </div>
+        <div class="method-body">
+          <div class="method-body-inner">
+            <div class="steps-title">操作步骤</div>
+            <ol class="steps">
+              <li><strong>选一个概念</strong>，写在纸最顶部</li>
+              <li><strong>合上书</strong>，用最简单的语言解释这个概念，假装在教一个完全不懂的人</li>
+              <li>遇到<strong>卡壳或说不清楚</strong>的地方，那就是你真正没懂的地方，回去查</li>
+              <li>重新解释，直到能<strong>流畅、无阻碍</strong>地讲完整</li>
+            </ol>
+            <div class="method-tip">
+              <strong>为什么有效：</strong>输出会暴露「流畅性错觉」。看书感觉懂，但一旦尝试讲出来，漏洞立刻现形。
+            </div>
+            <button class="mark-done-btn" onclick="markDone(this.closest('.method-card'))">
+              <span class="btn-icon">○</span> 标记为已了解
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 间隔重复 -->
+      <div class="method-card" id="method-spaced" data-tags="memory">
+        <div class="highlight-badge">推荐</div>
+        <div class="method-header" onclick="toggleCard(this.parentElement)">
+          <div class="method-emoji">📅</div>
+          <div class="method-meta">
+            <div class="method-name">间隔重复 <span class="method-tag tag-memory">记忆</span></div>
+            <div class="method-brief">利用「遗忘曲线」，在快忘记之前复习，效率是死记硬背的 10 倍</div>
+          </div>
+          <div class="method-chevron">›</div>
+        </div>
+        <div class="method-body">
+          <div class="method-body-inner">
+            <div class="steps-title">操作步骤</div>
+            <ol class="steps">
+              <li>第一次学完，<strong>当天复习一次</strong></li>
+              <li><strong>第 3 天</strong>再复习一次</li>
+              <li><strong>第 7 天</strong>再复习一次</li>
+              <li>以后间隔越来越长：<strong>2 周 → 1 个月 → 3 个月</strong></li>
+            </ol>
+            <div class="method-tip">
+              <strong>工具推荐：</strong>Anki（闪卡 App）会自动帮你算出最佳复习时间，非常适合记忆大量概念和词汇。
+            </div>
+            <div class="method-tip" style="margin-top:8px">
+              <strong>关于多次才能 get：</strong>这正是间隔重复在利用的机制——大脑每次「差点忘了又想起来」时，记忆就会加深一次。需要学好多次是对的，关键是要<strong>把这些次数分散开</strong>。
+            </div>
+            <button class="mark-done-btn" onclick="markDone(this.closest('.method-card'))">
+              <span class="btn-icon">○</span> 标记为已了解
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 主动回忆 -->
+      <div class="method-card" id="method-recall" data-tags="memory focus">
+        <div class="highlight-badge">推荐</div>
+        <div class="method-header" onclick="toggleCard(this.parentElement)">
+          <div class="method-emoji">🔁</div>
+          <div class="method-meta">
+            <div class="method-name">主动回忆 <span class="method-tag tag-memory">记忆</span></div>
+            <div class="method-brief">合上书从大脑里「提取」信息，比再看一遍高效 50%</div>
+          </div>
+          <div class="method-chevron">›</div>
+        </div>
+        <div class="method-body">
+          <div class="method-body-inner">
+            <div class="steps-title">操作步骤</div>
+            <ol class="steps">
+              <li>看完一章或一个视频后，<strong>立刻合上/关掉</strong></li>
+              <li>拿出白纸，<strong>把刚才学的内容默写出来</strong>，越详细越好</li>
+              <li>写完再对照原文，<strong>补充遗漏的部分</strong></li>
+              <li>做题也是主动回忆的一种，比重读有效得多</li>
+            </ol>
+            <div class="method-tip">
+              <strong>研究数据：</strong>相比再读一遍，主动回忆能让记忆保留率提高约 50%（Roediger & Karpicke, 2006）。
+            </div>
+            <button class="mark-done-btn" onclick="markDone(this.closest('.method-card'))">
+              <span class="btn-icon">○</span> 标记为已了解
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 先建框架 -->
+      <div class="method-card" id="method-framework" data-tags="focus speed">
+        <div class="highlight-badge">推荐</div>
+        <div class="method-header" onclick="toggleCard(this.parentElement)">
+          <div class="method-emoji">🗺️</div>
+          <div class="method-meta">
+            <div class="method-name">先建框架 <span class="method-tag tag-focus">抓重点</span></div>
+            <div class="method-brief">先用 20% 的时间弄清楚「这个领域由哪几块组成」，再深入</div>
+          </div>
+          <div class="method-chevron">›</div>
+        </div>
+        <div class="method-body">
+          <div class="method-body-inner">
+            <div class="steps-title">操作步骤</div>
+            <ol class="steps">
+              <li>拿到一本书或新领域，<strong>先看目录和大纲</strong>，用 10 分钟建立整体结构</li>
+              <li>问自己：<strong>这个领域的核心问题是什么？分几个子问题？</strong></li>
+              <li>画一张简单的「地图」，标出各个知识板块的位置关系</li>
+              <li>学新知识时，先想<strong>「这个东西挂在地图的哪里？」</strong>再学细节</li>
+            </ol>
+            <div class="method-tip">
+              <strong>为什么有效：</strong>知识需要「挂钩」才能记住。框架就是挂钩。没有框架的信息会直接从大脑滑走。
+            </div>
+            <button class="mark-done-btn" onclick="markDone(this.closest('.method-card'))">
+              <span class="btn-icon">○</span> 标记为已了解
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. 番茄工作法 -->
+      <div class="method-card" id="method-pomodoro" data-tags="speed">
+        <div class="highlight-badge">推荐</div>
+        <div class="method-header" onclick="toggleCard(this.parentElement)">
+          <div class="method-emoji">🍅</div>
+          <div class="method-meta">
+            <div class="method-name">番茄工作法 <span class="method-tag tag-speed">提速</span></div>
+            <div class="method-brief">25 分钟全神贯注 + 5 分钟休息，让大脑在最佳状态工作</div>
+          </div>
+          <div class="method-chevron">›</div>
+        </div>
+        <div class="method-body">
+          <div class="method-body-inner">
+            <div class="steps-title">操作步骤</div>
+            <ol class="steps">
+              <li>明确这 25 分钟只做<strong>一件具体的事</strong>（不是「学 Python」，而是「看完第 3 章」）</li>
+              <li>设定 25 分钟计时器，<strong>关掉所有通知</strong>，全神贯注</li>
+              <li>计时结束，<strong>强制休息 5 分钟</strong>（离开屏幕）</li>
+              <li>每 4 个「番茄」后，休息 15-30 分钟</li>
+            </ol>
+            <div class="method-tip">
+              <strong>关键：</strong>25 分钟内遇到分心想法，把它写到纸上，然后继续——不要立刻处理。
+            </div>
+            <button class="mark-done-btn" onclick="markDone(this.closest('.method-card'))">
+              <span class="btn-icon">○</span> 标记为已了解
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. 输入输出平衡 -->
+      <div class="method-card" id="method-output" data-tags="memory speed focus">
+        <div class="highlight-badge">推荐</div>
+        <div class="method-header" onclick="toggleCard(this.parentElement)">
+          <div class="method-emoji">⚖️</div>
+          <div class="method-meta">
+            <div class="method-name">3:7 输入输出比 <span class="method-tag tag-speed">提速</span></div>
+            <div class="method-brief">输入（看书/视频）只占 30%，输出（做题/实践/讲解）占 70%</div>
+          </div>
+          <div class="method-chevron">›</div>
+        </div>
+        <div class="method-body">
+          <div class="method-body-inner">
+            <div class="steps-title">操作步骤</div>
+            <ol class="steps">
+              <li>每学完一个小节，立刻找<strong>相关练习题</strong>做，不要等学完整章</li>
+              <li>学编程、语言、技能类内容，<strong>马上动手实践</strong>，哪怕只是仿写</li>
+              <li>找一个朋友（或者对着镜子），<strong>把刚学的东西讲给他听</strong></li>
+              <li>写学习日记：每天 5 分钟，<strong>总结今天学到了什么</strong></li>
+            </ol>
+            <div class="method-tip">
+              <strong>学习金字塔：</strong>被动听讲记住率约 5%；主动教别人记住率约 90%。差距是 18 倍。
+            </div>
+            <button class="mark-done-btn" onclick="markDone(this.closest('.method-card'))">
+              <span class="btn-icon">○</span> 标记为已了解
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. 交叉练习 -->
+      <div class="method-card" id="method-interleave" data-tags="memory speed">
+        <div class="highlight-badge">推荐</div>
+        <div class="method-header" onclick="toggleCard(this.parentElement)">
+          <div class="method-emoji">🔀</div>
+          <div class="method-meta">
+            <div class="method-name">交叉练习 <span class="method-tag tag-memory">记忆</span></div>
+            <div class="method-brief">混合练习不同主题，感觉更难，但记得更牢</div>
+          </div>
+          <div class="method-chevron">›</div>
+        </div>
+        <div class="method-body">
+          <div class="method-body-inner">
+            <div class="steps-title">操作步骤</div>
+            <ol class="steps">
+              <li>学习时，<strong>不要只练同一类题</strong>（如只做加法题 100 道）</li>
+              <li>把不同章节、不同类型的内容<strong>混合在一起复习</strong></li>
+              <li>每次练习前，<strong>先回想上次学的内容</strong>，再学新内容</li>
+              <li>接受「感觉更难更慢」——这种不适感恰好是<strong>大脑在更努力地处理信息</strong></li>
+            </ol>
+            <div class="method-tip">
+              <strong>反直觉：</strong>集中练习（blocked practice）感觉学得更快，但测试成绩更差。交叉练习感觉慢，实际记得更牢。
+            </div>
+            <button class="mark-done-btn" onclick="markDone(this.closest('.method-card'))">
+              <span class="btn-icon">○</span> 标记为已了解
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FEYNMAN EXERCISE -->
+  <div class="feynman-section">
+    <div class="feynman-header">
+      <div class="feynman-emoji">✏️</div>
+      <div class="feynman-title">费曼练习：现在就试试</div>
+    </div>
+    <div class="feynman-sub">选一个你最近在学的概念，试着用大白话解释它。不用完美，写多少都行。</div>
+    <div class="topic-row">
+      <span class="topic-label">我在解释：</span>
+      <input class="topic-input" id="feynmanTopic" type="text" placeholder="比如「递归」「光合作用」「期权」……">
+    </div>
+    <textarea class="feynman-textarea" id="feynmanText" placeholder="假设对方完全不懂，用自己的话解释……&#10;&#10;什么是它？它是怎么运作的？为什么重要？你能举一个生活中的例子吗？"></textarea>
+    <button class="feynman-analyze-btn" onclick="analyzeFeynman()">分析我的解释 →</button>
+    <div class="feynman-feedback" id="feynmanFeedback">
+      <div class="fb-title" id="fbTitle"></div>
+      <div id="fbBody"></div>
+    </div>
+  </div>
+
+  <!-- MENTAL MODELS -->
+  <div class="mm-section">
+    <div class="section-title">什么是真正的学习能力</div>
+
+    <div class="mm-hero">
+      <div class="mm-hero-title">孙宇晨、马斯克、张一鸣——他们在做同一件事</div>
+      <div class="mm-hero-sub">不是天赋，不是勤奋，是一种可以习得的思维操作系统：<strong style="color:var(--text)">把现实压缩成心智模型，用模型推理，而不是用经验和记忆直接反应。</strong></div>
+    </div>
+
+    <!-- 三人对比 -->
+    <div class="section-title">点击任何一个人，看他们的具体思维方式</div>
+    <div class="thinker-grid">
+      <div class="thinker-card" onclick="showThinker('suyuchen')">
+        <div class="thinker-name">孙宇晨 <span class="thinker-label">多视角</span></div>
+        <div class="thinker-brief">理解人性、叙事和共识机制，把技术问题转化为社会协调问题</div>
+        <div class="thinker-pattern">「加密货币的本质不是技术，是关于信任的社会契约」</div>
+      </div>
+      <div class="thinker-card" onclick="showThinker('musk')">
+        <div class="thinker-name">马斯克 <span class="thinker-label">第一性原理</span></div>
+        <div class="thinker-brief">拒绝接受既有假设，从物理极限倒推可能性边界</div>
+        <div class="thinker-pattern">「电池包含哪些元素？这些元素的现货价格是多少？」</div>
+      </div>
+      <div class="thinker-card" onclick="showThinker('zhangyiming')">
+        <div class="thinker-name">张一鸣 <span class="thinker-label">系统思维</span></div>
+        <div class="thinker-brief">延迟结论、数据驱动、跨域建模，用系统视角看人类行为</div>
+        <div class="thinker-pattern">「推荐系统不该依赖社交关系，应该只依赖行为信号」</div>
+      </div>
+    </div>
+
+    <div class="thinker-detail" id="detail-suyuchen">
+      <div class="thinker-detail-name">孙宇晨：理解底层激励机制</div>
+      <div class="thinker-rows">
+        <div class="thinker-row"><div class="thinker-row-label">核心能力</div><div class="thinker-row-val">把任何现象还原到<strong>人性和激励结构</strong>。他不分析「区块链技术」，他分析「什么让人愿意相信这个东西有价值」。</div></div>
+        <div class="thinker-row"><div class="thinker-row-label">思维操作</div><div class="thinker-row-val">每遇到新事物，问：<strong>「谁在这里受益？谁在这里受损？共识是怎么形成的？共识会怎么崩塌？」</strong>这些问题比技术问题更本质。</div></div>
+        <div class="thinker-row"><div class="thinker-row-label">来源</div><div class="thinker-row-val">大量阅读政治学、经济学、历史——这些领域全是关于人类如何协调的案例库。他把这个模型平移到加密世界。</div></div>
+        <div class="thinker-row"><div class="thinker-row-label">可学之处</div><div class="thinker-row-val">对任何新领域，先问<strong>「激励结构是什么」</strong>，比问「技术是什么」更能快速看穿本质。</div></div>
+      </div>
+    </div>
+
+    <div class="thinker-detail" id="detail-musk">
+      <div class="thinker-detail-name">马斯克：从物理极限倒推</div>
+      <div class="thinker-rows">
+        <div class="thinker-row"><div class="thinker-row-label">核心能力</div><div class="thinker-row-val">拒绝接受「因为一直都是这样」。把任何问题分解到<strong>物理学或数学的第一层</strong>，然后问：从这里出发，理论上能到哪里？</div></div>
+        <div class="thinker-row"><div class="thinker-row-label">具体操作</div><div class="thinker-row-val">特斯拉早期：<em>「锂电池组太贵了，无法商业化」</em> → 他问：<strong>「电池由哪些原材料构成？这些材料的现货价是多少？」</strong>答案是材料成本只有电池售价的 1/20。说明贵不是物理限制，是制造和供应链问题。这个问题重新定义了整个行业的努力方向。</div></div>
+        <div class="thinker-row"><div class="thinker-row-label">来源</div><div class="thinker-row-val">物理学训练（Penn 物理系）+ 强迫自己学习每一个他公司涉足的领域的第一性原理：火箭推进、电池化学、神经科学。</div></div>
+        <div class="thinker-row"><div class="thinker-row-label">可学之处</div><div class="thinker-row-val">遇到「这件事做不到」，问：<strong>「物理上禁止了吗？还是只是惯例上没人这么做？」</strong>两者差距巨大。</div></div>
+      </div>
+    </div>
+
+    <div class="thinker-detail" id="detail-zhangyiming">
+      <div class="thinker-detail-name">张一鸣：延迟结论 + 系统建模</div>
+      <div class="thinker-rows">
+        <div class="thinker-row"><div class="thinker-row-label">核心能力</div><div class="thinker-row-val">他有意识地<strong>抵制直觉结论</strong>，在得出判断之前停留在「不确定」状态比常人久得多。这让他能看到别人因为急于得出结论而错过的信息。</div></div>
+        <div class="thinker-row"><div class="thinker-row-label">具体操作</div><div class="thinker-row-val">今日头条早期：所有人认为内容推荐应该基于社交关系（微博模式）。他问：<strong>「社交关系是代理变量，真正的信号是行为本身，为什么不直接用行为？」</strong>去掉社交图谱，只看点击、停留、滑动——这个一阶推导颠覆了整个内容行业。</div></div>
+        <div class="thinker-row"><div class="thinker-row-label">来源</div><div class="thinker-row-val">大量阅读非专业书籍（心理学、社会学、进化生物学），用这些模型理解用户行为。同时极度数据驱动——不相信感觉，只相信可测量的反馈。</div></div>
+        <div class="thinker-row"><div class="thinker-row-label">可学之处</div><div class="thinker-row-val"><strong>「延迟下结论」</strong>本身是一种可以练习的能力。遇到问题时，有意识地多停留 5 分钟，问：「我现在的结论是基于什么假设？这个假设是真的吗？」</div></div>
+      </div>
+    </div>
+
+    <!-- 底层机制 -->
+    <div class="mechanism-block">
+      <div class="mechanism-title">他们共用的底层机制：心智模型的建立和压缩</div>
+      <div class="mechanism-steps">
+        <div class="mechanism-step">
+          <div class="mstep-left"><div class="mstep-dot">1</div></div>
+          <div class="mstep-content">
+            <div class="mstep-title">广泛输入，跨域建模</div>
+            <div class="mstep-desc">不只读本领域的书。物理学的思维方式、心理学的激励框架、历史的模式识别——这些提供了可以平移的模型。<strong>专家只有一个模型，通才有很多模型可以类比。</strong></div>
+            <div class="mstep-example"><strong>马斯克：</strong>「我把自己的知识看作一棵树——先确保理解主干和大枝（基本原理），再添加叶子（细节）。否则叶子就没有地方挂。」</div>
+          </div>
+        </div>
+        <div class="mechanism-step">
+          <div class="mstep-left"><div class="mstep-dot">2</div></div>
+          <div class="mstep-content">
+            <div class="mstep-title">不断问「为什么」，直到不能再问</div>
+            <div class="mstep-desc">大多数人问到第二层就停了。这三个人会问到第五层，直到到达<strong>物理限制、人性本质、或数学规律</strong>。到了这一层，答案就不再随行业惯例变化了。</div>
+            <div class="mstep-example"><strong>示例链：</strong>「为什么火箭这么贵？」→「因为材料贵」→「材料为什么贵？」→「因为每次都丢掉」→「为什么要丢掉？」→「因为一直都这样」→「物理上必须这样吗？」→「不是」→ SpaceX 的可回收方案。</div>
+          </div>
+        </div>
+        <div class="mechanism-step">
+          <div class="mstep-left"><div class="mstep-dot">3</div></div>
+          <div class="mstep-content">
+            <div class="mstep-title">主动更新模型，不维护旧模型</div>
+            <div class="mstep-desc">大多数人遇到与自己认知矛盾的信息，会下意识地忽略或反驳它。高质量思考者把矛盾信息当作<strong>「模型需要更新」的信号</strong>，而不是「对方在胡说」。</div>
+            <div class="mstep-example"><strong>张一鸣：</strong>「我对自己的判断没有执念，随时可以被数据证伪。」ByteDance 内部文化：所有决策都要找到可以证伪的指标。</div>
+          </div>
+        </div>
+        <div class="mechanism-step">
+          <div class="mstep-left"><div class="mstep-dot">4</div></div>
+          <div class="mstep-content">
+            <div class="mstep-title">大量输出，在现实中检验模型</div>
+            <div class="mstep-desc">模型在脑子里永远是模糊的，只有输出（写作、建公司、做投资决策）才会让错误暴露出来。<strong>他们都是极高频率的行动者，不只是思考者。</strong></div>
+            <div class="mstep-example"><strong>马斯克：</strong>同时运营 SpaceX、Tesla、X、Neuralink、xAI——每一个都是在现实中检验他对某个领域的心智模型。失败就是更新模型的机会。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 985 vs 大专 -->
+    <div class="gap-section">
+      <div class="gap-title">为什么有人考上 985，有人只能上大专</div>
+      <div class="gap-truth">
+        <div class="gap-card brutal">
+          <div class="gap-card-label">残酷的部分</div>
+          <div class="gap-card-text">差距在 6 岁就开始了，不是 18 岁。<br><br>认知能力是<strong>复利效应积累的结果</strong>——好的信息环境 → 更好的模型 → 更好的思考 → 更好的环境。这个循环从小就开始，到高考时已经积累了 12 年。<br><br>不是天赋，不是努力，是<strong>反馈质量和起点</strong>的差异。</div>
+        </div>
+        <div class="gap-card hopeful">
+          <div class="gap-card-label">有希望的部分</div>
+          <div class="gap-card-text">这不是命运，是<strong>模型质量的差距</strong>，模型可以重建。<br><br>马斯克没上过航空航天院校。张一鸣学的是软件工程。孙宇晨是历史系的。<br><br><strong>任何年龄都可以重新建立心智模型。</strong>差距可以追，前提是用对方法——而不是靠更努力地用错误方法。</div>
+        </div>
+      </div>
+      <div class="section-title" style="margin-top:16px;margin-bottom:12px">真正拉开差距的 5 个因素</div>
+      <div class="gap-factors">
+        <div class="gap-factor"><div class="gap-factor-icon">🧩</div><div class="gap-factor-text"><strong>心智模型的数量和质量</strong> — 掌握的模型越多、越准确，新问题越容易找到类比。这靠广泛阅读和跨域思考积累。</div></div>
+        <div class="gap-factor"><div class="gap-factor-icon">🔍</div><div class="gap-factor-text"><strong>元认知能力</strong> — 知道自己不知道什么，能准确判断自己的理解深度。大多数人有「流畅性错觉」，以为懂了但其实只是见过。</div></div>
+        <div class="gap-factor"><div class="gap-factor-icon">⏱️</div><div class="gap-factor-text"><strong>在难问题上停留的时间</strong> — 差距不是谁聪明，是谁愿意在搞不懂的地方多待 10 分钟。大多数人遇到困难就绕开，优秀的思考者把困难当成信号去深挖。</div></div>
+        <div class="gap-factor"><div class="gap-factor-icon">📤</div><div class="gap-factor-text"><strong>输出频率</strong> — 写作、讲解、做题、建东西，任何形式的输出都会暴露认知漏洞。只输入不输出，模型永远是模糊的。</div></div>
+        <div class="gap-factor"><div class="gap-factor-icon">🔄</div><div class="gap-factor-text"><strong>反馈质量</strong> — 和谁交流、在什么环境里学习，决定了你的错误能多快被纠正。差的反馈环境（没人纠错、大家都一样错）是认知停滞的主因。</div></div>
+      </div>
+      <div class="section-title" style="margin-top:20px;margin-bottom:12px">现在可以开始练的 6 件事</div>
+      <div class="practice-grid">
+        <div class="practice-item"><div class="practice-item-title">每天一个「为什么」链</div><div class="practice-item-how">选一个你今天遇到的事情，连问 5 个「为什么」，直到碰到你答不上来的地方——那就是你真正的知识边界。</div></div>
+        <div class="practice-item"><div class="practice-item-title">读本领域之外的书</div><div class="practice-item-how">物理学、进化生物学、心理学、历史——不是为了记知识，是为了<strong>借模型</strong>。每本书读完问：「这个领域的规律能平移到我的领域吗？」</div></div>
+        <div class="practice-item"><div class="practice-item-title">延迟下结论</div><div class="practice-item-how">遇到任何问题，在说出答案之前，先问：「我这个结论基于什么假设？有没有反例？」哪怕只多停留 60 秒。</div></div>
+        <div class="practice-item"><div class="practice-item-title">找到一个高质量的反馈来源</div><div class="practice-item-how">一个比你厉害的人、一个真实的市场、一组可以证伪你判断的数据——任何形式都可以，但必须有真实的纠错机制。</div></div>
+        <div class="practice-item"><div class="practice-item-title">写下来，不要只想</div><div class="practice-item-how">每天花 10 分钟写出你今天学到的最重要的一件事，以及它的投资或行动含义。写不清楚就是没真正理解。</div></div>
+        <div class="practice-item"><div class="practice-item-title">主动寻找反例</div><div class="practice-item-how">每当你相信某件事，主动问：「什么样的证据会让我改变这个看法？」如果答不上来，说明你在信仰，不在思考。</div></div>
+      </div>
+    </div>
+
+  </div><!-- end mm-section -->
+
+  <!-- BECOME SECTION -->
+  <div class="become-section">
+    <div class="section-title">如何真正具备他们的思维模式</div>
+
+    <div class="honest-banner">
+      <div class="honest-icon">⚠️</div>
+      <div class="honest-text">
+        <span class="warn">先说一个大多数人不愿意听的真相：</span><br>
+        你不会「成为」马斯克或张一鸣。他们的具体成就依赖于特定的时代、资源、运气和不可复制的经历。<br><br>
+        但你<strong>可以习得他们思维方式的底层机制</strong>——这些机制是具体的认知习惯，不是天赋。每一条都可以从今天开始训练。差别不在于你现在有没有，而在于你<strong>练没练、练了多久、练的时候有没有真实的反馈</strong>。
+      </div>
+    </div>
+
+    <!-- 6个核心认知习惯 -->
+    <div class="section-title">6 个核心认知习惯（点击展开日常练法）</div>
+    <div class="habit-grid">
+
+      <div class="habit-card" id="habit-0">
+        <div class="habit-header" onclick="toggleHabit(0)">
+          <div class="habit-num">①</div>
+          <div class="habit-meta">
+            <div class="habit-name">质疑所有人都默认接受的假设</div>
+            <div class="habit-brief">马斯克最常用的操作。大多数行业的「常识」只是历史路径依赖，不是物理规律</div>
+          </div>
+          <div class="habit-who">三人共用</div>
+          <div class="habit-chevron">›</div>
+        </div>
+        <div class="habit-body">
+          <div class="habit-body-inner">
+            <div class="habit-mechanism">
+              大多数「做不到」背后的真实含义是「一直以来都没人这么做」，而不是「物理上禁止」。马斯克在进入火箭行业之前，系统性地把所有「火箭就是这么贵」的说法还原成具体假设，然后逐一检验。<strong>找到一个被所有人接受但实际上站不住脚的假设，就找到了一个机会。</strong>
+            </div>
+            <div class="habit-daily">
+              <div class="habit-daily-label">每日练法</div>
+              <div class="habit-daily-items">
+                <div class="habit-daily-item">每天选一个你所在领域里「大家都这么做」的事情，问：<strong>「这是物理规律，还是惯例？」</strong></div>
+                <div class="habit-daily-item">读新闻时，每遇到一个结论，问：<strong>「这背后的假设是什么？这个假设成立吗？」</strong></div>
+                <div class="habit-daily-item">建立一个「假设清单」：把你所在行业里所有人默认接受的前提列出来，一条一条问「为什么？」</div>
+              </div>
+            </div>
+            <div class="habit-example">
+              <strong>马斯克原话：</strong>「物理学是理解宇宙的最佳框架。如果你从第一性原理推理，而不是类比推理，你往往能找到反直觉但正确的答案。」<br>
+              <strong>实际操作：</strong>特斯拉早期——「电动车必然比燃油车贵」→ 拆解：电池贵 → 电池材料贵？→ 查现货价格 → 材料成本只有组装电池的 1/20 → 问题是制造工艺，不是材料 → 自建超级工厂。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="habit-card" id="habit-1">
+        <div class="habit-header" onclick="toggleHabit(1)">
+          <div class="habit-num">②</div>
+          <div class="habit-meta">
+            <div class="habit-name">延迟结论，主动坐在「不确定」里更久</div>
+            <div class="habit-brief">张一鸣最显著的特质。大多数人在获得足够多的信息之前就已经下了结论</div>
+          </div>
+          <div class="habit-who">张一鸣</div>
+          <div class="habit-chevron">›</div>
+        </div>
+        <div class="habit-body">
+          <div class="habit-body-inner">
+            <div class="habit-mechanism">
+              人脑天生厌恶不确定性，会尽快关闭「开放问题」产生的认知不适。但<strong>过早的结论等于过早停止了信息处理</strong>。张一鸣训练自己把「不知道」状态维持得比常人更久——不是因为他慢，而是因为他知道结论越晚下，质量越高。
+            </div>
+            <div class="habit-daily">
+              <div class="habit-daily-label">每日练法</div>
+              <div class="habit-daily-items">
+                <div class="habit-daily-item">遇到任何问题，在说出答案之前，<strong>先问自己：「我现在的结论基于哪些假设？有哪些我还没考虑到的角度？」</strong>哪怕只多停留 60 秒</div>
+                <div class="habit-daily-item">建立「未解决问题清单」：每周写下 3 个你还没答案的重要问题，<strong>允许它们悬着，不急于关闭</strong></div>
+                <div class="habit-daily-item">每次做完决定后，写一行：<strong>「我改变主意需要看到什么证据？」</strong>这强迫你保持可证伪性</div>
+              </div>
+            </div>
+            <div class="habit-example">
+              <strong>张一鸣的做法：</strong>ByteDance 内部文化要求所有判断都要说出「什么数据会让你改变这个判断」。没有答案的判断不算判断，叫信仰。<br>
+              <strong>可学的具体操作：</strong>每次你「感觉」某件事是对的时候，停下来写：「我相信 X，因为 Y。如果 Z 发生，我会改变看法。」Z 写不出来说明你在信仰，不在思考。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="habit-card" id="habit-2">
+        <div class="habit-header" onclick="toggleHabit(2)">
+          <div class="habit-num">③</div>
+          <div class="habit-meta">
+            <div class="habit-name">主动寻找反例，而不是寻找确认</div>
+            <div class="habit-brief">大多数人读文章是为了找「支持我观点的证据」。优秀的思考者专门找「让我的观点错误的证据」</div>
+          </div>
+          <div class="habit-who">三人共用</div>
+          <div class="habit-chevron">›</div>
+        </div>
+        <div class="habit-body">
+          <div class="habit-body-inner">
+            <div class="habit-mechanism">
+              确认偏误是认知系统里最难克服的偏差之一。大脑会自动过滤掉与现有模型冲突的信息，并放大支持它的信息。<strong>唯一的对抗方式是主动、刻意地去寻找反例</strong>——不是等着别人来反驳你，而是自己先找。
+            </div>
+            <div class="habit-daily">
+              <div class="habit-daily-label">每日练法</div>
+              <div class="habit-daily-items">
+                <div class="habit-daily-item">每当你强烈相信某件事，专门去找<strong>「为什么我可能是错的？」</strong>——搜索反对观点，不是支持观点</div>
+                <div class="habit-daily-item">练习「钢人论证」：在反驳任何观点之前，<strong>先把它表述成你能想象的最强版本</strong>。如果你只能反驳弱化版，说明你没真正理解它</div>
+                <div class="habit-daily-item">投资决策前：写一份「看空报告」——假设你做空这个标的，理由是什么？</div>
+              </div>
+            </div>
+            <div class="habit-example">
+              <strong>孙宇晨的应用：</strong>在做任何重大决策前，他会问「最聪明的反对者会怎么说？」并认真构建这个反对论点。如果构建不出一个强有力的反对意见，说明他对这个领域理解还不够深。<br>
+              <strong>今天就能用：</strong>拿出你目前最确信的一个投资判断，花 15 分钟写一份「为什么这个判断是错的」——不是为了放弃判断，而是为了让判断更强壮。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="habit-card" id="habit-3">
+        <div class="habit-header" onclick="toggleHabit(3)">
+          <div class="habit-num">④</div>
+          <div class="habit-meta">
+            <div class="habit-name">跨域建模：把一个领域的规律平移到另一个领域</div>
+            <div class="habit-brief">Charlie Munger 称之为「心智模型格架」。你拥有的模型越多，看问题的维度就越多</div>
+          </div>
+          <div class="habit-who">三人共用</div>
+          <div class="habit-chevron">›</div>
+        </div>
+        <div class="habit-body">
+          <div class="habit-body-inner">
+            <div class="habit-mechanism">
+              专家只用一个领域的模型思考问题；顶尖思考者会问「这个问题和哪个我已知的领域结构上相似？」然后直接借用那个领域的结论。<strong>跨域迁移是获得洞察的最快路径之一</strong>，因为你不需要从零推导——只需要认出相同的结构。
+            </div>
+            <div class="habit-daily">
+              <div class="habit-daily-label">每日练法</div>
+              <div class="habit-daily-items">
+                <div class="habit-daily-item">每读完一本非专业书，写一句：<strong>「这个领域的核心规律是 X，它可以平移到我的领域的哪里？」</strong></div>
+                <div class="habit-daily-item">建立你的「模型库」：用一个文档记录你习得的跨域模型，比如「自然选择」「复利」「相变」「博弈均衡」「边际成本」——遇到新问题，先翻一遍模型库</div>
+                <div class="habit-daily-item">遇到复杂问题时，问：<strong>「生物学怎么解决类似的问题？物理学呢？历史上有没有结构相同的案例？」</strong></div>
+              </div>
+            </div>
+            <div class="habit-example">
+              <strong>张一鸣的跨域操作：</strong>他把进化生物学的「自然选择」模型用到内容推荐——内容是「基因」，用户行为是「环境」，算法是「选择压力」。这个类比直接影响了今日头条整个产品逻辑。<br>
+              <strong>你现在可以做：</strong>「免疫系统」模型 → 投资组合风险管理；「生态位竞争」→ 行业竞争分析；「熵增」→ 为什么组织必然走向低效。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="habit-card" id="habit-4">
+        <div class="habit-header" onclick="toggleHabit(4)">
+          <div class="habit-num">⑤</div>
+          <div class="habit-meta">
+            <div class="habit-name">看二阶效应，而不只是直接后果</div>
+            <div class="habit-brief">大多数人只想到「A 导致 B」。优秀的思考者还会想「B 会导致什么？那个又会导致什么？」</div>
+          </div>
+          <div class="habit-who">三人共用</div>
+          <div class="habit-chevron">›</div>
+        </div>
+        <div class="habit-body">
+          <div class="habit-body-inner">
+            <div class="habit-mechanism">
+              一阶思维：「降息 → 股市涨」。二阶思维：「降息 → 股市涨 → 财富效应 → 消费增加 → 通胀压力 → 被迫再次加息？」。<strong>大多数人挤在一阶判断里，二阶以上几乎没人想</strong>——这是信息差的真实来源，不是信息本身的差距。
+            </div>
+            <div class="habit-daily">
+              <div class="habit-daily-label">每日练法</div>
+              <div class="habit-daily-items">
+                <div class="habit-daily-item">任何判断形成后，强迫自己继续问两次：<strong>「然后呢？然后再呢？」</strong>——写出完整的因果链</div>
+                <div class="habit-daily-item">做「预先验尸」（Pre-mortem）：在任何重要决定前，想象 12 个月后它失败了——<strong>最可能的失败原因是什么？</strong>这些往往是二阶效应</div>
+                <div class="habit-daily-item">读财经新闻时，标准动作：「这件事的直接受益方是谁？间接受益方呢？谁会受损但还没被提到？」</div>
+              </div>
+            </div>
+            <div class="habit-example">
+              <strong>实例：</strong>Meta 开源 Llama 的二阶分析——一阶：帮助开发者，扩大生态；二阶：压低 OpenAI 的定价权，让 AI 商品化；三阶：AI 商品化让应用层竞争激烈，但 Meta 的广告业务依赖于 AI 能力提升，它不靠卖 AI 赚钱，所以不怕；四阶：如果所有公司都用上强大的开源模型，Meta 的竞争护城河从「AI 能力」转向「数据和分发」——而 Meta 恰好在这两点上更强。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="habit-card" id="habit-5">
+        <div class="habit-header" onclick="toggleHabit(5)">
+          <div class="habit-num">⑥</div>
+          <div class="habit-meta">
+            <div class="habit-name">高频输出，用现实检验模型</div>
+            <div class="habit-brief">三人都是极高频率的行动者。思考不被行动检验，永远是理论</div>
+          </div>
+          <div class="habit-who">三人共用</div>
+          <div class="habit-chevron">›</div>
+        </div>
+        <div class="habit-body">
+          <div class="habit-body-inner">
+            <div class="habit-mechanism">
+              模型在脑子里是模糊的，只有输出（写作、投资决策、建公司、发表观点）才会让错误暴露出来。<strong>现实是最诚实的反馈来源</strong>。三人都把高频行动当作更新心智模型的方式，而不只是执行计划的方式。失败在他们眼里不是挫折，是数据。
+            </div>
+            <div class="habit-daily">
+              <div class="habit-daily-label">每日练法</div>
+              <div class="habit-daily-items">
+                <div class="habit-daily-item"><strong>写判断日志：</strong>每周写下你对某件事的判断，以及判断的依据。6 个月后回来检验——哪些对了、哪些错了、为什么</div>
+                <div class="habit-daily-item"><strong>公开你的观点：</strong>发到圈子里，让别人来反驳。被反驳是最快的模型更新方式，比自己想快 10 倍</div>
+                <div class="habit-daily-item"><strong>做有代价的决定：</strong>哪怕小额投资、小的产品实验。没有代价的判断不会让你认真，也不会给你真实反馈</div>
+              </div>
+            </div>
+            <div class="habit-example">
+              <strong>马斯克的高频输出：</strong>SpaceX 早期火箭接连失败——他把每次失败的数据录入模型，更新下一次的设计。他不是天才工程师，他是一个让现实不断纠正他模型的人。<br>
+              <strong>你现在能做的：</strong>建立一个「预测记录」——今天你对某只股票或某件事情的判断，3 个月后看对不对。不是为了证明自己对，是为了找出你的判断系统里哪里有系统性偏差。
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 90天训练方案 -->
+    <div class="protocol-block">
+      <div class="protocol-title">90 天训练路径：从哪里开始，怎么推进</div>
+      <div class="protocol-phases">
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="phase-num">第 1-30 天</div>
+            <div class="phase-title">清理旧习惯，建立基础反射</div>
+          </div>
+          <div class="phase-body">
+            <div class="phase-goal">目标：让「质疑假设」和「延迟结论」成为自动反应，而不是刻意提醒</div>
+            <div class="phase-items">
+              <div class="phase-item"><strong>每天一个假设：</strong>写下一个你所在领域里「大家都这么做」的事，问它是惯例还是规律</div>
+              <div class="phase-item"><strong>建立判断日志：</strong>每天记录 1 个你做出的判断 + 依据 + 会改变它的证据</div>
+              <div class="phase-item"><strong>读一本跨域书籍：</strong>优先选物理学、进化生物学、经济学史、认知科学——任选一本，一个月读完</div>
+              <div class="phase-item"><strong>练钢人论证：</strong>每次想反驳别人，先花 2 分钟把对方观点说到最强再开口</div>
+            </div>
+          </div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="phase-num">第 31-60 天</div>
+            <div class="phase-title">扩展模型库，练习跨域迁移</div>
+          </div>
+          <div class="phase-body">
+            <div class="phase-goal">目标：积累 10 个以上可以跨域使用的心智模型，开始主动迁移</div>
+            <div class="phase-items">
+              <div class="phase-item"><strong>每读完一本书写一条迁移：</strong>「这个领域的核心规律是 X，可以用在我的投资判断上是……」</div>
+              <div class="phase-item"><strong>开始写二阶分析：</strong>每周选一个市场事件，写完整的因果链到第三层</div>
+              <div class="phase-item"><strong>找一个反馈来源：</strong>一个比你厉害的人、一个投资群、或者一个公开的记录平台——让别人看到你的判断</div>
+              <div class="phase-item"><strong>每周做一次预测：</strong>对某件具体的事做出有时限的预测，记录下来等待验证</div>
+            </div>
+          </div>
+        </div>
+        <div class="phase-card">
+          <div class="phase-header">
+            <div class="phase-num">第 61-90 天</div>
+            <div class="phase-title">整合系统，用真实代价检验</div>
+          </div>
+          <div class="phase-body">
+            <div class="phase-goal">目标：让这套思维方式在真实决策中起作用，而不只在脑子里自嗨</div>
+            <div class="phase-items">
+              <div class="phase-item"><strong>回顾判断日志：</strong>看前 60 天的判断，哪些对了哪些错了，找出你的系统性偏差</div>
+              <div class="phase-item"><strong>做一个有代价的判断：</strong>任何形式——投资决策、公开立场、产品实验——必须有真实后果</div>
+              <div class="phase-item"><strong>写一篇文章或做一次分享：</strong>把你在某个领域的判断系统写出来，逼自己把模糊的想法变成清晰的逻辑</div>
+              <div class="phase-item"><strong>建立月度模型更新：</strong>每月末花 30 分钟，回顾本月哪些已有的判断需要更新，为什么</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 自我评估 -->
+    <div class="selfcheck-block">
+      <div class="sc-title">现在评估一下：你目前有哪几个习惯？</div>
+      <div class="sc-sub">勾选你已经在做的，看看你现在在哪个位置</div>
+      <div class="sc-items" id="scItems">
+        <div class="sc-item" onclick="toggleSC(this)">
+          <div class="sc-check" id="sc0">✓</div>
+          <div class="sc-label">我会主动质疑「大家都这么做」的事情，问它是惯例还是规律</div>
+        </div>
+        <div class="sc-item" onclick="toggleSC(this)">
+          <div class="sc-check" id="sc1"></div>
+          <div class="sc-label">遇到问题时，我会在说出答案之前先停下来想「这个结论基于什么假设」</div>
+        </div>
+        <div class="sc-item" onclick="toggleSC(this)">
+          <div class="sc-check" id="sc2"></div>
+          <div class="sc-label">我会主动寻找反驳自己观点的证据，而不只是找支持的证据</div>
+        </div>
+        <div class="sc-item" onclick="toggleSC(this)">
+          <div class="sc-check" id="sc3"></div>
+          <div class="sc-label">我读非专业书籍时，会想「这个领域的规律能用在哪里？」</div>
+        </div>
+        <div class="sc-item" onclick="toggleSC(this)">
+          <div class="sc-check" id="sc4"></div>
+          <div class="sc-label">做判断时我会想到二阶效应，不只是直接后果</div>
+        </div>
+        <div class="sc-item" onclick="toggleSC(this)">
+          <div class="sc-check" id="sc5"></div>
+          <div class="sc-label">我有记录自己判断和预测的习惯，并定期回顾对错</div>
+        </div>
+      </div>
+      <div class="sc-score-bar">
+        <div class="sc-score-label">已具备习惯：<span id="scCount">1</span> / 6</div>
+        <div class="sc-score-track"><div class="sc-score-fill" id="scFill" style="width:16%"></div></div>
+        <div class="sc-score-msg" id="scMsg"><strong>起点没问题。</strong>每个人都是从 1-2 个习惯开始的。按 90 天路径，先把「质疑假设」和「判断日志」练扎实，其他的自然会跟上来。</div>
+      </div>
+    </div>
+
+    <!-- 幸存者偏差 -->
+    <div class="surv-block">
+      <div class="surv-title">⚠️ 幸存者偏差警告</div>
+      <div class="surv-text">
+        我们谈论马斯克、张一鸣、孙宇晨，是因为他们成功了。用同样思维方式但失败的人，我们不知道他们的名字。<br><br>
+        <strong>这些习惯是必要条件，不是充分条件。</strong>时代窗口、运气、资源、执行力同样关键。建立这套思维方式是为了让你的判断质量更高、更新更快——不是为了保证成功。<strong>诚实地对待不确定性，本身就是这套思维方式的一部分。</strong>
+      </div>
+    </div>
+
+  </div><!-- end become-section -->
+
+  <!-- NOTES SECTION -->
+  <div class="notes-section">
+    <div class="section-title">为什么有的人记笔记抓到了重点，有的人记了一大堆还是不知道讲了什么</div>
+
+    <!-- 三种人 -->
+    <div class="three-types">
+      <div class="type-card" onclick="showType('nonotes')">
+        <div class="type-icon">🧠</div>
+        <div class="type-label">类型一</div>
+        <div class="type-title">不记笔记，但全听懂了</div>
+        <div class="type-brief">Schema 够用，大脑内部直接完成组织，外部记录反而干扰</div>
+      </div>
+      <div class="type-card" onclick="showType('goodnotes')">
+        <div class="type-icon">✍️</div>
+        <div class="type-label">类型二</div>
+        <div class="type-title">记了少量，却条理清晰</div>
+        <div class="type-brief">在实时做「合成」，写的是结构和含义，不是原话</div>
+      </div>
+      <div class="type-card" onclick="showType('badnotes')">
+        <div class="type-icon">📝</div>
+        <div class="type-label">类型三</div>
+        <div class="type-title">记了很多，还是不知道讲了啥</div>
+        <div class="type-brief">把记笔记当成「理解的替代品」，写是在缓解焦虑，不是在思考</div>
+      </div>
+    </div>
+
+    <div class="type-detail" id="type-nonotes">
+      <div class="type-detail-title">类型一：不需要记笔记的人</div>
+      <div class="type-detail-rows">
+        <div class="type-detail-row"><div class="type-detail-label">为什么不记</div><div class="type-detail-val">他们在听的同时，大脑内部已经在做实时组织。新信息自动挂到已有的 Schema 上，<strong>内部笔记</strong>已经形成，外部记录只会打断这个过程。</div></div>
+        <div class="type-detail-row"><div class="type-detail-label">本质</div><div class="type-detail-val">不是不需要记录，是<strong>记录的介质是脑子，不是纸</strong>。他们的工作记忆+长期记忆的接口已经被这个领域充分建立，新内容直接写入长期记忆。</div></div>
+        <div class="type-detail-row"><div class="type-detail-label">适用范围</div><div class="type-detail-val">只适用于<strong>非常熟悉的领域</strong>。换一个陌生领域，同一个人也会变成类型三。这不是能力，是领域熟悉度。</div></div>
+        <div class="type-detail-row"><div class="type-detail-label">可学之处</div><div class="type-detail-val">提升到这个状态的路径：大量积累某领域的 Schema，让更多内容变成「可自动处理」的熟悉信号。没有捷径，但间隔重复+费曼输出是最快的路。</div></div>
+      </div>
+    </div>
+
+    <div class="type-detail" id="type-goodnotes">
+      <div class="type-detail-title">类型二：记少量但条理清晰的人</div>
+      <div class="type-detail-rows">
+        <div class="type-detail-row"><div class="type-detail-label">他们在做什么</div><div class="type-detail-val">每隔几分钟暂停一次内部思维：<strong>「他到目前为止说的核心是什么？这一点属于哪个层级？」</strong>然后只写这个判断，不写原话。</div></div>
+        <div class="type-detail-row"><div class="type-detail-label">写的内容</div><div class="type-detail-val">结构（主论点、子论点、关键转折）+ 让他意外的内容 + 自己产生的问题。<strong>绝对不是逐字逐句，而是自己的理解语言。</strong></div></div>
+        <div class="type-detail-row"><div class="type-detail-label">关键习惯</div><div class="type-detail-val">「不理解就不写」——如果一段没听懂，他会先在旁边写一个问号，而不是硬把原话抄下来。<strong>写下来的都是已经理解的内容。</strong></div></div>
+        <div class="type-detail-row"><div class="type-detail-label">结果</div><div class="type-detail-val">笔记字数可能只有讲座信息量的 5-10%，但包含了 80% 的理解价值。因为写的是<strong>提炼后的模型</strong>，不是原始信息。</div></div>
+      </div>
+    </div>
+
+    <div class="type-detail" id="type-badnotes">
+      <div class="type-detail-title">类型三：记很多但还是不懂的人</div>
+      <div class="type-detail-rows">
+        <div class="type-detail-row"><div class="type-detail-label">真实在做什么</div><div class="type-detail-val">在做「转录」，不是「理解」。听到一句话 → 手动记下来 → 继续听下一句。<strong>没有任何处理步骤</strong>，笔记是讲座的文字副本。</div></div>
+        <div class="type-detail-row"><div class="type-detail-label">为什么这样做</div><div class="type-detail-val">遇到不懂的内容，写下来会产生「我处理了它」的假性安全感——「先记着，回头再理解」。但<strong>「回头」永远不会来</strong>，因为看不懂的笔记还是看不懂。</div></div>
+        <div class="type-detail-row"><div class="type-detail-label">认知后果</div><div class="type-detail-val">记笔记占用了大量工作记忆，反而让理解变得更难。结果是<strong>既没听懂，笔记也没用</strong>，还累得要死。</div></div>
+        <div class="type-detail-row"><div class="type-detail-label">破解方式</div><div class="type-detail-val">立刻停止「不懂也要记」的习惯。改成：<strong>只写已经理解的内容，不懂的地方写「？」提醒自己回去查</strong>。宁可笔记很少，也要保证每一行都是真的理解了的。</div></div>
+      </div>
+    </div>
+
+    <!-- 转录模式 vs 合成模式 -->
+    <div class="mode-compare">
+      <div class="mode-compare-title">同一场 AI 讲座，两种记法，差距一眼可见</div>
+      <div class="mode-grid">
+        <div class="mode-card record">
+          <div class="mode-card-header">❌ 转录模式（字多，没用）</div>
+          <div class="mode-card-body">
+            <div class="mode-note-lines">
+              <div class="note-line dense">Transformer 模型是一种基于注意力机制的神经网络架构，由 Vaswani 等人于 2017 年提出，论文标题是「Attention Is All You Need」</div>
+              <div class="note-line dense">注意力机制允许模型在处理序列数据时关注不同位置的相关性，从而捕捉长距离依赖关系</div>
+              <div class="note-line dense">BERT 是双向编码器，GPT 是单向解码器，T5 是编码解码器架构</div>
+              <div class="note-line dense">训练需要大量算力，通常使用 GPU 集群，主流是 NVIDIA H100</div>
+              <div class="note-line dense">涌现能力（emergent abilities）在模型参数超过某个阈值后出现，目前机制尚不明确</div>
+              <div class="note-line dense">英伟达市值在 2024 年超过 3 万亿美元，成为全球市值最高的公司之一</div>
+            </div>
+            <div class="mode-verdict">👆 六行字，全是原话，没有一行是自己的理解。看完还是不知道这些跟投资有什么关系。</div>
+          </div>
+        </div>
+        <div class="mode-card synth">
+          <div class="mode-card-header">✅ 合成模式（字少，有用）</div>
+          <div class="mode-card-body">
+            <div class="mode-note-lines">
+              <div class="note-line h1">▌核心结论</div>
+              <div class="note-line sparse">AI 能力 = 数据 × 算力 × 架构。三者缺一，架构已趋同，竞争焦点在前两个</div>
+              <div class="note-line h1">▌关键转折（让我意外的）</div>
+              <div class="note-line sparse">「涌现能力」无法预测 → 没人知道下一代模型能做什么 → 估值逻辑建立在不确定性上</div>
+              <div class="note-line question">❓ 如果涌现不可预测，资本如何给前沿模型公司定价？</div>
+              <div class="note-line connection">↔ 联想：类似早期互联网，没人能预测 Google 会出现，但基础设施（光纤）是确定的</div>
+            </div>
+            <div class="mode-verdict">👆 四行，全是自己的语言，有结论、有意外、有问题、有联想。这才是能用的笔记。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 根本原因 -->
+    <div class="rootcause-block">
+      <div class="rootcause-title">记了很多还是不懂：一个恶性循环</div>
+      <div class="rootcause-chain">
+        <div class="rc-step">
+          <div class="rc-arrow">1</div>
+          <div class="rc-text"><strong>遇到不理解的内容</strong> → 大脑产生焦虑，觉得「不记下来会丢失」</div>
+        </div>
+        <div class="rc-step">
+          <div class="rc-arrow">2</div>
+          <div class="rc-text"><strong>把原话抄下来</strong> → 产生「我处理了它」的假性安全感，焦虑暂时消失</div>
+        </div>
+        <div class="rc-step">
+          <div class="rc-arrow">3</div>
+          <div class="rc-text"><strong>记笔记占用工作记忆</strong> → 没有余力处理后面的内容 → 后面更听不懂</div>
+        </div>
+        <div class="rc-step">
+          <div class="rc-arrow">4</div>
+          <div class="rc-text"><strong>回头看笔记</strong> → 全是原话，没有理解，还是看不懂 → 怀疑自己记性不好或者不够聪明</div>
+        </div>
+        <div class="rc-step">
+          <div class="rc-arrow">5</div>
+          <div class="rc-text"><strong>下次听讲座更焦虑</strong> → 记得更多 → 理解更少 → 循环</div>
+        </div>
+      </div>
+      <div class="rootcause-rule">
+        <strong>打破循环的唯一方法：</strong>只写已经理解的内容。不懂的地方写「？」，结束后专门去查。宁可笔记只有 3 行，这 3 行都是真正理解的，也比 3 页自己不懂的原话有用 100 倍。
+      </div>
+    </div>
+
+    <!-- 具体方法 -->
+    <div class="notes-techniques">
+      <div class="nt-title">4 种笔记方法，按场景选（点击切换）</div>
+      <div class="nt-tabs">
+        <button class="nt-tab active" onclick="switchTab('skeleton')">骨架法</button>
+        <button class="nt-tab" onclick="switchTab('surprise')">只记意外</button>
+        <button class="nt-tab" onclick="switchTab('cornell')">康奈尔法</button>
+        <button class="nt-tab" onclick="switchTab('three-col')">三栏法</button>
+      </div>
+
+      <div class="nt-panel show" id="tab-skeleton">
+        <div class="nt-panel-title">骨架法：先写结构，后填内容</div>
+        <div class="nt-panel-when">适合：讲座、分享会、会议</div>
+        <div class="nt-panel-desc">听的同时，<strong>只写「骨架」</strong>：主论点、子论点、关键例子、意外的转折。细节不写。听完之后凭记忆补充。能补上来的是真的理解了，补不上来的说明当时就没听进去。</div>
+        <div class="nt-example-label">示例：听完 AI 讲座后的骨架笔记</div>
+        <div class="nt-example-box">
+          <div class="note-h1">▌AI 投资框架</div>
+          <div class="note-h2">① 当前格局：三层结构</div>
+          <div class="note-body">→ 算力层（NVDA 垄断）→ 模型层（开源 vs 闭源）→ 应用层（价值捕获最不确定）</div>
+          <div class="note-h2">② 最大不确定性</div>
+          <div class="note-body">→ 涌现能力无法预测 = 估值模型全靠叙事</div>
+          <div class="note-q">❓ 叙事崩塌的触发条件是什么？</div>
+          <div class="note-h2">③ 被低估的方向</div>
+          <div class="note-body">→ 能源/电力：确定性最高，估值最低</div>
+          <div class="note-link">↔ 联想：像早期互联网做空光纤公司的人</div>
+        </div>
+      </div>
+
+      <div class="nt-panel" id="tab-surprise">
+        <div class="nt-panel-title">只记意外：让你意外的才值得记</div>
+        <div class="nt-panel-when">适合：你有一定基础的领域，或时间很短的场合</div>
+        <div class="nt-panel-desc">规则极简：<strong>只记让你感到「这和我预期的不一样」的内容</strong>。符合预期的信息大脑会自动处理，意外的才是真正的新知识。这也是最节省时间的记法，但要求你听之前有预期（需要预建框架）。</div>
+        <div class="nt-example-label">示例：听完 DeepSeek 技术分享后</div>
+        <div class="nt-example-box">
+          <div class="note-h1">意外 × 3</div>
+          <div class="note-body">① 训练成本是 OpenAI 的 1/30，不是「略低」，是数量级差距 → 重新评估「算力=护城河」假设</div>
+          <div class="note-body">② 关键技术全部开源 → 中国 AI 公司不是在追，是在改变游戏规则</div>
+          <div class="note-body">③ 强化学习取代了大量监督学习数据 → 数据护城河比我以为的更脆弱</div>
+          <hr class="note-sep">
+          <div class="note-q">→ 这三点全部指向同一个方向：应用层比基础设施层更值得看</div>
+        </div>
+      </div>
+
+      <div class="nt-panel" id="tab-cornell">
+        <div class="nt-panel-title">康奈尔法：三区分离，强制合成</div>
+        <div class="nt-panel-when">适合：需要深度复习的内容，考试、系统性学习</div>
+        <div class="nt-panel-desc">把纸分三块：<strong>右边大区</strong>记内容骨架（听讲时用）；<strong>左边窄区</strong>听完后写关键词和问题；<strong>底部</strong>写整体一句话总结。强制你在三个层级上处理同一信息。</div>
+        <div class="nt-example-label">示例：三区结构</div>
+        <div class="nt-example-box">
+          <div style="display:grid;grid-template-columns:100px 1fr;gap:10px;margin-bottom:10px">
+            <div style="border:1px solid var(--border);border-radius:4px;padding:8px;font-size:11px">
+              <div style="color:var(--accent2);font-weight:700;margin-bottom:6px">关键词区（听完填）</div>
+              <div style="color:var(--text2);line-height:1.8">算力层<br>训推分离<br>开源冲击<br>能源瓶颈</div>
+            </div>
+            <div style="border:1px solid var(--border);border-radius:4px;padding:8px;font-size:11px">
+              <div style="color:var(--accent2);font-weight:700;margin-bottom:6px">内容区（听讲时记）</div>
+              <div style="color:var(--text2);line-height:1.8">· NVDA 主导训练，推理竞争更激烈<br>· 开源正在压低模型定价权<br>· 数据中心电力成为实际瓶颈</div>
+            </div>
+          </div>
+          <div style="border:1px solid var(--border);border-radius:4px;padding:8px;font-size:11px">
+            <div style="color:var(--green);font-weight:700;margin-bottom:4px">总结区（最后写一句话）</div>
+            <div style="color:var(--text2)">AI 投资的算力叙事正在松动，价值向应用层和基础设施（能源）迁移，但时间窗口不确定。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nt-panel" id="tab-three-col">
+        <div class="nt-panel-title">三栏法：说了什么 / 意味着什么 / 我的问题</div>
+        <div class="nt-panel-when">适合：投资分析、需要把信息转化为判断的场合</div>
+        <div class="nt-panel-desc">三列：<strong>「他说了什么」「这对我意味着什么」「我还有什么问题」</strong>。中间那列是最重要的，强迫你在记录的同时完成解读，而不是留给「以后的自己」。</div>
+        <div class="nt-example-label">示例：三栏笔记</div>
+        <div class="nt-example-box">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:11px">
+            <div>
+              <div style="color:var(--text3);font-weight:700;margin-bottom:6px;font-size:10px;text-transform:uppercase">他说了什么</div>
+              <div style="color:var(--text2);line-height:1.7">DeepSeek 训练成本约 600 万美元，而 GPT-4 估计超 1 亿美元</div>
+            </div>
+            <div>
+              <div style="color:var(--green);font-weight:700;margin-bottom:6px;font-size:10px;text-transform:uppercase">对我意味着什么</div>
+              <div style="color:var(--text2);line-height:1.7">「高资本壁垒=护城河」的假设需要重估；小公司可能可以追赶</div>
+            </div>
+            <div>
+              <div style="color:var(--yellow);font-weight:700;margin-bottom:6px;font-size:10px;text-transform:uppercase">我的问题</div>
+              <div style="color:var(--text2);line-height:1.7">成本差距是架构优化还是劳动力套利？可复制性如何？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end notes-section -->
+
+  <!-- SCHEMA SECTION -->
+  <div class="schema-section">
+    <div class="section-title">同一个讲座，为什么有人听懂了有人没听懂</div>
+
+    <!-- 核心原因 -->
+    <div class="schema-core">
+      <div class="schema-core-title">根本原因：大脑不是录音机，是「匹配机器」</div>
+      <div class="schema-analogy">
+        <div class="schema-box no-schema">
+          <div class="schema-box-label">❌ 感觉很蒙的人</div>
+          <div class="schema-box-text">听到的每一个概念都是<strong>全新的信号</strong>，大脑要从零开始处理每一个词、每一句话，工作记忆很快就被塞满，后面的内容根本进不来。<br><br>不是不聪明，是没有「挂钩」。</div>
+        </div>
+        <div class="schema-arrow">→</div>
+        <div class="schema-box has-schema">
+          <div class="schema-box-label">✅ 一听就懂的人</div>
+          <div class="schema-box-text">听到新概念，大脑立刻<strong>找到一个已有的结构来对应</strong>，新信息直接挂上去。他处理的不是全部内容，只处理「和我已知的不一样的那部分」。<br><br>信息量只有 10%，但理解是 100%。</div>
+        </div>
+      </div>
+      <div class="schema-insight">
+        这个「已有结构」在认知科学里叫做 <strong>Schema（图式/心智框架）</strong>。听懂不听懂，本质上是 Schema 有没有的差别，不是智力的差别。<br>好消息是：Schema 是可以在听讲<strong>之前</strong>主动建立的，这是一个技能，不是天赋。
+      </div>
+    </div>
+
+    <!-- 工作记忆可视化 -->
+    <div class="wm-block">
+      <div class="wm-title">工作记忆：大脑的「处理器」只有 7 个槽位</div>
+      <div class="wm-sub">人类工作记忆同时只能处理约 7 个「单元」。同样听一句话，陌生人和熟悉者消耗的槽位完全不同：</div>
+      <div class="wm-rows">
+        <div>
+          <div class="wm-row-label">陌生领域：听「流动性危机导致信用利差扩大」</div>
+          <div class="wm-slots">
+            <div class="wm-slot used-decode">「流动性」是啥？</div>
+            <div class="wm-slot used-decode">「危机」怎么定义？</div>
+            <div class="wm-slot used-concept">「信用利差」？</div>
+            <div class="wm-slot used-concept">「扩大」是好是坏？</div>
+            <div class="wm-slot used-concept">这几个词什么关系？</div>
+            <div class="wm-slot overflow">后面说什么了？</div>
+            <div class="wm-slot overflow">（溢出，丢失）</div>
+          </div>
+          <div class="wm-legend">
+            <div class="wm-legend-item"><div class="wm-legend-dot" style="background:var(--red)"></div>解码词义</div>
+            <div class="wm-legend-item"><div class="wm-legend-dot" style="background:var(--yellow)"></div>理解概念</div>
+            <div class="wm-legend-item"><div class="wm-legend-dot" style="background:rgba(248,113,113,0.2)"></div>溢出丢失</div>
+          </div>
+        </div>
+        <div>
+          <div class="wm-row-label">熟悉领域：同一句话，金融从业者听到的</div>
+          <div class="wm-slots">
+            <div class="wm-slot used-think">⚡ 2008 重演信号？</div>
+            <div class="wm-slot used-think">短端利率方向</div>
+            <div class="wm-slot used-think">哪些板块受冲击</div>
+            <div class="wm-slot free">（空余）</div>
+            <div class="wm-slot free">（空余）</div>
+            <div class="wm-slot free">（空余）</div>
+            <div class="wm-slot free">（空余）</div>
+          </div>
+          <div class="wm-legend">
+            <div class="wm-legend-item"><div class="wm-legend-dot" style="background:var(--green)"></div>深度分析</div>
+            <div class="wm-legend-item"><div class="wm-legend-dot" style="background:rgba(124,111,247,0.3)"></div>空余，可继续接收</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delta 处理 -->
+    <div class="delta-block">
+      <div class="delta-title">专家只处理「增量」，新手处理「全量」</div>
+      <div class="delta-sub">同样听一小时讲座，大脑实际处理的信息量完全不同——不是因为聪明，是因为大量已知内容被「压缩」成了单个单元，不需要重新处理。</div>
+      <div class="delta-compare">
+        <div class="delta-card novice">
+          <div class="delta-card-label">❌ 陌生领域的人</div>
+          <div class="delta-bar-row">
+            <div class="delta-bar-label">需要从零处理的内容</div>
+            <div class="delta-bar-track"><div class="delta-bar-fill" style="width:92%;background:var(--red)"></div></div>
+          </div>
+          <div class="delta-bar-row">
+            <div class="delta-bar-label">可用于深度理解的资源</div>
+            <div class="delta-bar-track"><div class="delta-bar-fill" style="width:8%;background:var(--green)"></div></div>
+          </div>
+          <div class="delta-note">大部分资源用于解码词汇和基本概念，几乎没有余力做联系和推理</div>
+        </div>
+        <div class="delta-card expert">
+          <div class="delta-card-label">✅ 熟悉领域的人</div>
+          <div class="delta-bar-row">
+            <div class="delta-bar-label">已自动压缩的已知内容</div>
+            <div class="delta-bar-track"><div class="delta-bar-fill" style="width:85%;background:rgba(124,111,247,0.5)"></div></div>
+          </div>
+          <div class="delta-bar-row">
+            <div class="delta-bar-label">真正需要处理的增量</div>
+            <div class="delta-bar-track"><div class="delta-bar-fill" style="width:15%;background:var(--accent)"></div></div>
+          </div>
+          <div class="delta-bar-row">
+            <div class="delta-bar-label">可用于深度联系的资源</div>
+            <div class="delta-bar-track"><div class="delta-bar-fill" style="width:78%;background:var(--green)"></div></div>
+          </div>
+          <div class="delta-note">85% 的内容被自动处理，剩余资源全部用于「这和我知道的有什么不同？意味着什么？」</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 个解法 -->
+    <div class="fix-block">
+      <div class="fix-title">5 个方法：弥补 Schema 差距（点击展开具体做法）</div>
+      <div class="fix-list">
+
+        <div class="fix-item" onclick="toggleFix(this)">
+          <div class="fix-num">1</div>
+          <div class="fix-content">
+            <div class="fix-when">听讲前 · 10 分钟</div>
+            <div class="fix-name">预建框架：先花 10 分钟搭一个临时 Schema</div>
+            <div class="fix-how">在听讲座或读文章之前，<strong>先扫描标题、小标题、开头结尾</strong>，在脑子里建出一个粗糙的结构。哪怕完全不懂，只要有了轮廓，大脑就有了「挂钩」。</div>
+            <div class="fix-example">
+              <strong>具体做法：</strong>听 AI 讲座前，花 5 分钟在 Wikipedia 搜「深度学习」，只看第一段和目录——不是为了学，是为了让大脑预热，知道接下来会出现哪些词、大概有几个部分。听讲时认知负荷直接下降 50%。
+            </div>
+          </div>
+          <div class="fix-chevron">›</div>
+        </div>
+
+        <div class="fix-item" onclick="toggleFix(this)">
+          <div class="fix-num">2</div>
+          <div class="fix-content">
+            <div class="fix-when">听讲中 · 持续进行</div>
+            <div class="fix-name">只抓「让我意外的那句话」</div>
+            <div class="fix-how">不要试图记住所有内容。只追踪一件事：<strong>「哪句话让我感到意外，或者和我预期的不一样？」</strong>意外是大脑真正处理新信息的信号，也是记忆最深的内容。</div>
+            <div class="fix-example">
+              <strong>为什么有效：</strong>大脑本质上是一台预测机器，「预测错误」的信号会被优先处理和记忆。专家听讲座感觉快，是因为他们只处理预测错误的部分——其他都被自动预测跳过了。你模拟这个机制，就能逼近同样的效果。
+            </div>
+          </div>
+          <div class="fix-chevron">›</div>
+        </div>
+
+        <div class="fix-item" onclick="toggleFix(this)">
+          <div class="fix-num">3</div>
+          <div class="fix-content">
+            <div class="fix-when">听讲中 · 每隔几分钟</div>
+            <div class="fix-name">强制造句：「他在说的其实是……」</div>
+            <div class="fix-how">每隔 3-5 分钟，在心里用一句话归纳：<strong>「讲者到目前为止在说的核心是……」</strong>哪怕错了也没关系。这个动作把你从「被动接收」切换到「主动建构」，工作记忆的使用方式完全不同。</div>
+            <div class="fix-example">
+              <strong>示例：</strong>听 AI 技术讲座 15 分钟后，脑子里有一句：「他在说的其实是，现在 AI 的能力边界是数据质量决定的，不是算法决定的。」对不对不重要——这个归纳行为本身让你进入了主动处理模式，后续内容会自动被纳入这个框架。
+            </div>
+          </div>
+          <div class="fix-chevron">›</div>
+        </div>
+
+        <div class="fix-item" onclick="toggleFix(this)">
+          <div class="fix-num">4</div>
+          <div class="fix-content">
+            <div class="fix-when">听讲后 · 5 分钟内</div>
+            <div class="fix-name">5 分钟趁热固化：写三件事</div>
+            <div class="fix-how">结束后<strong>立刻</strong>（不是回家再写，是当场）写下：① 核心结论是什么 ② 最让我意外的一点 ③ 我还不明白的一个问题。不超过 5 分钟。</div>
+            <div class="fix-example">
+              <strong>为什么是 5 分钟内：</strong>记忆在听完后的衰减是指数级的——20 分钟后忘 40%，1 小时后忘 60%。但写下来的过程会触发「再编码」，把短期记忆转化为长期记忆。听完当场写，效果是回家再写的 3-4 倍。
+            </div>
+          </div>
+          <div class="fix-chevron">›</div>
+        </div>
+
+        <div class="fix-item" onclick="toggleFix(this)">
+          <div class="fix-num">5</div>
+          <div class="fix-content">
+            <div class="fix-when">长期 · 根本解法</div>
+            <div class="fix-name">主动拓宽 Schema：提前学「最小可用知识」</div>
+            <div class="fix-how">对任何你接下来要深入的领域，先用 <strong>2-4 小时</strong>建立「最小可用知识」——不是深度学习，是让领域内的核心词汇和逻辑结构对你不陌生。这是根本解法，解决的不是一次讲座，是未来所有相关讲座。</div>
+            <div class="fix-example">
+              <strong>具体做法：</strong>想听懂 AI 投资相关的任何讲座，先用 3 小时完成：① 搜索「AI 技术简史」看一篇综述 ② 了解 5 个核心词：LLM、Transformer、推理、训练、微调 ③ 在脑子里建出行业层级图（算力→模型→应用）。之后你听任何 AI 相关内容，理解速度都会提升 3-5 倍。
+            </div>
+          </div>
+          <div class="fix-chevron">›</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 自测 -->
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px;">
+      <div style="font-size:15px;font-weight:700;margin-bottom:12px;">自测：下次听讲座前，做这三步</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:13px;color:var(--text2);line-height:1.6">
+          <input type="checkbox" id="pre1" style="margin-top:3px;accent-color:var(--accent);width:15px;height:15px;flex-shrink:0">
+          <span><strong style="color:var(--text)">听前 10 分钟：</strong>扫描议程/标题，在脑子里建出一个粗糙结构，预判会讲哪几个主题</span>
+        </label>
+        <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:13px;color:var(--text2);line-height:1.6">
+          <input type="checkbox" id="pre2" style="margin-top:3px;accent-color:var(--accent);width:15px;height:15px;flex-shrink:0">
+          <span><strong style="color:var(--text)">听的过程中：</strong>给自己一个问题（不是「学懂」，而是「这场讲座想让我相信什么？」），只追踪让你意外的内容</span>
+        </label>
+        <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:13px;color:var(--text2);line-height:1.6">
+          <input type="checkbox" id="pre3" style="margin-top:3px;accent-color:var(--accent);width:15px;height:15px;flex-shrink:0">
+          <span><strong style="color:var(--text)">结束后 5 分钟内：</strong>写下「核心结论 + 最意外的一点 + 还不懂的一个问题」</span>
+        </label>
+      </div>
+      <div id="preCheckResult" style="display:none;margin-top:12px;padding:10px 12px;border-radius:var(--radius-sm);background:rgba(74,222,128,0.08);border-left:3px solid var(--green);font-size:13px;color:var(--text2)">
+        ✓ 做到这三步，你听讲座的理解效率会和以前完全不同。
+      </div>
+    </div>
+
+  </div><!-- end schema-section -->
+
+  <!-- CASE STUDY -->
+  <div class="case-section">
+    <div class="section-title">完整示例：美股交易者如何学 AI</div>
+
+    <div class="case-intro-banner">
+      <div class="case-intro-icon">📌</div>
+      <div class="case-intro-text">
+        这个板块用一个真实场景把前面所有方法串起来——<strong>你既能学到 AI 投资框架这个知识，也能看清楚每一步背后用的是哪个学习方法，以及为什么要这么做。</strong><br>
+        展开每一步，里面有可以直接用的投资问题、框架图、费曼测试题，以及 <span class="highlight">7 个大多数人会漏掉的维度</span>。
+      </div>
+    </div>
+
+    <!-- STEP 0 -->
+    <div class="case-step" id="cs0">
+      <div class="case-step-header" onclick="toggleCase(this.parentElement)">
+        <div class="case-step-num">0</div>
+        <div class="case-step-meta">
+          <div class="case-step-title">开始前：给自己一个问题，而不是一个目标</div>
+          <div class="case-step-brief">用的方法：自顶向下处理 · 带问题听讲</div>
+        </div>
+        <div class="case-method-tag">10 分钟</div>
+        <div class="case-chevron">›</div>
+      </div>
+      <div class="case-step-body">
+        <div class="case-step-body-inner">
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">
+            <strong style="color:var(--red)">错误的开始方式：</strong>「我要学 AI 技术」「我要了解 AI 相关股票」<br>
+            这太宽泛了，大脑不知道该留什么、过滤什么，结果是什么都收进来，什么都记不住。
+          </p>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">
+            <strong style="color:var(--green)">正确的开始方式：</strong>在读任何东西之前，先回答这一个问题——
+          </p>
+          <div style="background:rgba(124,111,247,0.1);border:1.5px solid var(--accent);border-radius:var(--radius-sm);padding:14px 16px;font-size:14px;font-weight:600;color:var(--text);line-height:1.7;margin-bottom:14px">
+            「作为美股交易者，我需要知道哪些，才能判断哪些 AI 公司能产生持久回报？」
+          </div>
+          <p style="font-size:13px;color:var(--text2);line-height:1.7">
+            这句话立刻过滤掉 80% 的内容。你不需要搞懂反向传播算法，你需要搞懂<strong style="color:var(--text)">护城河、瓶颈和竞争格局</strong>。这个问题会贯穿你整个学习过程，每读到新内容就问自己：「这个和我的问题有关吗？」
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="case-step" id="cs1">
+      <div class="case-step-header" onclick="toggleCase(this.parentElement)">
+        <div class="case-step-num">1</div>
+        <div class="case-step-meta">
+          <div class="case-step-title">先画地图：2 小时内建好骨架</div>
+          <div class="case-step-brief">用的方法：先建框架 · 结构化笔记</div>
+        </div>
+        <div class="case-method-tag">核心步骤</div>
+        <div class="case-chevron">›</div>
+      </div>
+      <div class="case-step-body">
+        <div class="case-step-body-inner">
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">
+            不要上来就读文章。先用 2 小时把这个领域的「骨架」画出来。之后学到的每一条信息，都找它属于哪一层，往上挂。<strong style="color:var(--text)">没有这张图，信息进来就会直接滑走。</strong>
+          </p>
+          <p style="font-size:13px;color:var(--text2);margin-bottom:10px">点击每一层，看投资者需要理解的核心和关键问题：</p>
+          <div class="layer-map" id="layerMap">
+            <div class="layer-row" onclick="toggleLayer(0)">
+              <div class="layer-num">① </div>
+              <div class="layer-name">技术基础层</div>
+              <div class="layer-desc">Transformer、LLM 是什么</div>
+            </div>
+            <div class="layer-detail" id="layer-0">
+              AI 现在的主流范式是大语言模型（LLM），核心架构是 Transformer。你不需要懂数学，但要理解：它的能力来自「用海量数据预测下一个词」，本质是在压缩人类知识。这个架构决定了为什么需要大量算力，也决定了为什么数据质量是护城河。
+              <div class="inv-q"><strong>投资问题：</strong>这个架构的瓶颈在哪里？谁在解决它？解决后受益最大的是谁？</div>
+            </div>
+
+            <div class="layer-row" onclick="toggleLayer(1)">
+              <div class="layer-num">② </div>
+              <div class="layer-name">算力层</div>
+              <div class="layer-desc">芯片、数据中心、能源</div>
+            </div>
+            <div class="layer-detail" id="layer-1">
+              训练大模型需要海量 GPU，目前 NVDA 占绝对主导。但这一层正在分化：训练 vs 推理的需求不同，推理环节 AMD、定制芯片（TPU、Trainium）和各云厂商自研芯片都在争。数据中心的电力消耗已成为实际瓶颈，带动了公用事业、核电、数据中心 REIT。
+              <div class="inv-q"><strong>投资问题：</strong>GPU 需求触顶之后，谁的护城河最深？推理量起来后，训练芯片的垄断地位还在吗？</div>
+            </div>
+
+            <div class="layer-row" onclick="toggleLayer(2)">
+              <div class="layer-num">③ </div>
+              <div class="layer-name">模型层</div>
+              <div class="layer-desc">前沿实验室 vs 开源，定价权在哪里</div>
+            </div>
+            <div class="layer-detail" id="layer-2">
+              闭源阵营：OpenAI（GPT）、Anthropic（Claude）、Google（Gemini）。开源阵营：Meta（Llama）、Mistral、DeepSeek。Meta 开源 Llama 是战略武器，不是慈善——它在打压闭源模型的定价权，让 AI 商品化，从而让 Meta 的应用层和广告业务受益。DeepSeek 用更低成本复现顶级效果，直接冲击「算力即护城河」的叙事。
+              <div class="inv-q"><strong>投资问题：</strong>开源 vs 闭源长期谁赢？模型能力趋同后，差异化靠什么？</div>
+            </div>
+
+            <div class="layer-row" onclick="toggleLayer(3)">
+              <div class="layer-num">④ </div>
+              <div class="layer-name">数据层</div>
+              <div class="layer-desc">专有数据优势在哪里</div>
+            </div>
+            <div class="layer-detail" id="layer-3">
+              公开互联网数据接近耗尽，下一轮竞争是专有数据：医疗记录（Epic、Veeva）、金融数据（Bloomberg、Refinitiv）、企业内部数据（Salesforce、ServiceNow）。谁有独特数据、谁能把数据变成模型微调的优势，谁就有差异化护城河。
+              <div class="inv-q"><strong>投资问题：</strong>哪些公司的数据别人买不到、复制不了？这些公司有没有在把数据优势变成 AI 产品？</div>
+            </div>
+
+            <div class="layer-row" onclick="toggleLayer(4)">
+              <div class="layer-num">⑤ </div>
+              <div class="layer-name">应用层</div>
+              <div class="layer-desc">价值在哪里被捕获</div>
+            </div>
+            <div class="layer-detail" id="layer-4">
+              应用层是目前估值分歧最大的地方。点解决方案（如 AI 写作工具）容易被替代；平台型应用（嵌入用户工作流的）转换成本高。代码生成（GitHub Copilot）、客服自动化、医疗影像、法律文档是落地最快的方向。AI Agent 是下一波——自动完成多步骤工作流，受益的公司和现在的基础设施层不完全重叠。
+              <div class="inv-q"><strong>投资问题：</strong>这是点方案还是平台？用户的迁移成本是多少？这家公司在价值链的哪一层，5 年后这一层还存在吗？</div>
+            </div>
+
+            <div class="layer-row" onclick="toggleLayer(5)">
+              <div class="layer-num">⑥ </div>
+              <div class="layer-name">公司地图</div>
+              <div class="layer-desc">把上市公司对应到以上每一层</div>
+            </div>
+            <div class="layer-detail" id="layer-5">
+              <strong style="color:var(--text)">算力层：</strong>NVDA、AMD、AVGO、INTC、TSM、ARM<br>
+              <strong style="color:var(--text)">基础设施层：</strong>MSFT（Azure）、AMZN（AWS）、GOOGL（GCP）、META<br>
+              <strong style="color:var(--text)">模型层：</strong>GOOGL（Gemini）、META（Llama）、MSFT（OpenAI）；私有：OpenAI、Anthropic、xAI<br>
+              <strong style="color:var(--text)">数据/工具层：</strong>SNOW、MDB、PLTR、IBM<br>
+              <strong style="color:var(--text)">应用层：</strong>CRM、NOW、ADBE、ORCL、SMAR<br>
+              <strong style="color:var(--text)">基础设施/能源：</strong>VST、CEG、NRG、EQIX、DLR
+              <div class="inv-q"><strong>投资问题：</strong>这家公司的 AI 收入是真实的还是叙事？增长的可持续性靠什么驱动？</div>
+            </div>
+
+            <div class="layer-row" onclick="toggleLayer(6)">
+              <div class="layer-num">⑦ </div>
+              <div class="layer-name">风险维度</div>
+              <div class="layer-desc">技术、监管、竞争</div>
+            </div>
+            <div class="layer-detail" id="layer-6">
+              <strong style="color:var(--text)">技术风险：</strong>模型效率提升（更少算力跑出同样效果）会重估现有算力护城河；能源瓶颈可能成为硬限制。<br>
+              <strong style="color:var(--text)">监管风险：</strong>欧盟 AI Act 已生效，美国监管节奏不确定；中国 AI 出口管制影响芯片公司收入。<br>
+              <strong style="color:var(--text)">竞争风险：</strong>中国 AI（DeepSeek、阿里）成本优势冲击闭源模型定价；开源持续压低应用层利润率。
+              <div class="inv-q"><strong>投资问题：</strong>哪些风险已经 price in，哪些还没有？监管落地最坏情况下，这家公司的收入影响多大？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="case-step" id="cs2">
+      <div class="case-step-header" onclick="toggleCase(this.parentElement)">
+        <div class="case-step-num">2</div>
+        <div class="case-step-meta">
+          <div class="case-step-title">每读一篇文章，先想「这在哪一层？」</div>
+          <div class="case-step-brief">用的方法：自顶向下处理 · 每 5 分钟造一句话</div>
+        </div>
+        <div class="case-method-tag">执行习惯</div>
+        <div class="case-chevron">›</div>
+      </div>
+      <div class="case-step-body">
+        <div class="case-step-body-inner">
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">
+            有了框架之后，读任何 AI 文章都先问：<strong style="color:var(--text)">「这讲的是哪一层的事？这对我关心的问题有什么影响？」</strong><br>
+            不相关的直接跳过，不用有罪恶感。
+          </p>
+          <table class="iq-table">
+            <tr><th>你看到的内容</th><th>投资者视角的核心问题</th></tr>
+            <tr><td>Transformer 架构</td><td>这个架构的瓶颈是什么？谁在解决它？</td></tr>
+            <tr><td>DeepSeek 低成本训练</td><td>「算力即护城河」的叙事还成立吗？</td></tr>
+            <tr><td>Meta 开源 Llama</td><td>这对 OpenAI 定价权意味着什么？对 NVDA 呢？</td></tr>
+            <tr><td>微软 Copilot 收入披露</td><td>AI 收入是真实增量还是 bundle 重新定价？</td></tr>
+            <tr><td>数据中心电力需求报告</td><td>谁是能源瓶颈的受益方？时间窗口多长？</td></tr>
+            <tr><td>AI Agent 产品发布</td><td>这打的是哪个行业现有软件的饭碗？</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="case-step" id="cs3">
+      <div class="case-step-header" onclick="toggleCase(this.parentElement)">
+        <div class="case-step-num">3</div>
+        <div class="case-step-meta">
+          <div class="case-step-title">费曼测试：你真的懂了吗？</div>
+          <div class="case-step-brief">用的方法：费曼技巧 · 主动回忆</div>
+        </div>
+        <div class="case-method-tag">检验理解</div>
+        <div class="case-chevron">›</div>
+      </div>
+      <div class="case-step-body">
+        <div class="case-step-body-inner">
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">
+            学完某一层之后，试着用自己的话回答下面这些题。能回答清楚，说明真懂了；答不上来的地方，就是你还需要补的地方。
+          </p>
+          <div class="case-feynman">
+            <div class="case-feynman-label">费曼测试题 ① — 算力层</div>
+            <div class="case-feynman-q">用一句话解释：为什么英伟达在 AI 训练上垄断，但在推理上未必能维持同样地位？</div>
+            <textarea placeholder="试着用大白话写出来，不需要专业术语……"></textarea>
+            <div class="cf-hint">参考答案方向：训练需要 A100/H100 这类高带宽内存的大卡；推理对延迟敏感、追求性价比，定制芯片和更小的 GPU 有竞争力。</div>
+          </div>
+          <div class="case-feynman" style="margin-top:10px">
+            <div class="case-feynman-label">费曼测试题 ② — 模型层</div>
+            <div class="case-feynman-q">Meta 开源 Llama 对它自己有什么好处？它为什么愿意这么做？</div>
+            <textarea placeholder="试着用大白话写出来……"></textarea>
+            <div class="cf-hint">参考答案方向：Meta 不靠卖模型赚钱，靠广告。AI 商品化对它是利好，让竞争对手（OpenAI）无法维持高定价，同时吸引开发者生态围绕 Llama 建设，巩固 Meta 的基础设施地位。</div>
+          </div>
+          <div class="case-feynman" style="margin-top:10px">
+            <div class="case-feynman-label">费曼测试题 ③ — 应用层</div>
+            <div class="case-feynman-q">同样是 AI 软件公司，为什么有些估值 50x ARR，有些只有 8x？护城河的差别在哪里？</div>
+            <textarea placeholder="试着用大白话写出来……"></textarea>
+            <div class="cf-hint">参考答案方向：嵌入工作流越深、迁移成本越高、数据飞轮越强，估值越高。点方案容易被替代，平台型或数据网络效应型的溢价大。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="case-step" id="cs4">
+      <div class="case-step-header" onclick="toggleCase(this.parentElement)">
+        <div class="case-step-num">4</div>
+        <div class="case-step-meta">
+          <div class="case-step-title">每次学完，造一句「所以呢」</div>
+          <div class="case-step-brief">用的方法：一句话复述 · 输出驱动理解</div>
+        </div>
+        <div class="case-method-tag">输出习惯</div>
+        <div class="case-chevron">›</div>
+      </div>
+      <div class="case-step-body">
+        <div class="case-step-body-inner">
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">
+            读完任何内容，强迫自己完成这句话：<strong style="color:var(--text)">「这件事对我的持仓/观点的一个投资含义是……」</strong><br>
+            这个动作把信息和投资行动连起来，是把知识变成判断力的关键一步。
+          </p>
+          <div class="sowhat-box">
+            <div class="sowhat-label">示例：「所以呢」句式练习</div>
+            <div class="sowhat-examples">
+              <div class="sowhat-item"><span class="sowhat-arrow">→</span><span>读完 DeepSeek 报告：「模型训练成本在快速下降，这<strong style="color:var(--text)">利好应用层</strong>（更便宜的 API），<strong style="color:var(--text)">利空依赖训练收入的闭源模型层</strong>。」</span></div>
+              <div class="sowhat-item"><span class="sowhat-arrow">→</span><span>读完数据中心电力需求报告：「AI 推动电力需求超出电网规划，这在未来 3-5 年内是<strong style="color:var(--text)">公用事业和核电的结构性利好</strong>，跟 AI 股票的涨跌相关性低。」</span></div>
+              <div class="sowhat-item"><span class="sowhat-arrow">→</span><span>看完微软财报电话：「Copilot 的客户留存率没有披露，只说了 seat 增长——这是一个<strong style="color:var(--text)">需要持续追踪的信号</strong>，留存差意味着收入不可持续。」</span></div>
+              <div class="sowhat-item"><span class="sowhat-arrow">→</span><span>看完某 AI Agent 发布：「这个 Agent 可以自动化法律文档审查，意味着<strong style="color:var(--text)">传统 LegalTech SaaS 的价值主张被压缩</strong>，需要重估 ICAD 等公司。」</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: BLIND SPOTS -->
+    <div class="case-step" id="cs5">
+      <div class="case-step-header" onclick="toggleCase(this.parentElement)">
+        <div class="case-step-num">5</div>
+        <div class="case-step-meta">
+          <div class="case-step-title">你可能漏掉的 7 个维度</div>
+          <div class="case-step-brief">大多数人学 AI 投资时不会主动想到这些角度</div>
+        </div>
+        <div class="case-method-tag">盲区补全</div>
+        <div class="case-chevron">›</div>
+      </div>
+      <div class="case-step-body">
+        <div class="case-step-body-inner">
+          <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px">点击每一条查看详细投资含义：</p>
+          <div class="blind-spots">
+            <div class="blind-item" onclick="toggleBlind(this)">
+              <div class="blind-emoji">⚡</div>
+              <div class="blind-content">
+                <div class="blind-title">推理 vs 训练的经济学分野</div>
+                <div class="blind-preview">训练是 NVDA 的天下，推理的赢家可能完全不同</div>
+                <div class="blind-full">AI 的计算需求分两个阶段：训练（一次性，需要最强的 H100/B200）和推理（持续运行，追求性价比）。随着模型部署规模扩大，推理计算量将远超训练。推理环节 AMD、AWS Inferentia、Google TPU、Groq 都在争，NVDA 的垄断地位在这里没有那么稳固。<strong>投资含义：不要把「AI 算力需求增长」和「NVDA 收入增长」画等号，要分清训练 vs 推理的收入结构。</strong></div>
+              </div>
+            </div>
+            <div class="blind-item" onclick="toggleBlind(this)">
+              <div class="blind-emoji">🔋</div>
+              <div class="blind-content">
+                <div class="blind-title">能源与电力基础设施</div>
+                <div class="blind-preview">AI 最大的物理瓶颈可能不是芯片，而是电</div>
+                <div class="blind-full">一个大型 AI 数据中心的电力消耗相当于一个小城市。美国电网老化，新建产能需要 5-10 年。这让核电（CEG、VST）、天然气发电商、数据中心 REIT（EQIX、DLR）成为 AI 的「picks and shovels」受益方，而且和 AI 股票的相关性更低，提供了分散化机会。<strong>投资含义：电力基础设施是 AI 投资里被低估的方向，叙事稳定、周期更长。</strong></div>
+              </div>
+            </div>
+            <div class="blind-item" onclick="toggleBlind(this)">
+              <div class="blind-emoji">🇨🇳</div>
+              <div class="blind-content">
+                <div class="blind-title">中国 AI 进展对美国公司的估值影响</div>
+                <div class="blind-preview">DeepSeek 已经证明了低成本复现的可能性</div>
+                <div class="blind-full">DeepSeek R1 用约 1/10 的成本复现了接近 GPT-4 的效果，直接冲击了「领先 AI 需要天量资本投入」的叙事。阿里 Qwen、百度文心也在持续追赶。这不是说中国会赢，而是说「算力 = 智能」的线性关系在松动。<strong>投资含义：需要重新评估哪些公司的护城河建立在算力优势上，哪些建立在分发、数据、生态上，后者更持久。</strong></div>
+              </div>
+            </div>
+            <div class="blind-item" onclick="toggleBlind(this)">
+              <div class="blind-emoji">📉</div>
+              <div class="blind-content">
+                <div class="blind-title">模型效率提升的「降维打击」风险</div>
+                <div class="blind-preview">更少算力跑出同样效果，现有基础设施估值会重算</div>
+                <div class="blind-full">每一代模型架构效率都在提升，同样任务需要的算力在持续下降。这有两个影响：短期对算力需求是扩张的（Jevons Paradox——越便宜用得越多）；长期对算力层的定价权是压缩的。如果效率提升速度快过需求增长，算力层的超额利润窗口会关闭。<strong>投资含义：追踪每年算力效率提升的速度（OAI、Anthropic 的发布），和算力需求增长速度对比，这个剪刀差决定 NVDA 的长期估值。</strong></div>
+              </div>
+            </div>
+            <div class="blind-item" onclick="toggleBlind(this)">
+              <div class="blind-emoji">🤖</div>
+              <div class="blind-content">
+                <div class="blind-title">AI Agent 会打谁的饭碗</div>
+                <div class="blind-preview">下一波不是工具，是自动完成整个工作流的 Agent</div>
+                <div class="blind-full">AI Agent 能自主规划和执行多步骤任务，比如自动完成财务对账、客户服务全流程、代码审查。这直接威胁现有 SaaS 的价值主张——不再是「帮你更快做这件事」，而是「这件事不需要人了」。受冲击最大的是：中端客服软件（NICE、Verint）、低代码工具、部分 HR 软件。<strong>投资含义：在评估任何 SaaS 公司时，问「AI Agent 能替代它吗？」，如果答案是「是」，需要对估值打折。</strong></div>
+              </div>
+            </div>
+            <div class="blind-item" onclick="toggleBlind(this)">
+              <div class="blind-emoji">👥</div>
+              <div class="blind-content">
+                <div class="blind-title">人才浓度是领先指标</div>
+                <div class="blind-preview">顶尖 AI 研究员的流向比财报早 12-18 个月</div>
+                <div class="blind-full">AI 行业的壁垒很大程度上是人才壁垒。追踪顶尖 AI 研究员的流动（从哪个实验室去哪家公司），是比财报更早的信号。工具：LinkedIn、Semantic Scholar、Twitter/X 上的 AI 研究员社区、arXiv 论文的机构署名。<strong>投资含义：某公司突然吸引大量顶尖 AI 人才，通常先于产品突破出现；人才大量流出是提前 warning signal。</strong></div>
+              </div>
+            </div>
+            <div class="blind-item" onclick="toggleBlind(this)">
+              <div class="blind-emoji">🏗️</div>
+              <div class="blind-content">
+                <div class="blind-title">Physical AI / 具身智能是下一个赛道</div>
+                <div class="blind-preview">AI 从数字世界进入物理世界，受益公司名单完全不同</div>
+                <div class="blind-full">语言模型在数字世界已经验证，下一个大方向是让 AI 控制物理世界——机器人、自动驾驶、工业自动化。这需要不同的技术栈（传感器、边缘计算、实时推理）和不同的公司（TSLA、Figure AI、1X、波士顿动力母公司 HD Korea）。<strong>投资含义：这个赛道的上市标的目前稀缺，但相关供应链（传感器、执行器、边缘芯片）值得关注；TSLA 的 Optimus 是唯一大市值纯敞口。</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end case-section -->
+
+  <!-- REALTIME LISTENING -->
+  <div class="realtime-section">
+    <div class="realtime-header">
+      <div class="realtime-emoji">⚡</div>
+      <div class="realtime-title">「别人一听就懂，我总慢半拍」</div>
+    </div>
+    <div class="realtime-sub">
+      这不是天赋问题，是处理方式不同。快的人不是脑子转得更快——他们在做一件<strong style="color:var(--text)">完全不同的事</strong>。
+    </div>
+
+    <div class="section-title">根本原因：两种处理模式</div>
+    <div class="processing-compare">
+      <div class="proc-card slow">
+        <div class="proc-label">❌ 慢半拍的方式</div>
+        <div class="proc-desc">
+          <strong>自底向上</strong>：每句话都尝试理解消化，再往下听。<br><br>
+          结果：认知资源被前面的细节占满，到关键句的时候已经「满了」，来不及抓住。
+        </div>
+      </div>
+      <div class="proc-card fast">
+        <div class="proc-label">✅ 快速理解的方式</div>
+        <div class="proc-desc">
+          <strong>自顶向下</strong>：脑子里一直有一个问题：「这段话最核心的一句是什么？」<br><br>
+          其他细节先放着，只找骨架，细节之后补。
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:20px">3 个可以马上练的具体方法</div>
+    <div class="rt-methods">
+      <div class="rt-method">
+        <div class="rt-num">1</div>
+        <div class="rt-content">
+          <div class="rt-name">听之前先给自己一个问题</div>
+          <div class="rt-how">
+            不是「我去学 XXX」，而是问自己：<strong>「这东西解决了什么问题？」</strong>或者<strong>「它的核心逻辑是什么？」</strong><br>
+            有了问题，大脑就会自动过滤噪音，只关注与答案相关的信息。没有问题就像开着雷达但没有目标——什么都收，什么都存不住。
+          </div>
+        </div>
+      </div>
+      <div class="rt-method">
+        <div class="rt-num">2</div>
+        <div class="rt-content">
+          <div class="rt-name">每隔几分钟，强迫自己造一句话</div>
+          <div class="rt-how">
+            在心里说：<strong>「他到目前为止在说的其实是……」</strong><br>
+            哪怕说错了没关系。这个动作会强迫你从细节里抬起头来看整体。一旦你开始这样做，你就在「主动找核心」而不是「被动接收信息」了。
+          </div>
+        </div>
+      </div>
+      <div class="rt-method">
+        <div class="rt-num">3</div>
+        <div class="rt-content">
+          <div class="rt-name">练「一句话复述」习惯</div>
+          <div class="rt-how">
+            听完任何内容（播客、讲座、会议），<strong>只准用一句话总结</strong>。不是总结细节，是回答：<strong>「他说这些，是为了让你相信什么？」</strong><br>
+            这个习惯练熟之后，你会发现听的过程中就开始自动寻找那句话了。2-3 周会有明显变化。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rt-timeline">
+      <strong>练习路径：</strong>先从听播客/看视频开始练（可以暂停），熟了再用到现场讲座。不要一开始就在高压场合练——先在低风险环境建立习惯。
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>每个人学习的节奏不同，重要的是找到适合自己的方法并坚持执行。</p>
+    <p style="margin-top:6px">「我需要多学几次才能理解」是正常的，这叫做<strong style="color:var(--text2)">深度加工</strong>。</p>
+  </footer>
+
+</div>
+
+<script>
+// --- DIAGNOSE ---
+const painMap = {
+  memory: {
+    text: '针对「学了就忘」，最关键的是在快忘记之前复习，而不是反复读同一遍。推荐优先学这几个方法：',
+    pills: ['间隔重复', '主动回忆', '费曼技巧'],
+    ids: ['method-spaced', 'method-recall', 'method-feynman']
+  },
+  focus: {
+    text: '针对「抓不住重点」，你需要先建立整体框架再深入细节，而不是从头到尾顺序读。推荐优先学：',
+    pills: ['先建框架', '费曼技巧', '主动回忆'],
+    ids: ['method-framework', 'method-feynman', 'method-recall']
+  },
+  speed: {
+    text: '针对「学得慢」，往往是因为输出太少、专注度不够。试试这些方法来提速：',
+    pills: ['番茄工作法', '3:7 输入输出比', '先建框架'],
+    ids: ['method-pomodoro', 'method-output', 'method-framework']
+  }
+};
+
+let currentPain = null;
+
+function diagnose(btn) {
+  const pain = btn.dataset.pain;
+
+  // toggle
+  document.querySelectorAll('.pain-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.method-card').forEach(c => c.classList.remove('highlighted'));
+
+  if (currentPain === pain) {
+    currentPain = null;
+    document.getElementById('diagnoseResult').classList.remove('show');
+    return;
+  }
+  currentPain = pain;
+  btn.classList.add('active');
+
+  const { text, pills, ids } = painMap[pain];
+  document.getElementById('diagnoseText').textContent = text;
+
+  const pillsEl = document.getElementById('diagnosePills');
+  pillsEl.innerHTML = pills.map(p => `<span class="method-pill">${p}</span>`).join('');
+
+  document.getElementById('diagnoseResult').classList.add('show');
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('highlighted');
+  });
+
+  // Scroll to first highlighted card
+  setTimeout(() => {
+    const first = document.getElementById(ids[0]);
+    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 100);
+}
+
+// --- CARD TOGGLE ---
+function toggleCard(card) {
+  const isOpen = card.classList.contains('open');
+  // close all others
+  document.querySelectorAll('.method-card.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+// --- MARK DONE ---
+let completed = 0;
+const total = 7;
+
+function markDone(card) {
+  if (card.classList.contains('completed')) {
+    card.classList.remove('completed');
+    completed = Math.max(0, completed - 1);
+    const btn = card.querySelector('.mark-done-btn');
+    btn.querySelector('.btn-icon').textContent = '○';
+    btn.innerHTML = '<span class="btn-icon">○</span> 标记为已了解';
+  } else {
+    card.classList.add('completed');
+    completed++;
+    const btn = card.querySelector('.mark-done-btn');
+    btn.innerHTML = '<span class="btn-icon">✓</span> 已了解';
+  }
+  updateProgress();
+}
+
+function updateProgress() {
+  const pct = (completed / total) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = completed + ' / ' + total;
+}
+
+// --- FEYNMAN ANALYSIS ---
+function analyzeFeynman() {
+  const topic = document.getElementById('feynmanTopic').value.trim();
+  const text = document.getElementById('feynmanText').value.trim();
+  const feedback = document.getElementById('feynmanFeedback');
+  const fbTitle = document.getElementById('fbTitle');
+  const fbBody = document.getElementById('fbBody');
+
+  if (!text || text.length < 20) {
+    feedback.className = 'feynman-feedback show need-work';
+    fbTitle.textContent = '还没写够';
+    fbBody.textContent = '试着多写一点——哪怕觉得写得不好也没关系。费曼技巧的价值在于写的过程，而不是结果。';
+    return;
+  }
+
+  const wordCount = text.replace(/\s+/g, '').length;
+  const hasExample = /比如|例如|举例|就像|类似|好比|想象/.test(text);
+  const hasAnalogy = /就是|相当于|可以理解为|类似于|好像/.test(text);
+  const hasMechanism = /因为|所以|导致|通过|原理|机制|步骤|流程/.test(text);
+  const hasJargon = text.split(/[，。！？\s]/).some(w => w.length > 4 && /[a-zA-Z]/.test(w) === false);
+  const score = (wordCount > 100 ? 2 : wordCount > 50 ? 1 : 0)
+    + (hasExample ? 2 : 0)
+    + (hasAnalogy ? 1 : 0)
+    + (hasMechanism ? 2 : 0);
+
+  let suggestions = [];
+  if (!hasExample) suggestions.push('加一个生活中的具体例子');
+  if (!hasAnalogy) suggestions.push('尝试用类比（「就像…」「相当于…」）来解释');
+  if (!hasMechanism) suggestions.push('说明一下它是「怎么运作的」，而不只是「是什么」');
+  if (wordCount < 80) suggestions.push('再展开一些，假设对方什么都不知道');
+
+  if (score >= 5) {
+    feedback.className = 'feynman-feedback show good';
+    fbTitle.textContent = '✓ 解释得相当清楚！';
+    fbBody.innerHTML = `你的解释${hasExample ? '有具体例子' : ''}${hasAnalogy ? '、有类比' : ''}${hasMechanism ? '、有机制说明' : ''}，这是费曼技巧里最重要的几个要素。${topic ? `<br><br>如果你能找个真实的人讲一遍「${topic}」，理解会更深一层。` : ''}`;
+  } else if (score >= 2) {
+    feedback.className = 'feynman-feedback show ok';
+    fbTitle.textContent = '△ 有基础，还可以更扎实';
+    fbBody.innerHTML = '你已经能说出大意了，但还有提升空间：<br><ul style="margin-top:8px;padding-left:18px">' + suggestions.map(s => `<li style="margin-bottom:4px">${s}</li>`).join('') + '</ul>';
+  } else {
+    feedback.className = 'feynman-feedback show need-work';
+    fbTitle.textContent = '✗ 这里可能就是你「没真正懂」的地方';
+    fbBody.innerHTML = '写不出来，说明有些地方还不够清晰——这正是费曼技巧的价值所在。建议：<br><ul style="margin-top:8px;padding-left:18px">' + suggestions.map(s => `<li style="margin-bottom:4px">${s}</li>`).join('') + '</ul><br>回去查一下卡壳的地方，然后重新试着写。';
+  }
+}
+
+// --- HABIT CARDS ---
+function toggleHabit(idx) {
+  const card = document.getElementById('habit-' + idx);
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.habit-card.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) { card.classList.add('open'); card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+}
+
+// --- SELF-CHECK ---
+const scMessages = [
+  '起点没问题。先把「质疑假设」和「判断日志」练扎实，其他自然跟上。',
+  '有一点基础了。重点突破「延迟结论」——这一条打通，其他都会加速。',
+  '已经有几个关键习惯了。现在最有价值的是「跨域建模」——能让现有习惯产生复利。',
+  '已经掌握一半了。重点是把这些习惯连接起来——做判断日志 + 定期回顾，让改进形成闭环。',
+  '接近完整的系统了。现在需要的是用真实代价检验——发公开判断，做有后果的决定。',
+  '六个习惯都有了。下一步是提升每个习惯的质量和速度，而不是数量。这时候最需要的是高质量的反馈来源。'
+];
+let scChecked = new Set([0]);
+function toggleSC(item) {
+  const check = item.querySelector('.sc-check');
+  const idx = [...document.querySelectorAll('.sc-item')].indexOf(item);
+  if (scChecked.has(idx)) { scChecked.delete(idx); check.classList.remove('checked'); check.textContent = ''; }
+  else { scChecked.add(idx); check.classList.add('checked'); check.textContent = '✓'; }
+  const count = scChecked.size;
+  document.getElementById('scCount').textContent = count;
+  document.getElementById('scFill').style.width = (count / 6 * 100) + '%';
+  document.getElementById('scMsg').innerHTML = '<strong>' + ['起点', '有基础', '进展中', '过半了', '接近完整', '完整系统'][Math.min(count - 1, 5)] + '。</strong> ' + scMessages[Math.min(count - 1, 5)];
+}
+
+// --- NOTE TYPE CARDS ---
+let activeType = null;
+function showType(id) {
+  document.querySelectorAll('.type-detail').forEach(d => d.classList.remove('show'));
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
+  if (activeType === id) { activeType = null; return; }
+  activeType = id;
+  const detail = document.getElementById('type-' + id);
+  if (detail) { detail.classList.add('show'); detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  const idx = ['nonotes','goodnotes','badnotes'].indexOf(id);
+  document.querySelectorAll('.type-card')[idx]?.classList.add('active');
+}
+
+// --- NOTE TABS ---
+function switchTab(id) {
+  document.querySelectorAll('.nt-panel').forEach(p => p.classList.remove('show'));
+  document.querySelectorAll('.nt-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id)?.classList.add('show');
+  event.currentTarget.classList.add('active');
+}
+
+// --- FIX ITEMS ---
+function toggleFix(item) {
+  const example = item.querySelector('.fix-example');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.fix-item.open').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.fix-example').classList.remove('show');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    example.classList.add('show');
+  }
+}
+
+// --- PRE-CHECKLIST ---
+['pre1','pre2','pre3'].forEach(id => {
+  document.getElementById(id)?.addEventListener('change', () => {
+    const all = ['pre1','pre2','pre3'].every(i => document.getElementById(i)?.checked);
+    const result = document.getElementById('preCheckResult');
+    if (result) result.style.display = all ? 'block' : 'none';
+  });
+});
+
+// --- THINKER CARDS ---
+let activeThinker = null;
+function showThinker(id) {
+  document.querySelectorAll('.thinker-detail').forEach(d => d.classList.remove('show'));
+  document.querySelectorAll('.thinker-card').forEach(c => c.classList.remove('active'));
+  if (activeThinker === id) { activeThinker = null; return; }
+  activeThinker = id;
+  const detail = document.getElementById('detail-' + id);
+  if (detail) {
+    detail.classList.add('show');
+    detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  event.currentTarget.classList.add('active');
+}
+
+// --- CASE STUDY TOGGLES ---
+function toggleCase(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.case-step.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+function toggleLayer(idx) {
+  const detail = document.getElementById('layer-' + idx);
+  const rows = document.querySelectorAll('.layer-row');
+  const isOpen = detail.classList.contains('show');
+  document.querySelectorAll('.layer-detail.show').forEach(d => d.classList.remove('show'));
+  document.querySelectorAll('.layer-row.active').forEach(r => r.classList.remove('active'));
+  if (!isOpen) {
+    detail.classList.add('show');
+    rows[idx].classList.add('active');
+  }
+}
+
+function toggleBlind(item) {
+  const full = item.querySelector('.blind-full');
+  const isOpen = full.classList.contains('show');
+  document.querySelectorAll('.blind-full.show').forEach(f => f.classList.remove('show'));
+  if (!isOpen) full.classList.add('show');
+}
+
+// Allow Enter in topic input to focus textarea
+document.getElementById('feynmanTopic').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    document.getElementById('feynmanText').focus();
+  }
+});
+</script>
+</body>
+</html>
