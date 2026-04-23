@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>shuaiqing.xyz — Personal Knowledge Base</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#ffffff;
@@ -26,7 +25,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:'Inter',-apple-system,'PingFang SC',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   a{color:inherit;text-decoration:none}
 
   /* ============ NAV ============ */
@@ -42,7 +41,7 @@
   .nav-right{display:flex;gap:10px;align-items:center}
   .nav-search{display:flex;align-items:center;gap:8px;background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.82rem;color:var(--muted);min-width:220px;cursor:text;transition:border-color .15s}
   .nav-search:hover{border-color:var(--line-strong)}
-  .nav-search kbd{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.7rem;background:#fff;border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--muted)}
+  .nav-search kbd{margin-left:auto;font-family:"SF Mono",Menlo,Monaco,Consolas,monospace;font-size:.7rem;background:#fff;border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--muted)}
   .btn-ghost{font-size:.82rem;padding:7px 12px;border-radius:7px;border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--ink-2);transition:border-color .15s}
   .btn-ghost:hover{border-color:var(--line-strong)}
 
@@ -86,7 +85,7 @@
   .cat-tab:hover{border-color:var(--line-strong);transform:translateY(-1px)}
   .cat-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
   .cat-tab .cat-dot{width:7px;height:7px;border-radius:50%;background:var(--muted-2)}
-  .cat-tab .count{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted-2);margin-left:2px}
+  .cat-tab .count{font-family:"SF Mono",Menlo,Monaco,Consolas,monospace;font-size:.72rem;color:var(--muted-2);margin-left:2px}
   .cat-tab.active .count{color:rgba(255,255,255,.6)}
   .cat-tab[data-c="quant"] .cat-dot{background:var(--c-quant)}
   .cat-tab[data-c="ai"] .cat-dot{background:var(--c-ai)}
@@ -114,7 +113,7 @@
   .card-title{font-size:1.05rem;font-weight:600;letter-spacing:-0.015em;line-height:1.35}
   .card-desc{font-size:.85rem;color:var(--muted);line-height:1.55;flex:1}
   .card-foot{display:flex;justify-content:space-between;align-items:center;padding-top:12px;margin-top:4px;border-top:1px solid var(--line);font-size:.75rem;color:var(--muted)}
-  .card-foot .meta{display:flex;gap:10px;align-items:center;font-family:'JetBrains Mono',monospace}
+  .card-foot .meta{display:flex;gap:10px;align-items:center;font-family:"SF Mono",Menlo,Monaco,Consolas,monospace}
   .card-foot .arrow{width:26px;height:26px;border-radius:50%;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;color:var(--ink-2);transition:all .2s}
   .card:hover .card-foot .arrow{background:var(--ink);color:#fff;transform:translateX(2px)}
 
@@ -219,7 +218,7 @@
     <a class="card" href="llm-guide.html">
       <div class="card-media">
         <span class="cat-badge cat-ai"><span>AI · 技术</span></span>
-        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80" alt="">
+        <img src="img/ai.jpg" alt="">
       </div>
       <div class="card-body">
         <div class="card-title">LLM 大语言模型全景解析</div>
@@ -234,7 +233,7 @@
     <a class="card" href="quant_system_guide.html">
       <div class="card-media">
         <span class="cat-badge cat-quant"><span>量化金融</span></span>
-        <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80" alt="">
+        <img src="img/quant.jpg" alt="">
       </div>
       <div class="card-body">
         <div class="card-title">量化交易系统全景指南</div>
@@ -249,7 +248,7 @@
     <a class="card" href="logic-books-reader.html">
       <div class="card-media">
         <span class="cat-badge cat-phil"><span>哲学 · 逻辑</span></span>
-        <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=800&q=80" alt="">
+        <img src="img/phil.jpg" alt="">
       </div>
       <div class="card-body">
         <div class="card-title">逻辑学双典精读 · 交互版</div>
@@ -264,7 +263,7 @@
     <a class="card" href="maozedong-xuanji.html">
       <div class="card-media">
         <span class="cat-badge cat-hist"><span>历史 · 经典</span></span>
-        <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800&q=80" alt="">
+        <img src="img/hist.jpg" alt="">
       </div>
       <div class="card-body">
         <div class="card-title">毛泽东选集 · 交互学习版</div>
@@ -279,7 +278,7 @@
     <a class="card" href="learning-guide.html">
       <div class="card-media">
         <span class="cat-badge cat-edu"><span>学习方法</span></span>
-        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80" alt="">
+        <img src="img/learn.jpg" alt="">
       </div>
       <div class="card-body">
         <div class="card-title">高效学习指南</div>
@@ -291,13 +290,13 @@
       </div>
     </a>
 
-    <a class="card" href="tongshu-jiaoyu.html">
+    <a class="card" href="tongshi-jiaoyu.html">
       <div class="card-media">
         <span class="cat-badge cat-edu"><span>学习方法</span></span>
-        <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=80" alt="">
+        <img src="img/edu.jpg" alt="">
       </div>
       <div class="card-body">
-        <div class="card-title">通书教育</div>
+        <div class="card-title">通识教育</div>
         <div class="card-desc">教育课程相关知识整理与学习资源汇总，帮助学习者系统掌握课程内容。</div>
         <div class="card-foot">
           <div class="meta"><span>324 KB</span><span>·</span><span>Apr 2026</span></div>

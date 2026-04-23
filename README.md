@@ -12,7 +12,7 @@
 | AI · 技术 | [LLM 大语言模型全景解析](llm-guide.html) |
 | 哲学 · 逻辑 | [逻辑学双典精读 · 交互版](logic-books-reader.html) |
 | 历史 · 经典 | [毛泽东选集 · 交互学习版](maozedong-xuanji.html) |
-| 学习方法 | [高效学习指南](learning-guide.html) · [通书教育](tongshu-jiaoyu.html) |
+| 学习方法 | [高效学习指南](learning-guide.html) · [通识教育](tongshi-jiaoyu.html) |
 
 ## 技术栈
 

@@ -12,5 +12,5 @@
   - 逻辑学双典精读 · 交互版
   - 毛泽东选集 · 交互学习版
   - 高效学习指南
-  - 通书教育
+  - 通识教育
 - 部署至 [shuaiqing.xyz](https://shuaiqing.xyz)，启用 HTTPS（Let's Encrypt）
