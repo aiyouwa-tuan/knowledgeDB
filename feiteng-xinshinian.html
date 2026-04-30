@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>沸腾新十年 · 中国移动互联网十年史（2010-2020）交互梳理</title>
+<style>
+  :root{
+    --bg:#0d1117;--panel:#161b22;--panel2:#1f262e;--ink:#e6edf3;--mute:#8b949e;
+    --acc:#ff7a00;--acc2:#ffb547;--ok:#3fb950;--bad:#f85149;--link:#58a6ff;
+    --border:#30363d;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7}
+  a{color:var(--link);text-decoration:none}
+  a:hover{text-decoration:underline}
+  header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#161b22 0%,rgba(22,27,34,.92) 100%);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;
+    align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  header h1{margin:0;font-size:18px;font-weight:700}
+  header .sub{color:var(--mute);font-size:13px;margin-left:8px}
+  .layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh}
+  nav.side{position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;
+    border-right:1px solid var(--border);padding:18px 14px;background:var(--panel)}
+  nav.side h3{font-size:12px;letter-spacing:.1em;color:var(--mute);text-transform:uppercase;
+    margin:18px 0 8px;font-weight:600}
+  nav.side a{display:block;padding:6px 10px;border-radius:6px;color:var(--ink);font-size:14px;margin:1px 0}
+  nav.side a:hover{background:var(--panel2);text-decoration:none}
+  nav.side a.active{background:var(--acc);color:#000;font-weight:600}
+  main{padding:28px 40px 80px;max-width:1100px}
+  section{padding:32px 0;border-bottom:1px dashed var(--border)}
+  section h2{font-size:28px;margin:0 0 6px;color:var(--acc2)}
+  section .lead{color:var(--mute);margin-bottom:20px;font-size:15px}
+  section h3{font-size:20px;margin:28px 0 10px;border-left:4px solid var(--acc);padding-left:10px}
+  section h4{font-size:16px;margin:18px 0 8px;color:var(--acc2)}
+  p{margin:8px 0}
+  ul,ol{padding-left:22px}
+  li{margin:4px 0}
+  .grid{display:grid;gap:14px}
+  .grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px}
+  .card h4{margin-top:0}
+  .tag{display:inline-block;background:var(--panel2);color:var(--acc2);font-size:11px;
+    padding:2px 8px;border-radius:999px;margin:0 4px 4px 0;border:1px solid var(--border)}
+  .tag.win{color:var(--ok);border-color:var(--ok)}
+  .tag.lose{color:var(--bad);border-color:var(--bad)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px;background:var(--panel);
+    border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--acc2);font-weight:600;font-size:13px}
+  tr:last-child td{border-bottom:0}
+  .timeline{position:relative;margin:20px 0;padding-left:30px;border-left:2px solid var(--acc)}
+  .ev{position:relative;margin:14px 0;padding:10px 14px;background:var(--panel);
+    border:1px solid var(--border);border-radius:8px}
+  .ev:before{content:"";position:absolute;left:-37px;top:18px;width:12px;height:12px;
+    background:var(--acc);border-radius:50%;border:2px solid var(--bg)}
+  .ev .yr{font-weight:700;color:var(--acc);font-size:13px}
+  .ev .ttl{font-weight:600;margin:2px 0}
+  .ev .desc{color:var(--mute);font-size:14px}
+  .quote{background:var(--panel2);border-left:4px solid var(--acc2);padding:10px 14px;
+    margin:12px 0;border-radius:0 6px 6px 0;font-style:italic;color:#dadce0}
+  .vs{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch}
+  .vs .side1,.vs .side2{background:var(--panel);border:1px solid var(--border);
+    border-radius:10px;padding:14px}
+  .vs .vsv{align-self:center;font-weight:900;color:var(--acc);font-size:24px;text-align:center}
+  details{background:var(--panel);border:1px solid var(--border);border-radius:8px;
+    padding:10px 14px;margin:8px 0}
+  details>summary{cursor:pointer;font-weight:600;color:var(--acc2)}
+  details[open]>summary{margin-bottom:8px}
+  .toc-toggle{display:none;background:var(--panel2);border:1px solid var(--border);
+    color:var(--ink);padding:8px 12px;border-radius:6px;cursor:pointer}
+  .num{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--acc)}
+  .footer{padding:30px 40px;color:var(--mute);font-size:13px;text-align:center;border-top:1px solid var(--border)}
+  .badge{display:inline-block;padding:1px 7px;font-size:11px;border-radius:4px;
+    background:var(--acc);color:#000;font-weight:700;margin-right:6px}
+  .badge.b2{background:var(--acc2)}
+  .stat{display:inline-block;background:var(--panel2);border:1px solid var(--border);
+    border-radius:8px;padding:10px 14px;margin:4px;text-align:center;min-width:130px}
+  .stat .n{display:block;font-size:22px;color:var(--acc);font-weight:700}
+  .stat .l{font-size:12px;color:var(--mute)}
+  @media(max-width:900px){
+    .layout{grid-template-columns:1fr}
+    nav.side{position:fixed;left:0;top:60px;width:280px;transform:translateX(-100%);
+      transition:transform .25s;z-index:40;height:calc(100vh - 60px)}
+    nav.side.open{transform:translateX(0)}
+    main{padding:20px 16px 60px}
+    .toc-toggle{display:inline-block}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>🔥 沸腾新十年</h1>
+    <span class="sub">中国移动互联网十年史（2010-2020）· 林军 / 岑峰 著 · 交互梳理</span>
+  </div>
+  <button class="toc-toggle" onclick="document.querySelector('nav.side').classList.toggle('open')">☰ 目录</button>
+</header>
+
+<div class="layout">
+<nav class="side" id="toc">
+  <h3>导览</h3>
+  <a href="#intro">📘 本书是什么</a>
+  <a href="#timeline">⏱ 十年大事年表</a>
+  <a href="#numbers">📊 十年数字</a>
+  <h3>上册 · 蛮荒到江湖（2010-2015）</h3>
+  <a href="#smartphone">① 智能手机大战</a>
+  <a href="#wechat">② 微信的诞生</a>
+  <a href="#3q">③ 3Q大战与开放</a>
+  <a href="#tuan">④ 千团大战</a>
+  <a href="#o2o">⑤ O2O 大跃进</a>
+  <a href="#didi">⑥ 打车大战</a>
+  <a href="#pay">⑦ 移动支付与红包</a>
+  <a href="#finance">⑧ 互联网金融狂潮</a>
+  <a href="#bytedance">⑨ 头条与算法崛起</a>
+  <h3>下册 · 江湖到帝国（2015-2020）</h3>
+  <a href="#bike">⑩ 共享单车大战</a>
+  <a href="#live">⑪ 直播元年</a>
+  <a href="#video">⑫ 短视频大战</a>
+  <a href="#newretail">⑬ 新零售</a>
+  <a href="#pdd">⑭ 拼多多崛起</a>
+  <a href="#knowledge">⑮ 知识付费与中视频</a>
+  <a href="#edu">⑯ 在线教育大战</a>
+  <a href="#chain">⑰ 区块链与币圈</a>
+  <a href="#oversea">⑱ 出海与TikTok</a>
+  <a href="#anti">⑲ 反垄断转折</a>
+  <h3>主题透视</h3>
+  <a href="#players">👥 关键人物群像</a>
+  <a href="#capital">💰 资本与VC十年</a>
+  <a href="#patterns">🧩 十年八条规律</a>
+  <a href="#summary">🪞 终章·总结</a>
+</nav>
+
+<main>
+
+<section id="intro">
+  <h2>📘 这本书在讲什么</h2>
+  <p class="lead">林军（雷锋网创始人）与岑峰续写《沸腾十五年》，用上下两册近 80 万字记录了 2010-2020 年中国移动互联网从无到有、从混战到寡头的完整故事。</p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h4>书的脉络</h4>
+      <p>以"战役"为单元——每一个赛道都是一场大战：手机、团购、打车、O2O、共享单车、直播、短视频、社交电商、在线教育……作者把每场战役的起源、关键节点、玩家、资本、转折和余波讲清楚。</p>
+    </div>
+    <div class="card">
+      <h4>上下两册的分界</h4>
+      <p><b>上册（蛮荒到江湖）</b>：2010-2015，移动互联网"基础设施"建设期——手机、操作系统、入口、支付、社交。<br><b>下册（江湖到帝国）</b>：2015-2020，资本驱动的"全民赛跑"和最终的反垄断收口。</p>
+    </div>
+    <div class="card">
+      <h4>核心叙事</h4>
+      <ol>
+        <li>每一个赛道都从"百团大战"般的混乱开始</li>
+        <li>BAT（百度、阿里、腾讯）+ TMD（头条、美团、滴滴）逐渐形成两层格局</li>
+        <li>"补贴—融资—合并"成为标准结局</li>
+        <li>2020 蚂蚁 IPO 暂停，标志移动互联网"野蛮生长"时代终结</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h4>怎么读这份梳理</h4>
+      <ul>
+        <li>先看 <a href="#timeline">大事年表</a> 把握节奏</li>
+        <li>每个章节按"战役卡片"组织：起因/玩家/转折/结局/启示</li>
+        <li>侧栏锚点跳转，移动端点 ☰ 调出目录</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <h2>⏱ 十年大事年表</h2>
+  <p class="lead">把上下册的关键节点压缩在一条线上——可以发现节奏：2011-2014 是"开局"，2015-2017 是"高潮"，2018-2020 是"收尾"。</p>
+  <div class="timeline">
+    <div class="ev"><div class="yr">2010</div><div class="ttl">小米成立 · 3Q大战爆发</div><div class="desc">雷军 4 月 6 日喝小米粥创业；11 月腾讯 QQ 与奇虎 360 二选一，触发"互联网开放"潮。</div></div>
+    <div class="ev"><div class="yr">2011</div><div class="ttl">微信上线 · 千团大战白热化</div><div class="desc">张小龙 1 月 21 日发布微信 1.0；团购网站从 5000 家厮杀到不足百家；新浪微博 vs 腾讯微博。</div></div>
+    <div class="ev"><div class="yr">2012</div><div class="ttl">今日头条诞生 · 4G 牌照前夜</div><div class="desc">张一鸣 8 月推出"今日头条"，算法分发首次走向大众；快的、滴滴相继上线。</div></div>
+    <div class="ev"><div class="yr">2013</div><div class="ttl">余额宝引爆互联网金融 · 微信支付上线</div><div class="desc">阿里 6 月推余额宝，规模一年破 5000 亿；微信 8 月推出支付功能，为后来的红包大战埋伏笔。</div></div>
+    <div class="ev"><div class="yr">2014</div><div class="ttl">微信红包"偷袭珍珠港" · 滴滴快的烧钱大战</div><div class="desc">春节微信红包绑卡数千万；打车补贴双方半年烧掉 24 亿元；阿里上市纽交所市值 2300 亿美元。</div></div>
+    <div class="ev"><div class="yr">2015</div><div class="ttl">合并年——57、214、105</div><div class="desc">滴滴快的（情人节）、58赶集（4·17）、美团点评（10·8）、携程去哪儿（10·26）四大合并案，腾讯阿里"分饼"完成。</div></div>
+    <div class="ev"><div class="yr">2016</div><div class="ttl">直播元年 · 共享单车元年 · 阿尔法狗</div><div class="desc">映客、YY、虎牙百播齐放；ofo、摩拜启动彩虹大战；AlphaGo 战胜李世石，AI 概念被引爆。</div></div>
+    <div class="ev"><div class="yr">2017</div><div class="ttl">王者荣耀 · 知识付费 · 抖音爆发</div><div class="desc">王者荣耀 DAU 破 5000 万；得到、知乎 Live 推动知识付费；抖音从音乐 App 转型，开启短视频改朝换代。</div></div>
+    <div class="ev"><div class="yr">2018</div><div class="ttl">拼多多上市 · 区块链狂热 · ofo 倒下</div><div class="desc">7 月拼多多赴美 IPO，市值 240 亿美元；ICO/币圈崩盘；ofo 押金挤兑，标志共享经济泡沫破灭。</div></div>
+    <div class="ev"><div class="yr">2019</div><div class="ttl">瑞幸登陆纳斯达克 · TikTok 全球第一</div><div class="desc">5 月瑞幸 IPO；字节跳动旗下 TikTok 在 2018-2019 连续登顶 App Store；5G 牌照发放。</div></div>
+    <div class="ev"><div class="yr">2020</div><div class="ttl">疫情居家 · 蚂蚁 IPO 暂停 · 反垄断</div><div class="desc">钉钉、企业微信、腾讯会议爆发；11 月 3 日蚂蚁 IPO 暂停；12 月反垄断指南出台，互联网"野蛮十年"画上句点。</div></div>
+  </div>
+</section>
+
+<section id="numbers">
+  <h2>📊 十年数字</h2>
+  <p class="lead">把"沸腾"用数字描出来。</p>
+  <div>
+    <div class="stat"><span class="n">9.86亿</span><span class="l">2020 年中国移动网民</span></div>
+    <div class="stat"><span class="n">×6.5</span><span class="l">移动用户十年增幅</span></div>
+    <div class="stat"><span class="n">5000+</span><span class="l">2011 年团购网站峰值</span></div>
+    <div class="stat"><span class="n">24亿</span><span class="l">滴滴快的半年烧钱</span></div>
+    <div class="stat"><span class="n">2300亿$</span><span class="l">阿里 2014 上市市值</span></div>
+    <div class="stat"><span class="n">5亿+</span><span class="l">2014 年微信红包绑卡</span></div>
+    <div class="stat"><span class="n">240亿$</span><span class="l">拼多多 IPO 市值</span></div>
+    <div class="stat"><span class="n">2300万</span><span class="l">摩拜+ofo 投放峰值</span></div>
+    <div class="stat"><span class="n">1.4亿</span><span class="l">抖音 DAU（2020）</span></div>
+    <div class="stat"><span class="n">37000亿</span><span class="l">蚂蚁估值（暂停 IPO 前）</span></div>
+  </div>
+</section>
+
+<!-- ============== 上册 ============== -->
+
+<section id="smartphone">
+  <h2>① 智能手机大战 — 移动互联网的入场券</h2>
+  <p class="lead">没有手机，就没有"移动"互联网。这场战争决定了入口、操作系统、用户基数。</p>
+
+  <h3>1. 起点：2010 是一个分水岭</h3>
+  <ul>
+    <li>2010 年 iPhone 4 全球发布，乔布斯定义"智能手机=触摸+应用商店"</li>
+    <li>同年 Android 开源生态成熟，HTC、三星、摩托罗拉跟进</li>
+    <li>中国"中华酷联"（中兴、华为、酷派、联想）作为运营商定制机出货主力</li>
+    <li>4 月雷军成立小米，宣称要做"为发烧而生"的互联网手机</li>
+  </ul>
+
+  <h3>2. 小米模式（2011-2014）</h3>
+  <div class="card">
+    <p><b>三大武器：</b>MIUI（用户参与定义系统）+ 论坛社群 + 互联网直销/饥饿营销</p>
+    <p><b>关键时间线：</b></p>
+    <ul>
+      <li>2011 年 8 月发布小米 1，1999 元 + 顶配硬件，引爆"性价比"叙事</li>
+      <li>2013 年红米发布，下沉市场销量暴涨</li>
+      <li>2014 年成为中国出货量第一，估值 450 亿美元（创业 4 年）</li>
+      <li>2016 年线下溃败：OPPO/vivo 用蓝绿厂"渠道下沉+明星代言"反超</li>
+      <li>2017 年雷军喊出"逆转就是胜利"，靠小米 MIX、生态链全面回血</li>
+    </ul>
+    <p class="quote">"风口论"是小米模式精髓——"站在风口上，猪都能飞起来"。但作者指出：风口理论的另一面是"你必须比猪更早看见风口"。</p>
+  </div>
+
+  <h3>3. 华为的"长征"</h3>
+  <ul>
+    <li>2011 年余承东接掌华为消费者 BG，提出"放弃低端定制机"，遭运营商围攻</li>
+    <li>P 系列（2012）+ Mate 系列（2013）打开高端</li>
+    <li>2015 年自研麒麟芯片成熟，2017 年与莱卡合作奠定影像高地</li>
+    <li>2019 年美国制裁，鸿蒙 OS 紧急浮出水面</li>
+  </ul>
+
+  <h3>4. 锤子的悲情</h3>
+  <ul>
+    <li>2012 年罗永浩从英语老师跨界做手机，宣讲"工匠精神"</li>
+    <li>Smartisan T1（2014）获国际工业设计大奖，但产能、售后崩盘</li>
+    <li>多次融资濒临破产，2019 年被字节跳动收编（即坚果手机）</li>
+    <li>书中将其作为"中国式情怀创业"的标本——理想、产品力、商业三者难全</li>
+  </ul>
+
+  <h3>5. OV "渠道帝国"</h3>
+  <ul>
+    <li>段永平体系出身（步步高血脉）；OPPO/vivo 兄弟分立但共享渠道方法论</li>
+    <li>30 万家"夫妻店"线下网络 + 二三四线市场为主</li>
+    <li>2016 年合计销量超过华为+小米，反小米"互联网模式"</li>
+  </ul>
+
+  <h3>6. 苹果在中国</h3>
+  <ul>
+    <li>2010-2015 是 iPhone 的"统治期"，苹果在中国大陆贡献 25% 营收</li>
+    <li>2015 年开始受 OV、华为冲击，份额掉至 10% 以下</li>
+    <li>但 App Store + 高 ARPU 用户，仍是开发者首选战场</li>
+  </ul>
+
+  <h3>7. 国产 Android 系统大战</h3>
+  <p>MIUI（小米）、Flyme（魅族）、EMUI（华为）、Color OS（OPPO）、Funtouch（vivo）——是"操作系统的中国本地化"，将通讯录、日历、安全管家、应用商店变成自家入口。</p>
+
+  <h3>8. 启示</h3>
+  <ul>
+    <li>智能手机决定了所有 App 的"分发位置"——这是后续小程序、应用商店、ROM 预装大战的源头</li>
+    <li>"互联网直销"不是普世真理，渠道与服务在三四线决定胜负</li>
+    <li>中美贸易摩擦的最早战场就是手机芯片（联发科、海思、紫光展锐）</li>
+  </ul>
+</section>
+
+<section id="wechat">
+  <h2>② 微信的诞生 — 一个产品改变一个国家</h2>
+  <p class="lead">从张小龙在广州一封邮件请缨，到 2020 年月活 12 亿——微信定义了什么是"中国式超级 App"。</p>
+
+  <h3>1. 起点：Kik 与张小龙的 Foxmail 基因</h3>
+  <ul>
+    <li>2010 年 10 月，加拿大 Kik 上线 15 天获 100 万用户，全世界都看到了"基于通讯录的即时通讯"价值</li>
+    <li>张小龙写邮件给马化腾："我们应该做一个 App，不然移动 IM 就没机会了"</li>
+    <li>2011 年 1 月 21 日，微信 1.0 在 iPhone 上线（仅有发文字、图片）</li>
+  </ul>
+
+  <h3>2. 与米聊、飞信、QQ 的赛跑</h3>
+  <table>
+    <tr><th>玩家</th><th>母体</th><th>结局</th></tr>
+    <tr><td>米聊</td><td>小米</td><td>抢先发布，但被微信反超后逐渐边缘</td></tr>
+    <tr><td>飞信</td><td>中移动</td><td>受运营商体制束缚，错失移动互联网窗口</td></tr>
+    <tr><td>QQ 通讯录</td><td>腾讯无线</td><td>微信成功后被腾讯内部"赛马"出局</td></tr>
+    <tr><td>微信</td><td>张小龙广研</td><td>"内部赛马"胜出，2012 突破 1 亿用户</td></tr>
+  </table>
+
+  <h3>3. 三个杀手级动作</h3>
+  <ol>
+    <li><b>语音消息（2.0，2011-5）</b>——农村、四五线手指打字困难者瞬间上车</li>
+    <li><b>摇一摇/漂流瓶/查找附近的人（3.0，2011-10）</b>——陌生人社交导流</li>
+    <li><b>朋友圈（4.0，2012-4）</b>——把"通讯工具"升格为"内容/关系网络"</li>
+  </ol>
+
+  <h3>4. 公众号与小程序：两次平台化</h3>
+  <ul>
+    <li>2012 年 8 月公众号上线，"再小的个体也有自己的品牌"——开启自媒体红利</li>
+    <li>2017 年 1 月小程序上线，张小龙喊出"用完即走"——绕开 App Store 重塑分发</li>
+  </ul>
+
+  <h3>5. 微信红包"偷袭珍珠港"</h3>
+  <p>2014 年春节，微信红包让数千万人主动绑定银行卡，马云内部信称之为"偷袭珍珠港"。这一战让微信支付与支付宝形成"双雄"格局，也直接催生了滴滴打车、O2O、新零售等所有"靠扫码下单"的场景。</p>
+
+  <h3>6. 张小龙的"克制美学"</h3>
+  <div class="quote">"用完即走"·"好的产品是用完即走"·"我们不允许诱导分享"——克制是微信能从工具长成基础设施而不被用户反感的关键。</div>
+  <p>但作者也指出：克制并非永恒——朋友圈广告（2015）、看一看、视频号（2020）逐步打破张小龙的早期戒律。</p>
+</section>
+
+<section id="3q">
+  <h2>③ 3Q大战 — 中国互联网"开放"的导火索</h2>
+  <p class="lead">2010 年 11 月，腾讯 QQ 弹出"二选一"通知：要么卸载 360，要么不能登 QQ。这是中国互联网史上最具标志意义的冲突之一。</p>
+
+  <h3>1. 来龙去脉</h3>
+  <ol>
+    <li>2010-9 360 推出"隐私保护器"，直指 QQ 扫描用户文件</li>
+    <li>2010-10 腾讯反诉，发布"QQ 医生"卸载 360</li>
+    <li>2010-11-3 腾讯发布"艰难的决定"——QQ 与 360 不兼容</li>
+    <li>工信部出面调停，双方和解</li>
+  </ol>
+
+  <h3>2. 后果与转折</h3>
+  <ul>
+    <li>腾讯成立"诊断腾讯"研讨会，邀请 50+ 业内意见领袖反思"自我封闭"</li>
+    <li>2011 年腾讯成立产业基金，开始大规模投资而非自营所有赛道——后来"半条命交给合作伙伴"的开放战略由此发端</li>
+    <li>360 借此完成纳斯达克 IPO（2011-3），周鸿祎从此被称"红衣大炮"</li>
+    <li>奠定"中国互联网必须开放"的舆论基调</li>
+  </ul>
+
+  <h3>3. 启示</h3>
+  <p>3Q 大战是腾讯由"什么都自己做"到"什么都投一份"的精神节点。书中认为：没有 3Q 大战的公开教训，就不会有后来微信对开放生态的重视、也不会有腾讯成为"中国最大的产业资本"。</p>
+</section>
+
+<section id="tuan">
+  <h2>④ 千团大战 — 中国第一场 O2O 总决赛</h2>
+  <p class="lead">从 5000 家到 1 家：王兴的"过冬论"和"耐心"如何赢下中国本地生活的入场券。</p>
+
+  <h3>1. 引子：Groupon 模式来到中国</h3>
+  <ul>
+    <li>2010 年 1-3 月，美团、拉手、糯米、24券、F 团等接连上线</li>
+    <li>峰值期市场上有 5000+ 团购网站，被称"千团大战"</li>
+    <li>VC 一年烧入 70 多亿元</li>
+  </ul>
+
+  <h3>2. 主要玩家与命运</h3>
+  <table>
+    <tr><th>公司</th><th>创始人</th><th>命运</th></tr>
+    <tr><td>美团</td><td>王兴</td><td>2015 与点评合并，最后赢家</td></tr>
+    <tr><td>大众点评</td><td>张涛</td><td>合并后逐渐淡出</td></tr>
+    <tr><td>糯米</td><td>沈博阳</td><td>被百度全资收购，后被边缘化</td></tr>
+    <tr><td>拉手网</td><td>吴波</td><td>过早冲刺 IPO 失败，2014 卖身三胞</td></tr>
+    <tr><td>窝窝团 24券 F团</td><td>—</td><td>资金链断裂消亡</td></tr>
+  </table>
+
+  <h3>3. 王兴的"三横四纵"与过冬论</h3>
+  <ul>
+    <li>2011 年王兴在 36Kr 演讲提出"千团大战必有一个超过 80% 市占率的胜出者"</li>
+    <li>美团是少数没有冲首日上市、没有滥投广告的玩家——把钱花在地推（线下 BD）和 IT 系统</li>
+    <li>2011 年下半年风暴来临时美团账上还有 3 亿现金，靠一句"过冬"熬死大量同行</li>
+    <li>2013 年起切外卖，正面对抗饿了么，再次以地推取胜</li>
+  </ul>
+
+  <h3>4. 美团点评合并（2015-10-8）</h3>
+  <p>"中秋合并"由红杉沈南鹏牵线。合并后王兴任 CEO、张涛"荣誉退休"。这场合并让阿里减持、腾讯进入，决定了本地生活的腾讯系归属。</p>
+
+  <h3>5. 启示</h3>
+  <ul>
+    <li>团购是个"低毛利、长周期"生意，靠融资速跑是死路</li>
+    <li>地推（执行力 × 城市铺量）在中国 O2O 是真正的护城河</li>
+    <li>千团大战教育市场让中国所有人学会"网上买线下服务"——为后来的滴滴、外卖、共享单车铺路</li>
+  </ul>
+</section>
+
+<section id="o2o">
+  <h2>⑤ O2O 大跃进 — 一个被资本拍碎的赛道</h2>
+  <p class="lead">2014-2015 是 O2O 元年——美甲、洗车、按摩、家政、上门厨师……资本相信"任何线下服务都能 App 化"。</p>
+
+  <h3>典型项目</h3>
+  <ul>
+    <li>e 代驾、e 袋洗、e 家洁——"e+动作"是当年命名 meme</li>
+    <li>河狸家（雕爷）做美甲上门</li>
+    <li>呆萝卜、社区超市生鲜配送（早期版本）</li>
+    <li>烧饭饭/到家美食会——上门做饭</li>
+  </ul>
+
+  <h3>为什么大多失败</h3>
+  <ol>
+    <li><b>低频 + 低客单 + 高履约成本</b>：上门服务的成本结构比堂食还差</li>
+    <li>补贴退潮就掉单——用户只对价格敏感</li>
+    <li>资本"撒胡椒面"导致每个细分都过度竞争，最终一起死</li>
+    <li>支付、地图、配送等"基础设施"都还不完善</li>
+  </ol>
+
+  <h3>剩下的赢家</h3>
+  <ul>
+    <li>美团（外卖+到店）——抓住了高频高刚需</li>
+    <li>滴滴——抓住了出行</li>
+    <li>58 到家——靠存量流量倒灌</li>
+    <li>其余 O2O 项目 90% 在 2016 年清盘</li>
+  </ul>
+</section>
+
+<section id="didi">
+  <h2>⑥ 打车大战 — 出行方式的范式革命</h2>
+  <p class="lead">滴滴 vs 快的 vs Uber 中国——三场仗、两次合并、一个程维。</p>
+
+  <h3>1. 第一阶段：滴滴 vs 快的（2012-2015）</h3>
+  <ul>
+    <li>2012-9 程维（前阿里巴巴 B2B）创立滴滴打车</li>
+    <li>同年快的在杭州由吕传伟创立，背后阿里巴巴</li>
+    <li>2013 年腾讯入股滴滴，BAT 在出行领域代理人战争开打</li>
+    <li>2014 年初微信支付、支付宝分别接入，"打一单返 10 元"补贴大战开启，半年烧掉 24 亿</li>
+    <li>2015-2-14 情人节合并，程维任 CEO，吕传伟出局</li>
+  </ul>
+
+  <h3>2. 第二阶段：滴滴 vs Uber 中国（2015-2016）</h3>
+  <ul>
+    <li>Uber 由 Travis Kalanick 全力 push 中国，由柳甄（柳青堂妹）执掌</li>
+    <li>2015 年滴滴推出"快车"对标 Uber 人民优步，再开始一年补贴</li>
+    <li>2016-8-1 滴滴宣布收购 Uber 中国——交换股份方式，Uber 中国估值 70 亿美元</li>
+  </ul>
+
+  <h3>3. 黑暗时刻（2018）</h3>
+  <ul>
+    <li>5 月郑州空姐顺风车遇害；8 月乐清女孩遇害</li>
+    <li>顺风车业务下线 400+ 天</li>
+    <li>滴滴 IPO 暂停、估值大跌；安全成为出行公司核心议题</li>
+  </ul>
+
+  <h3>4. 启示</h3>
+  <ul>
+    <li>"补贴—合并—再补贴"是中国双寡头竞争的标准剧本</li>
+    <li>跨境对手在中国胜负往往取决于本地化（用户投诉、政府关系、地推），而非技术</li>
+    <li>烧出来的护城河不是用户忠诚，而是司机—乘客网络的双边规模效应</li>
+  </ul>
+</section>
+
+<section id="pay">
+  <h2>⑦ 移动支付与红包大战 — 双雄格局的形成</h2>
+  <p class="lead">从 2013 微信支付上线，到 2020 年合计交易超 200 万亿——支付定义了入口。</p>
+
+  <h3>1. 三个关键节点</h3>
+  <ol>
+    <li><b>2013-8 微信支付上线</b>，第一次让 IM 接入金融账户</li>
+    <li><b>2014 春节微信红包</b>，1 亿次抢红包，绑卡用户从百万级跃升到亿级</li>
+    <li><b>2015 春节抢红包大战</b>，央视春晚摇一摇 110 亿次</li>
+  </ol>
+
+  <h3>2. 支付宝的反击</h3>
+  <ul>
+    <li>"集五福"（2016 起）+ "锦鲤"（2018）社交化营销</li>
+    <li>开放生态接入更多线下大商户、政务、地铁/公交</li>
+    <li>支付宝坚守"金融与服务"，微信坚守"社交+小额高频"，定位差异化</li>
+  </ul>
+
+  <h3>3. 监管与"断直连"</h3>
+  <ul>
+    <li>2017-12 央行要求 2018-6 起所有第三方支付不得直连银行，必须接网联</li>
+    <li>"断直连"终结了支付机构沉淀资金套利空间，同时拉平监管</li>
+  </ul>
+
+  <h3>4. 启示</h3>
+  <p>支付不是一个独立产品，而是"入口的入口"——决定了打车、外卖、共享单车、新零售、保险、理财能否扫码闭环。这是中国移动互联网"超级 App"逻辑的根基。</p>
+</section>
+
+<section id="finance">
+  <h2>⑧ 互联网金融狂潮 — 从余额宝到 P2P 暴雷</h2>
+  <p class="lead">没有哪个十年像 2013-2018 那样，让金融与互联网剧烈交织又剧烈分手。</p>
+
+  <h3>1. 余额宝（2013）</h3>
+  <ul>
+    <li>支付宝余额接入天弘基金，1 元起买、随时取</li>
+    <li>规模一年破 5000 亿，到 2018 高点超 1.7 万亿——一度成为全球最大货币基金</li>
+    <li>引爆"宝宝类"理财——百度百赚、微信理财通、京东小金库等跟进</li>
+  </ul>
+
+  <h3>2. P2P 网贷</h3>
+  <ul>
+    <li>2014-2017 平台数量峰值 6000+，撮合规模超 2.8 万亿</li>
+    <li>e租宝（2015）、钱宝（2017）、团贷网、信和大金融等暴雷</li>
+    <li>2018 集中爆雷潮，监管启动"三降"清退</li>
+    <li>到 2020 年底 P2P 平台清零</li>
+  </ul>
+
+  <h3>3. 现金贷与消费金融</h3>
+  <ul>
+    <li>趣店（罗敏）2017 赴美上市，掀起"高利贷+大数据"质疑</li>
+    <li>2017-12 监管 141 号文整治现金贷，36% 利率红线</li>
+    <li>蚂蚁花呗、借呗、白条、京东金条成为合规化标杆</li>
+  </ul>
+
+  <h3>4. 蚂蚁的崛起与暂停</h3>
+  <ul>
+    <li>2014 蚂蚁金服独立，"科技+金融+生态"三位一体</li>
+    <li>2020 估值 3.7 万亿元，10-26 上市定价；11-3 暂停 IPO</li>
+    <li>11-3 是十年的"最高点"，也是"野蛮生长"的终点</li>
+  </ul>
+</section>
+
+<section id="bytedance">
+  <h2>⑨ 头条与算法崛起 — 流量分配的范式革命</h2>
+  <p class="lead">"机器更懂你"——张一鸣用一套推荐算法，从底层重写了媒体和广告的规则。</p>
+
+  <h3>1. 早期</h3>
+  <ul>
+    <li>2009 年张一鸣（南开大学软工）创办九九房后转做"内涵段子"</li>
+    <li>2012-3 字节跳动成立，8 月今日头条上线</li>
+    <li>初期收购了大量小说阅读、笑话、新闻类小 App 灌流量</li>
+  </ul>
+
+  <h3>2. 核心信仰：算法 > 编辑</h3>
+  <div class="quote">"信息茧房"是批评者的标签，但张一鸣坚信：在信息过载时代，"个性化分发"是最大善意——让每个用户都得到对其最有用的内容。</div>
+
+  <h3>3. 关键拐点</h3>
+  <ul>
+    <li>2014 与微博法务大战（"今日头条搬运")，证明算法 + 转码是合规底线</li>
+    <li>2016 内涵段子日活破亿；同年抖音上线（前身 A.me）</li>
+    <li>2017 收购 Musical.ly，海外品牌统一为 TikTok</li>
+    <li>2018 上半年抖音 DAU 反超快手</li>
+  </ul>
+
+  <h3>4. 多 App 矩阵 + APP 工厂</h3>
+  <p>抖音、西瓜、火山、今日头条、悟空问答、懂车帝、皮皮虾、飞书、Lark……字节是国内对"App 工厂"模式贯彻最彻底的公司，背后是统一的算法/广告/中台。</p>
+
+  <h3>5. 与百度、腾讯之争</h3>
+  <ul>
+    <li>2018 头条系日均使用时长超过百度，标志"算法分发"反超"搜索"</li>
+    <li>2019 微信封禁多闪、抖音外链；张一鸣公开喊话马化腾</li>
+    <li>头条系成为唯一在腾讯/阿里之外能独立生长的"非连接系"超级公司</li>
+  </ul>
+</section>
+
+<!-- ============== 下册 ============== -->
+
+<section id="bike">
+  <h2>⑩ 共享单车大战 — 资本驱动最戏剧化的章节</h2>
+  <p class="lead">2016-2018，从彩虹大战到"我们尽力了"，押金挤兑撕开了共享经济的资本面具。</p>
+
+  <h3>1. 双雄登场</h3>
+  <div class="vs">
+    <div class="side1">
+      <h4>ofo · 戴威</h4>
+      <ul>
+        <li>北大学生会主席创业</li>
+        <li>"小黄车"机械锁起步，造车便宜</li>
+        <li>朱啸虎金沙江领投天使</li>
+        <li>主打校园→城市</li>
+      </ul>
+    </div>
+    <div class="vsv">VS</div>
+    <div class="side2">
+      <h4>摩拜 · 胡玮炜</h4>
+      <ul>
+        <li>记者出身，工业设计背景</li>
+        <li>智能锁+实心轮胎+轴传动，单车造价高但耐用</li>
+        <li>李斌（蔚来）孵化，腾讯系</li>
+        <li>主打一二线核心城市</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>2. 战火升级</h3>
+  <ul>
+    <li>2016-9 朱啸虎、马化腾微信圈"小黄车 vs 智能锁"互怼</li>
+    <li>2017 上半年，悟空、小蓝、酷骑、小鸣、町町、骑呗等十几家彩虹军入场</li>
+    <li>2017 下半年，小蓝、酷骑等小厂相继倒闭，押金跑路上社会新闻</li>
+  </ul>
+
+  <h3>3. 转折：合并失败 + 押金挤兑</h3>
+  <ul>
+    <li>2017 末朱啸虎喊话戴威接受合并被拒</li>
+    <li>2018-4 美团 27 亿美元收购摩拜（胡玮炜套现退出）</li>
+    <li>2018 下半年 ofo 押金挤兑，1500 万用户排队退款</li>
+    <li>戴威成为"老赖"，ofo 总部搬离中关村理想国际大厦</li>
+    <li>哈啰（阿里系）凭借支付宝免押金切下沉市场，反成赢家</li>
+  </ul>
+
+  <h3>4. 启示</h3>
+  <ul>
+    <li>共享经济本质是"重资产+低 ARPU+高折损"，必须靠规模与运营，不能纯靠融资</li>
+    <li>押金 = 用户的钱，但被错当成"流动性"使用，是制度性风险</li>
+    <li>戴威的"创始人 IPO 我说了算"是投资人/创始人关系经典反面教材</li>
+  </ul>
+</section>
+
+<section id="live">
+  <h2>⑪ 直播元年（2016）</h2>
+  <p class="lead">"千播大战"——从秀场到游戏到电商。</p>
+  <h3>三条赛道</h3>
+  <table>
+    <tr><th>赛道</th><th>代表</th><th>结局</th></tr>
+    <tr><td>秀场直播</td><td>映客 YY 花椒</td><td>映客上市后下滑；YY 转型欢聚集团出海</td></tr>
+    <tr><td>游戏直播</td><td>斗鱼 虎牙 龙珠 战旗</td><td>2018-2020 斗鱼虎牙双双 IPO，2020 拟合并被否</td></tr>
+    <tr><td>泛娱乐</td><td>一直播 NOW 直播 美拍</td><td>大多融入腾讯/微博生态</td></tr>
+  </table>
+  <h3>电商直播兴起</h3>
+  <ul>
+    <li>2016 蘑菇街、淘宝直播试水</li>
+    <li>2018 薇娅、李佳琦从淘宝直播间走出</li>
+    <li>2019 起快手、抖音直播带货成主战场，重塑"人货场"</li>
+  </ul>
+</section>
+
+<section id="video">
+  <h2>⑫ 短视频大战 — 抖音 vs 快手</h2>
+  <p class="lead">两个产品，两种价值观，两类用户，重新切分中国互联网。</p>
+
+  <h3>1. 快手的"老铁经济学"</h3>
+  <ul>
+    <li>2011 年程一笑做 GIF 工具"GIF 快手"</li>
+    <li>2013 宿华加入，转型短视频社交</li>
+    <li>"普惠"算法——流量平均分配，三四线农村为主</li>
+    <li>"老铁双击 666"成为亚文化符号</li>
+  </ul>
+
+  <h3>2. 抖音的"音乐+滤镜+算法"</h3>
+  <ul>
+    <li>2016-9 抖音上线（前身 A.me）</li>
+    <li>2017 邀约明星岳云鹏、关晓彤入驻引爆</li>
+    <li>2018 春节登顶 App Store；DAU 突破 4 亿</li>
+    <li>用大力出奇迹的商业化效率（DOU+/巨量引擎）赢得广告主</li>
+  </ul>
+
+  <h3>3. 价值观差异</h3>
+  <table>
+    <tr><th>维度</th><th>抖音</th><th>快手</th></tr>
+    <tr><td>分发</td><td>头部加权</td><td>普惠均分</td></tr>
+    <tr><td>用户层</td><td>一二线</td><td>三四五线 + 东北/华北</td></tr>
+    <tr><td>创作者</td><td>MCN 机构化</td><td>个体老铁化</td></tr>
+    <tr><td>文化基调</td><td>潮酷精致</td><td>真实接地</td></tr>
+  </table>
+
+  <h3>4. 出海与 TikTok</h3>
+  <ul>
+    <li>2017 收购 Musical.ly，全球品牌统一为 TikTok</li>
+    <li>2018-2019 连续登顶全球 App Store 下载榜</li>
+    <li>2020 美国"封禁危机"——特朗普行政令、字节-甲骨文-沃尔玛交易拉锯</li>
+  </ul>
+</section>
+
+<section id="newretail">
+  <h2>⑬ 新零售 — "线上+线下"的第三种解法</h2>
+  <p class="lead">2016 年云栖大会马云提出"新零售"。线上电商遇增长瓶颈，线下迎来数字化重构。</p>
+  <ul>
+    <li><b>盒马鲜生</b>（侯毅）：餐厅+超市+前置仓，3 公里 30 分钟达</li>
+    <li><b>每日优鲜、叮咚买菜</b>：纯前置仓生鲜电商</li>
+    <li><b>瑞幸咖啡</b>（陆正耀，钱治亚）：2017 创立，2019-5 纳斯达克 IPO，2020-4 财务造假退市</li>
+    <li><b>苏宁、永辉、大润发</b>被阿里腾讯收编</li>
+    <li><b>无人货架/无人便利店</b>（猩便利、缤果盒子）昙花一现</li>
+  </ul>
+
+  <h3>启示</h3>
+  <p>新零售证明了"线上+线下"不是简单加法。盒马、瑞幸的高估值/造假并存，揭示了电商红利消退后资本短期主义的扭曲。</p>
+</section>
+
+<section id="pdd">
+  <h2>⑭ 拼多多崛起 — 农村包围城市的现代版</h2>
+  <p class="lead">3 年从 0 到上市，用社交裂变 + 极致下沉，把电商市场撕开第三极。</p>
+
+  <h3>1. 黄峥的轨迹</h3>
+  <ul>
+    <li>浙大本科+威斯康星硕士，段永平的"小弟"</li>
+    <li>2007 加入 Google 中国，做过电商欧酷网、代运营乐其</li>
+    <li>2015 创办拼好货（生鲜）、2016 合并为拼多多</li>
+  </ul>
+
+  <h3>2. 杀手锏</h3>
+  <ol>
+    <li><b>拼团裂变</b>：低价拉两人成团，转发即下单</li>
+    <li><b>微信社交链</b>：以小程序 + 公众号为主载体，避开 App Store</li>
+    <li><b>下沉市场</b>：广东到东北、城乡到县镇</li>
+    <li><b>百亿补贴</b>（2019）：用 iPhone、戴森反攻一二线，破"假货"标签</li>
+  </ol>
+
+  <h3>3. 上市后</h3>
+  <ul>
+    <li>2018-7 纳斯达克上市，市值 240 亿美元</li>
+    <li>2019 阿里推出"聚划算"反击；京东推出"京喜"</li>
+    <li>2021 用户数超阿里成为中国最大电商（按年度活跃买家）</li>
+    <li>2020 黄峥卸任 CEO，将股权设立科学慈善基金</li>
+  </ul>
+</section>
+
+<section id="knowledge">
+  <h2>⑮ 知识付费与中视频</h2>
+  <p class="lead">2016 是知识付费元年——罗辑思维、得到、知乎 Live、喜马拉雅、樊登读书……</p>
+
+  <h3>玩家与脉络</h3>
+  <ul>
+    <li><b>罗振宇</b>：2012 起《罗辑思维》微信公众号；2015 推"得到"App，李笑来、薛兆丰、万维钢、宁向东等专栏</li>
+    <li><b>知乎</b>：2010 黄继新/张亮/周源创办；2016 推"值乎/知乎 Live"；2021 美股 IPO</li>
+    <li><b>喜马拉雅、蜻蜓 FM、荔枝 FM</b>：音频赛道</li>
+    <li><b>樊登读书会</b>：以"讲书"切中年用户</li>
+  </ul>
+
+  <h3>中视频（10-30 分钟）</h3>
+  <ul>
+    <li>B 站从 ACGN 走向中视频核心，2018 美股上市</li>
+    <li>西瓜视频"中视频伙伴计划"（2020）正式提出概念</li>
+    <li>李子柒、何同学等创作者代表内容工业化新阶段</li>
+  </ul>
+</section>
+
+<section id="edu">
+  <h2>⑯ 在线教育大战 — 烧得最快、死得最快</h2>
+  <p class="lead">2018-2021 在线教育超千亿融资，2021-7 "双减"政策一键归零。</p>
+
+  <h3>玩家</h3>
+  <table>
+    <tr><th>公司</th><th>背景</th><th>命运</th></tr>
+    <tr><td>猿辅导</td><td>李勇/帅科，前网易</td><td>2020 融资 35 亿美元，估值 220 亿</td></tr>
+    <tr><td>作业帮</td><td>侯建彬，前百度</td><td>用户最大，2021-1 估值 110 亿</td></tr>
+    <tr><td>VIPKID</td><td>米雯娟</td><td>北美外教 1v1，2018 后疲态</td></tr>
+    <tr><td>跟谁学/高途</td><td>陈向东，前新东方</td><td>2019 港 IPO，2020 浑水做空</td></tr>
+    <tr><td>好未来 新东方在线</td><td>张邦鑫 / 俞敏洪</td><td>双减后业务巨变，俞转直播带货东方甄选</td></tr>
+  </table>
+
+  <h3>启示</h3>
+  <p>当一个赛道靠"投放即收入"狂奔，监管随时可能把整个估值清零。教育赛道的塌方是 2021 年中概股集体大跌的导火索之一。</p>
+</section>
+
+<section id="chain">
+  <h2>⑰ 区块链与币圈 — 平行的赛博江湖</h2>
+  <p class="lead">2013、2017、2020 三次牛熊。书中以独立章节梳理"币圈三大派系"。</p>
+
+  <h3>三大派</h3>
+  <ul>
+    <li><b>交易所派</b>：李林（火币）、徐明星（OK）、赵长鹏（币安出海）</li>
+    <li><b>项目派</b>：李笑来（EOS、ICO 发起者）、孙宇晨（波场，"3000 万拍下巴菲特午餐"）</li>
+    <li><b>矿圈</b>：吴忌寒、詹克团（比特大陆）、烤猫（早期失败）</li>
+  </ul>
+
+  <h3>关键节点</h3>
+  <ul>
+    <li>2013 比特币首次破 1000 美元</li>
+    <li>2017 ICO 大潮，9-4 中国一刀切监管</li>
+    <li>2018 比特大陆港 IPO 折戟，吴詹之争</li>
+    <li>2019 习近平讲话："把区块链作为核心技术自主创新重要突破口"</li>
+    <li>2021 中国全面禁止挖矿与交易</li>
+  </ul>
+</section>
+
+<section id="oversea">
+  <h2>⑱ 出海与 TikTok — 中国互联网的海外胜利</h2>
+  <p class="lead">第一次有中国互联网产品在欧美主流市场建立心智。</p>
+
+  <h3>主要出海路径</h3>
+  <ul>
+    <li><b>工具出海</b>：猎豹（傅盛）、UC、APUS、茄子快传——一代靠 Google Play 套利</li>
+    <li><b>电商出海</b>：阿里速卖通、SHEIN、Anker、跨境品牌</li>
+    <li><b>游戏出海</b>：三七、莉莉丝、米哈游（《原神》全球爆款）</li>
+    <li><b>内容出海</b>：TikTok、Likee（YY/欢聚）、Bigo Live</li>
+  </ul>
+
+  <h3>TikTok 的全球化</h3>
+  <ul>
+    <li>2017 字节收购 Musical.ly</li>
+    <li>2018 印度市场登顶；2019 美国 5000 万 DAU</li>
+    <li>2020-7 特朗普签署封禁令，TikTok 与甲骨文/沃尔玛拟成立 TikTok Global</li>
+    <li>2020-11 拜登当选后封禁案搁置；TikTok 持续在美增长</li>
+  </ul>
+</section>
+
+<section id="anti">
+  <h2>⑲ 反垄断转折 — 2020 这一年</h2>
+  <p class="lead">11-3 蚂蚁暂停 + 12-14 阿里反垄断立案 + 12-24 蚂蚁约谈 → 移动互联网野蛮生长十年正式收场。</p>
+
+  <h3>关键事件</h3>
+  <ol>
+    <li>2020-10-24 马云外滩演讲，批评监管"当铺思维"</li>
+    <li>2020-11-3 蚂蚁科创板/H 股 IPO 暂停</li>
+    <li>2020-11-10 国家市场监管总局发布《关于平台经济领域的反垄断指南（征求意见稿）》</li>
+    <li>2020-12-14 阿里因"二选一"被立案调查</li>
+    <li>2021-4-10 阿里被罚 182 亿元；7-7 滴滴被网络安全审查；7-24 双减落地</li>
+  </ol>
+
+  <h3>书的判断</h3>
+  <p>2020 年是"沸腾的句号"——技术红利、流量红利、人口红利同时见顶；监管政策从"包容审慎"切换到"规范发展"。十年终结，下一段历史以"硬科技、共同富裕、新基建"为关键词开启。</p>
+</section>
+
+<section id="players">
+  <h2>👥 关键人物群像</h2>
+  <p class="lead">把书中反复出现的主角集中起来。</p>
+  <div class="grid cols-3">
+    <div class="card"><h4>马化腾</h4><p>3Q 战后觉醒，"开放+投资"成腾讯第二战略；微信定义国民应用。</p></div>
+    <div class="card"><h4>马云</h4><p>移动支付、新零售、阿里云三大棋；2019 退休、2020 外滩演讲转折。</p></div>
+    <div class="card"><h4>李彦宏</h4><p>错失移动入口，All in AI 转身；糯米、外卖业务相继折戟。</p></div>
+    <div class="card"><h4>张小龙</h4><p>"克制"哲学的代表；微信、公众号、小程序、视频号四个平台叠加。</p></div>
+    <div class="card"><h4>雷军</h4><p>"风口论"+"互联网手机"；从神坛到低谷再到 IoT 第二曲线。</p></div>
+    <div class="card"><h4>王兴</h4><p>千团大战胜者；"四纵三横"、"长期有耐心"；美团成为生活服务超级 App。</p></div>
+    <div class="card"><h4>程维</h4><p>滴滴吞快的、Uber 中国；从英雄到 2018 安全危机。</p></div>
+    <div class="card"><h4>张一鸣</h4><p>"App 工厂"、算法分发、字节跳动出海；2021 退休。</p></div>
+    <div class="card"><h4>黄峥</h4><p>段永平门徒；3 年成就拼多多 IPO；隐退做基础研究。</p></div>
+    <div class="card"><h4>戴威 / 胡玮炜</h4><p>共享单车两大对照样本——理想坚持 vs 资本套现。</p></div>
+    <div class="card"><h4>周鸿祎</h4><p>360 创始人，3Q 大战、回归 A 股；屡战屡败屡战。</p></div>
+    <div class="card"><h4>罗永浩</h4><p>锤子科技/直播带货；情怀创业的代表，多次"真还传"。</p></div>
+    <div class="card"><h4>朱啸虎 / 沈南鹏</h4><p>金沙江、红杉——VC 视角的两极：早期高赔率 vs 全产业布局。</p></div>
+    <div class="card"><h4>陆奇</h4><p>从微软到百度，主导百度 All in AI；后启动奇绩创坛。</p></div>
+    <div class="card"><h4>胡玮炜 / 王慧文 / 阿北 / 龚海燕</h4><p>书中也用大量篇幅写"未成王者"的产品经理们。</p></div>
+  </div>
+</section>
+
+<section id="capital">
+  <h2>💰 资本与 VC 十年</h2>
+  <p class="lead">移动互联网十年，也是 VC/PE 在中国的黄金十年。</p>
+
+  <h3>头部机构</h3>
+  <ul>
+    <li><b>红杉中国</b>（沈南鹏）：美团、字节、京东、拼多多、唯品会、滴滴、阿里都有份</li>
+    <li><b>高瓴</b>（张磊）：京东、美团、百济神州、宁德——长期主义代表</li>
+    <li><b>IDG / 经纬 / DCM / GGV / 启明 / 真格 / 纪源</b>等</li>
+    <li><b>BAT 战略投资部</b>：腾讯投出"半个互联网"，阿里以并购整合为主</li>
+  </ul>
+
+  <h3>资本周期</h3>
+  <ol>
+    <li>2010-2013 移动互联网开启，早期 VC 主导</li>
+    <li>2014-2016 美元基金 + 人民币基金双轮，独角兽井喷</li>
+    <li>2017-2018 资金过剩，估值脱钩，Pre-IPO 套利层出</li>
+    <li>2019-2020 中概股遇冷、瑞幸暴雷、蚂蚁暂停——美元基金转向硬科技</li>
+  </ol>
+</section>
+
+<section id="patterns">
+  <h2>🧩 十年八条规律</h2>
+  <p class="lead">作者在尾声归纳，也是看完这本书最值得记住的部分。</p>
+  <ol>
+    <li><b>赛道选择 > 努力</b>：千团 vs 微博 vs 短视频，赢的从来不是最努力的</li>
+    <li><b>红利窗口只有 18 个月</b>：错过窗口意味着永远落后</li>
+    <li><b>双寡头才是中国互联网的稳定终局</b>：京东淘宝、抖音快手、腾讯网易……</li>
+    <li><b>合并是补贴战的标准结局</b>：滴滴+快的、美团+点评、58+赶集、携程+去哪儿</li>
+    <li><b>地推/线下铺量是真护城河</b>：美团、滴滴、拼多多都验证过</li>
+    <li><b>支付/账号体系是入口的入口</b>：微信支付与支付宝双边奠定一切</li>
+    <li><b>政策与监管的拐点决定生死</b>：P2P、币圈、教培三次清零证明</li>
+    <li><b>创始人意志决定上限</b>：王兴的耐心、张小龙的克制、张一鸣的算法信仰，都是不可复制的"人货场"</li>
+  </ol>
+</section>
+
+<section id="summary">
+  <h2>🪞 终章 · 沸腾之后</h2>
+  <p>2010-2020 是中国互联网史上最浓墨重彩的十年——它把 9 亿人搬到了线上，重写了零售、金融、出行、内容、教育和娱乐。</p>
+  <p>但作者在结尾发出的清醒提问是：</p>
+  <div class="quote">
+    "下一个十年，红利从哪里来？是出海？硬科技？AI？还是更深处的产业互联网？……当流量与人口红利同时见顶，'用补贴换增长'的剧本是不是该被改写？"
+  </div>
+  <p>《沸腾新十年》记录的是一个时代的青春期。读完它，是为了看清下一个十年——你站在的，是又一个 2010 年。</p>
+
+  <details>
+    <summary>📎 一句话章节速记（背诵卡）</summary>
+    <ul>
+      <li>智能手机：入口 → 小米性价比 / OV 渠道 / 华为高端</li>
+      <li>微信：克制 + 平台化（公众号→小程序→视频号）</li>
+      <li>3Q：腾讯走向开放</li>
+      <li>千团：王兴耐心 → 美团生活服务超级 App</li>
+      <li>O2O：低频高成本 → 90% 阵亡</li>
+      <li>滴滴：补贴-合并-合并 + 安全危机</li>
+      <li>支付：双雄 + 红包 + 断直连</li>
+      <li>金融：余额宝起 → P2P 暴雷 → 蚂蚁暂停</li>
+      <li>头条：算法分发挑战搜索</li>
+      <li>共享单车：押金挤兑 + 创始人故事教科书</li>
+      <li>直播：千播 → 电商直播</li>
+      <li>短视频：抖音头部 vs 快手普惠</li>
+      <li>新零售：盒马 / 瑞幸 / 前置仓</li>
+      <li>拼多多：社交裂变 + 下沉市场</li>
+      <li>知识付费：得到 + 知乎 + B 站中视频</li>
+      <li>教育：千亿融资 → 双减归零</li>
+      <li>币圈：交易所/项目/矿圈</li>
+      <li>出海：TikTok 全球第一</li>
+      <li>反垄断：2020 是终点也是新起点</li>
+    </ul>
+  </details>
+</section>
+
+<div class="footer">
+  整理自 林军 / 岑峰《沸腾新十年（上下册）》— 个人学习用 · 交互梳理 · 不代表原书全部观点 ·
+  <br>建议结合 <a href="https://shuaiqing.xyz/">shuaiqing.xyz</a> 上其他资料对照阅读
+</div>
+
+</main>
+</div>
+
+<script>
+  // 滚动同步侧栏高亮
+  const links = document.querySelectorAll('nav.side a');
+  const sections = [...document.querySelectorAll('main section')];
+  const map = new Map();
+  links.forEach(a=>{
+    const id = a.getAttribute('href').slice(1);
+    map.set(id,a);
+  });
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.remove('active'));
+        const a = map.get(e.target.id);
+        if(a) a.classList.add('active');
+      }
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  sections.forEach(s=>io.observe(s));
+
+  // 移动端点击关闭目录
+  document.querySelectorAll('nav.side a').forEach(a=>{
+    a.addEventListener('click',()=>{
+      if(window.innerWidth<=900) document.querySelector('nav.side').classList.remove('open');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>shuaiqing.xyz — Personal Knowledge Base</title>
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-soft:#fafafa;
+    --ink:#0a0a0a;
+    --ink-2:#404040;
+    --muted:#737373;
+    --muted-2:#a3a3a3;
+    --line:#ededed;
+    --line-strong:#d4d4d4;
+    --accent:#0066ff;
+    --accent-hover:#0052cc;
+    --c-quant:#2563eb;   /* blue  */
+    --c-ai:#059669;      /* green */
+    --c-phil:#7c3aed;    /* purple */
+    --c-hist:#dc2626;    /* red   */
+    --c-edu:#ea580c;     /* orange */
+    --radius:12px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  a{color:inherit;text-decoration:none}
+
+  /* ============ NAV ============ */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line)}
+  .nav-inner{max-width:1280px;margin:0 auto;padding:0 32px;height:60px;display:flex;align-items:center;gap:40px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:-0.01em}
+  .brand-logo{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,#0066ff 0%,#7c3aed 50%,#dc2626 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.72rem;font-weight:700;box-shadow:0 2px 8px rgba(0,102,255,.25)}
+  .brand em{font-weight:400;color:var(--muted);font-style:normal}
+  .nav-links{display:flex;gap:4px;margin-left:auto;margin-right:auto}
+  .nav-link{font-size:.85rem;color:var(--ink-2);padding:7px 12px;border-radius:7px;transition:background .15s}
+  .nav-link:hover{background:var(--bg-soft)}
+  .nav-link.active{background:var(--ink);color:#fff}
+  .nav-right{display:flex;gap:10px;align-items:center}
+  .nav-search{display:flex;align-items:center;gap:8px;background:var(--bg-soft);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:.82rem;color:var(--muted);min-width:220px;cursor:text;transition:border-color .15s}
+  .nav-search:hover{border-color:var(--line-strong)}
+  .nav-search kbd{margin-left:auto;font-family:"SF Mono",Menlo,Monaco,Consolas,monospace;font-size:.7rem;background:#fff;border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--muted)}
+  .btn-ghost{font-size:.82rem;padding:7px 12px;border-radius:7px;border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--ink-2);transition:border-color .15s}
+  .btn-ghost:hover{border-color:var(--line-strong)}
+
+  /* ============ HERO ============ */
+  .hero{max-width:1280px;margin:0 auto;padding:84px 32px 72px;text-align:center;position:relative}
+  .hero-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+  .hero-bg::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse at center,rgba(124,58,237,.10),rgba(0,102,255,.08) 40%,transparent 70%);filter:blur(10px)}
+  .hero-bg::after{content:'';position:absolute;inset:0;background-image:
+    linear-gradient(rgba(0,0,0,0.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,0.035) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%);
+    -webkit-mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%)}
+  .hero-content{position:relative;z-index:1}
+  .hero-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;background:#fff;border:1px solid var(--line);border-radius:20px;font-size:.78rem;color:var(--ink-2);margin-bottom:28px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .hero-pill .emoji{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#0066ff,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#fff;font-weight:600}
+  .hero-pill .arrow{color:var(--muted-2);transition:transform .2s}
+  .hero-pill:hover .arrow{transform:translateX(2px);color:var(--ink)}
+  h1{font-size:clamp(2.4rem,5vw,4.2rem);font-weight:600;line-height:1.05;letter-spacing:-0.035em;margin-bottom:24px;max-width:900px;margin-left:auto;margin-right:auto}
+  h1 .gradient{background:linear-gradient(120deg,#0066ff 0%,#7c3aed 50%,#dc2626 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero-sub{font-size:1.15rem;color:var(--muted);line-height:1.55;max-width:620px;margin:0 auto 36px;font-weight:400}
+  .hero-cta{display:inline-flex;gap:10px}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;padding:11px 18px;border-radius:8px;font-size:.88rem;font-weight:500;transition:transform .15s,background .15s}
+  .btn-primary:hover{background:#222;transform:translateY(-1px)}
+  .btn-secondary{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);color:var(--ink);padding:10px 18px;border-radius:8px;font-size:.88rem;font-weight:500;transition:border-color .15s}
+  .btn-secondary:hover{border-color:var(--line-strong)}
+
+  .hero-stats{display:flex;justify-content:center;gap:48px;margin-top:56px;padding-top:32px;border-top:1px solid var(--line)}
+  .stat b{font-size:1.6rem;font-weight:600;letter-spacing:-0.02em;display:block}
+  .stat span{font-size:.78rem;color:var(--muted);letter-spacing:.04em;margin-top:2px;display:block}
+
+  /* ============ CATEGORY TABS ============ */
+  .container{max-width:1280px;margin:0 auto;padding:0 32px}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;gap:24px;flex-wrap:wrap}
+  .section-title{font-size:1.6rem;font-weight:600;letter-spacing:-0.02em}
+  .section-title span{color:var(--muted);font-weight:400;margin-left:10px;font-size:1rem}
+  .section-sub{font-size:.88rem;color:var(--muted);margin-top:4px}
+
+  .cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--line);overflow-x:auto}
+  .cat-tab{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:.85rem;color:var(--ink-2);cursor:pointer;transition:all .15s;white-space:nowrap}
+  .cat-tab:hover{border-color:var(--line-strong);transform:translateY(-1px)}
+  .cat-tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .cat-tab .cat-dot{width:7px;height:7px;border-radius:50%;background:var(--muted-2)}
+  .cat-tab .count{font-family:"SF Mono",Menlo,Monaco,Consolas,monospace;font-size:.72rem;color:var(--muted-2);margin-left:2px}
+  .cat-tab.active .count{color:rgba(255,255,255,.6)}
+  .cat-tab[data-c="quant"] .cat-dot{background:var(--c-quant)}
+  .cat-tab[data-c="ai"] .cat-dot{background:var(--c-ai)}
+  .cat-tab[data-c="phil"] .cat-dot{background:var(--c-phil)}
+  .cat-tab[data-c="hist"] .cat-dot{background:var(--c-hist)}
+  .cat-tab[data-c="edu"] .cat-dot{background:var(--c-edu)}
+
+  /* ============ GRID ============ */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:80px}
+  .card{position:relative;background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .25s ease,box-shadow .25s ease,border-color .25s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-3px);box-shadow:0 20px 40px -20px rgba(0,0,0,.12),0 4px 12px -4px rgba(0,0,0,.05);border-color:var(--line-strong)}
+  .card-media{aspect-ratio:16/10;position:relative;overflow:hidden;background:var(--bg-soft)}
+  .card-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+  .card:hover .card-media img{transform:scale(1.05)}
+  .card-media .cat-badge{position:absolute;top:12px;left:12px;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border:1px solid rgba(0,0,0,.04);padding:4px 9px;border-radius:20px;font-size:.7rem;font-weight:500;color:var(--ink);z-index:2}
+  .card-media .cat-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+  .cat-quant{color:var(--c-quant)!important}
+  .cat-ai{color:var(--c-ai)!important}
+  .cat-phil{color:var(--c-phil)!important}
+  .cat-hist{color:var(--c-hist)!important}
+  .cat-edu{color:var(--c-edu)!important}
+  .card-media .cat-badge span{color:var(--ink)!important}
+
+  .card-body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .card-title{font-size:1.05rem;font-weight:600;letter-spacing:-0.015em;line-height:1.35}
+  .card-desc{font-size:.85rem;color:var(--muted);line-height:1.55;flex:1}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;padding-top:12px;margin-top:4px;border-top:1px solid var(--line);font-size:.75rem;color:var(--muted)}
+  .card-foot .meta{display:flex;gap:10px;align-items:center;font-family:"SF Mono",Menlo,Monaco,Consolas,monospace}
+  .card-foot .arrow{width:26px;height:26px;border-radius:50%;background:var(--bg-soft);display:flex;align-items:center;justify-content:center;color:var(--ink-2);transition:all .2s}
+  .card:hover .card-foot .arrow{background:var(--ink);color:#fff;transform:translateX(2px)}
+
+  /* ============ FOOTER ============ */
+  footer{border-top:1px solid var(--line);padding:40px 32px;background:var(--bg-soft)}
+  .footer-inner{max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:.82rem;color:var(--muted);flex-wrap:wrap;gap:16px}
+  .footer-inner .left{display:flex;align-items:center;gap:10px}
+  .footer-inner a{color:var(--ink-2)}
+  .footer-inner a:hover{color:var(--accent)}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .nav-inner{padding:0 20px;gap:16px;overflow-x:auto}
+    .nav-links{display:none}
+    .nav-search{display:none}
+    .container{padding:0 20px}
+    .hero{padding:56px 20px 48px}
+    .hero-stats{gap:28px;flex-wrap:wrap}
+    .grid{grid-template-columns:1fr;gap:16px}
+  }
+  @media (min-width:901px) and (max-width:1200px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="/">
+      <span class="brand-logo">SQ</span>
+      shuaiqing<em>.xyz</em>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link active" href="#all">全部</a>
+      <a class="nav-link" href="#quant">量化金融</a>
+      <a class="nav-link" href="#ai">AI · 技术</a>
+      <a class="nav-link" href="#phil">哲学 · 逻辑</a>
+      <a class="nav-link" href="#hist">历史 · 经典</a>
+      <a class="nav-link" href="#edu">学习方法</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <span>搜索文章…</span>
+        <kbd>⌘K</kbd>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <a class="hero-pill" href="#llm">
+      <span class="emoji">✦</span>
+      <span>新增：LLM 大语言模型全景解析</span>
+      <span class="arrow">→</span>
+    </a>
+    <h1>一个不断生长的<br><span class="gradient">个人知识库</span>。</h1>
+    <p class="hero-sub">
+      量化金融、AI 前沿、哲学逻辑、历史经典与学习方法 —— 持续更新的阅读笔记与交互式知识工具。
+    </p>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#all">
+        浏览全部文库
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+      </a>
+      <a class="btn-secondary" href="#ai">精选：AI 系列</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><b>07</b><span>Articles</span></div>
+      <div class="stat"><b>05</b><span>Categories</span></div>
+      <div class="stat"><b>1.4 MB</b><span>Total</span></div>
+      <div class="stat"><b>∞</b><span>Updating</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ALL ARTICLES -->
+<section class="container" id="all">
+  <div class="section-head">
+    <div>
+      <div class="section-title">全部文章 <span>· All entries</span></div>
+      <div class="section-sub">按分类筛选，点击卡片阅读</div>
+    </div>
+  </div>
+
+  <div class="cat-tabs">
+    <div class="cat-tab active"><span class="cat-dot"></span>全部<span class="count">7</span></div>
+    <div class="cat-tab" data-c="quant"><span class="cat-dot"></span>量化金融<span class="count">1</span></div>
+    <div class="cat-tab" data-c="ai"><span class="cat-dot"></span>AI · 技术<span class="count">1</span></div>
+    <div class="cat-tab" data-c="phil"><span class="cat-dot"></span>哲学 · 逻辑<span class="count">1</span></div>
+    <div class="cat-tab" data-c="hist"><span class="cat-dot"></span>历史 · 经典<span class="count">1</span></div>
+    <div class="cat-tab" data-c="edu"><span class="cat-dot"></span>学习方法<span class="count">2</span></div>
+  </div>
+
+  <div class="grid">
+
+    <a class="card" href="llm-guide.html">
+      <div class="card-media">
+        <span class="cat-badge cat-ai"><span>AI · 技术</span></span>
+        <img src="img/ai.jpg" alt="">
+      </div>
+      <div class="card-body">
+        <div class="card-title">LLM 大语言模型全景解析</div>
+        <div class="card-desc">全面解析大语言模型的工作原理、架构演进、应用范式与前沿进展。</div>
+        <div class="card-foot">
+          <div class="meta"><span>344 KB</span><span>·</span><span>Apr 2026</span></div>
+          <div class="arrow">→</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="quant_system_guide.html">
+      <div class="card-media">
+        <span class="cat-badge cat-quant"><span>量化金融</span></span>
+        <img src="img/quant.jpg" alt="">
+      </div>
+      <div class="card-body">
+        <div class="card-title">量化交易系统全景指南</div>
+        <div class="card-desc">从策略研发到实盘部署，系统化梳理量化交易的核心概念、技术架构与实战框架。</div>
+        <div class="card-foot">
+          <div class="meta"><span>61 KB</span><span>·</span><span>Apr 2026</span></div>
+          <div class="arrow">→</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="logic-books-reader.html">
+      <div class="card-media">
+        <span class="cat-badge cat-phil"><span>哲学 · 逻辑</span></span>
+        <img src="img/phil.jpg" alt="">
+      </div>
+      <div class="card-body">
+        <div class="card-title">逻辑学双典精读 · 交互版</div>
+        <div class="card-desc">维特根斯坦《逻辑哲学论》与《简单逻辑学》双书精读，交互式笔记与概念索引。</div>
+        <div class="card-foot">
+          <div class="meta"><span>70 KB</span><span>·</span><span>Apr 2026</span></div>
+          <div class="arrow">→</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="maozedong-xuanji.html">
+      <div class="card-media">
+        <span class="cat-badge cat-hist"><span>历史 · 经典</span></span>
+        <img src="img/hist.jpg" alt="">
+      </div>
+      <div class="card-body">
+        <div class="card-title">毛泽东选集 · 交互学习版</div>
+        <div class="card-desc">第一至四卷全文，含历史背景、核心摘要与经典金句，支持搜索、标签分类与阅读进度记录。</div>
+        <div class="card-foot">
+          <div class="meta"><span>382 KB</span><span>·</span><span>Apr 2026</span></div>
+          <div class="arrow">→</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="learning-guide.html">
+      <div class="card-media">
+        <span class="cat-badge cat-edu"><span>学习方法</span></span>
+        <img src="img/learn.jpg" alt="">
+      </div>
+      <div class="card-body">
+        <div class="card-title">高效学习指南</div>
+        <div class="card-desc">让知识真正留下来——系统化的学习策略、记忆方法与知识内化技巧。</div>
+        <div class="card-foot">
+          <div class="meta"><span>170 KB</span><span>·</span><span>Apr 2026</span></div>
+          <div class="arrow">→</div>
+        </div>
+      </div>
+    </a>
+
+    <a class="card" href="tongshi-jiaoyu.html">
+      <div class="card-media">
+        <span class="cat-badge cat-edu"><span>学习方法</span></span>
+        <img src="img/edu.jpg" alt="">
+      </div>
+      <div class="card-body">
+        <div class="card-title">通识教育</div>
+        <div class="card-desc">教育课程相关知识整理与学习资源汇总，帮助学习者系统掌握课程内容。</div>
+        <div class="card-foot">
+          <div class="meta"><span>324 KB</span><span>·</span><span>Apr 2026</span></div>
+          <div class="arrow">→</div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="left">
+      <span class="brand-logo">SQ</span>
+      <span>© 2026 shuaiqing.xyz</span>
+    </div>
+    <div>
+      <a href="#all">文库</a> · <a href="#ai">AI</a> · <a href="#quant">量化</a> · <a href="#phil">哲学</a> · <a href="#hist">历史</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Simple tab filter (client-side demo)
+  const tabs = document.querySelectorAll('.cat-tab');
+  const cards = document.querySelectorAll('.grid .card');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const c = tab.dataset.c;
+      cards.forEach(card => {
+        const badge = card.querySelector('.cat-badge');
+        const match = !c || badge.classList.contains('cat-' + c);
+        card.style.display = match ? '' : 'none';
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LLM 延伸阅读：Token 成本 · Agent · Skills</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0a0f1e;--bg2:#0f1729;--card:#111a2e;--border:#1f2a44;
+    --fg:#e5e7eb;--muted:#94a3b8;--dim:#64748b;
+    --blue:#60a5fa;--purple:#a78bfa;--pink:#f472b6;--green:#34d399;
+    --orange:#fb923c;--yellow:#fbbf24;--red:#f87171;
+  }
+  html,body{background:var(--bg);color:var(--fg);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",ui-sans-serif,system-ui,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+  body{background:radial-gradient(ellipse at top,#1a2547 0%,var(--bg) 50%) no-repeat;min-height:100vh}
+  .wrap{max-width:880px;margin:0 auto;padding:60px 24px 100px}
+  header.hero{text-align:center;margin-bottom:80px}
+  header.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;background:linear-gradient(90deg,var(--blue),var(--purple),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.02em;line-height:1.2;margin-bottom:18px}
+  header.hero p{color:var(--muted);font-size:1.1rem;max-width:600px;margin:0 auto}
+  header.hero .back{display:inline-block;margin-top:24px;color:var(--blue);text-decoration:none;font-size:.9rem;border:1px solid var(--border);padding:8px 16px;border-radius:8px;transition:all .2s}
+  header.hero .back:hover{background:var(--card);border-color:var(--blue)}
+
+  nav.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:60px}
+  nav.toc strong{color:var(--purple);font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:12px}
+  nav.toc ol{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}
+  nav.toc li{counter-increment:toc}
+  nav.toc a{color:var(--fg);text-decoration:none;display:block;padding:8px 12px;border-radius:8px;transition:background .15s;font-size:.95rem}
+  nav.toc a::before{content:"0" counter(toc);color:var(--dim);font-variant-numeric:tabular-nums;margin-right:10px;font-size:.85rem}
+  nav.toc ol{counter-reset:toc}
+  nav.toc a:hover{background:var(--bg2);color:var(--blue)}
+
+  section{margin-bottom:80px;scroll-margin-top:24px}
+  section .tag{display:inline-block;font-size:.75rem;color:var(--purple);background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);padding:4px 10px;border-radius:999px;margin-bottom:16px;letter-spacing:.05em}
+  section h2{font-size:2rem;font-weight:800;margin-bottom:14px;letter-spacing:-.01em}
+  section .sub{color:var(--muted);font-size:1.05rem;margin-bottom:36px}
+  section h3{font-size:1.3rem;font-weight:700;margin:36px 0 14px;color:#fff;display:flex;align-items:center;gap:10px}
+  section h3 .num{color:var(--blue);font-variant-numeric:tabular-nums;font-size:.95rem;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3);padding:2px 10px;border-radius:6px;font-weight:600}
+  section h4{font-size:1.05rem;font-weight:700;margin:22px 0 10px;color:#fff}
+  section p{color:#cbd5e1;margin-bottom:14px}
+  section p strong, section li strong{color:#fff;font-weight:700}
+  section ul,section ol{padding-left:24px;margin-bottom:16px;color:#cbd5e1}
+  section li{margin-bottom:6px}
+  section code{background:#1a2540;color:#fbbf24;padding:2px 6px;border-radius:4px;font-size:.88em;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin:20px 0}
+  .card.accent-blue{border-left:3px solid var(--blue)}
+  .card.accent-purple{border-left:3px solid var(--purple)}
+  .card.accent-green{border-left:3px solid var(--green)}
+  .card.accent-orange{border-left:3px solid var(--orange)}
+  .card h4:first-child{margin-top:0}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:20px 0}
+  .grid .card{margin:0}
+
+  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.95rem;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border)}
+  th{background:#152040;color:var(--purple);font-weight:600;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em}
+  tr:last-child td{border-bottom:none}
+  td:first-child{font-weight:600;color:#fff}
+
+  pre{background:#06090f;border:1px solid var(--border);border-radius:10px;padding:18px 20px;overflow-x:auto;margin:16px 0;font-size:.85rem;line-height:1.65}
+  pre code{background:transparent;color:#e5e7eb;padding:0;font-size:inherit}
+  .kw{color:#c084fc}.str{color:#86efac}.cm{color:#64748b;font-style:italic}.fn{color:#60a5fa}.num{color:#fbbf24}
+
+  blockquote{border-left:3px solid var(--blue);background:rgba(96,165,250,.06);padding:14px 20px;border-radius:0 8px 8px 0;color:#cbd5e1;margin:18px 0}
+  blockquote strong{color:var(--blue)}
+
+  hr{border:none;border-top:1px solid var(--border);margin:50px 0}
+
+  footer{text-align:center;color:var(--dim);font-size:.85rem;padding:40px 0 0;border-top:1px solid var(--border)}
+  footer p{margin-bottom:6px}
+
+  /* tables / code overflow protection */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:20px 0}
+  .table-wrap table{margin:0;min-width:480px}
+
+  @media(max-width:768px){
+    .wrap{padding:32px 16px 60px}
+    header.hero{margin-bottom:50px}
+    header.hero h1{font-size:1.9rem}
+    header.hero p{font-size:.95rem}
+    nav.toc{padding:16px 18px;margin-bottom:40px}
+    nav.toc ol{grid-template-columns:1fr;gap:4px}
+    nav.toc a{font-size:.92rem;padding:10px 12px}
+    section{margin-bottom:56px}
+    section h2{font-size:1.55rem;line-height:1.3}
+    section .sub{font-size:.95rem;margin-bottom:28px}
+    section h3{font-size:1.12rem;margin:28px 0 12px;flex-wrap:wrap}
+    section h3 .num{font-size:.8rem}
+    section h4{font-size:1rem}
+    section p,section li{font-size:.95rem}
+    .card{padding:18px 16px;margin:14px 0}
+    .grid{grid-template-columns:1fr;gap:12px}
+    table{font-size:.85rem}
+    th,td{padding:10px 12px}
+    pre{padding:14px 14px;font-size:.78rem;border-radius:8px}
+    blockquote{padding:12px 14px;font-size:.95rem}
+    hr{margin:36px 0}
+  }
+  @media(max-width:420px){
+    header.hero h1{font-size:1.6rem}
+    section h2{font-size:1.35rem}
+    pre{font-size:.72rem}
+    nav.toc a::before{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>LLM 延伸阅读</h1>
+  <p>Token 成本经济学 · Agent 原理与实战 · Skills 开发指南</p>
+  <a class="back" href="llm-guide.html">← 返回主页面</a>
+</header>
+
+<nav class="toc">
+  <strong>📑 目录</strong>
+  <ol>
+    <li><a href="#token">Token 成本到底贵在哪</a></li>
+    <li><a href="#agent">Agent 是什么 / 怎么开发</a></li>
+    <li><a href="#skills">Skills 是什么 / 怎么开发</a></li>
+  </ol>
+</nav>
+
+<!-- ============ SECTION 1: TOKEN COST ============ -->
+<section id="token">
+  <span class="tag">💰 经济学视角</span>
+  <h2>Token 成本到底贵在哪</h2>
+  <p class="sub">为什么云端 AI 不是"只有电费"，也不是"边际成本递减"——一份反直觉的成本结构拆解。</p>
+
+  <h3><span class="num">01</span> 云端跑大模型，吃哪些资源</h3>
+  <div class="grid">
+    <div class="card accent-blue">
+      <h4>显存 (GPU VRAM)</h4>
+      <p>模型参数必须全部装进显存。Llama 70B (FP16) ≈ 140GB，单张 H100 才 80GB，得多卡并联。</p>
+    </div>
+    <div class="card accent-purple">
+      <h4>显存带宽</h4>
+      <p>每生成 1 个 token，要把整个模型权重从显存读一遍。带宽决定吐字速度。</p>
+    </div>
+    <div class="card accent-green">
+      <h4>KV Cache</h4>
+      <p>对话越长，缓存越大。100K token 长对话可能吃掉几十 GB 额外显存——这是长上下文贵的原因。</p>
+    </div>
+    <div class="card accent-orange">
+      <h4>电力 / 散热 / 网络</h4>
+      <p>一张 H100 满载 700W；数据中心 PUE 约 1.3；液冷、变电站、光纤——基建无底洞。</p>
+    </div>
+  </div>
+
+  <h3><span class="num">02</span> 为什么按 Token 收费</h3>
+  <p><strong>关键事实：生成是逐字进行的。</strong>大模型不是一次性吐答案，而是一个 token 一个 token 蹦。每蹦一个：把 100GB+ 权重过一遍 → 重新算注意力 → 占用 GPU 几十毫秒。</p>
+  <p>生成 1000 字回答 ≈ 做 1000 次完整模型前向计算。Token 是"消耗了多少资源"最公平的颗粒度。</p>
+
+  <blockquote>
+    <strong>Input vs Output 价格不同。</strong>输入可以并行处理 → 便宜；输出必须串行一个个吐 → 贵 3–5 倍。<br>
+    例：Claude Sonnet 输入 $3/百万，输出 $15/百万 token。
+  </blockquote>
+
+  <p><strong>上下文是平方级成本。</strong>注意力机制 O(n²)：上下文翻倍 → 计算量 4 倍。所以 200K 上下文比 10K 贵得不成比例。</p>
+
+  <h3><span class="num">03</span> 为什么没有"边际成本递减"</h3>
+  <p>传统软件多卖一份接近零成本（复制比特）。大模型不一样：</p>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>业务</th><th>边际成本</th><th>原因</th></tr></thead>
+    <tbody>
+      <tr><td>卖软件</td><td>≈ 0</td><td>复制比特免费</td></tr>
+      <tr><td>卖视频 / 搜索</td><td>很低</td><td>一份内容 / 索引服务千万人</td></tr>
+      <tr><td><strong>卖 AI Token</strong></td><td><strong>近线性</strong></td><td><strong>每次都现算，无法缓存复用</strong></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>搜索引擎能免费给你用，是因为一亿人查"天气"用的是同一份索引。AI 给你的每段话都是<strong>独一无二的现场计算</strong>，没法预存。</p>
+  <p>例外：<strong>Prompt Caching</strong>（缓存命中折扣 ~90%）——重复前缀能跳过重算，这部分确实有了边际递减效应。</p>
+
+  <h3><span class="num">04</span> 不只是电费——成本拆解</h3>
+  <p>一张 H100 满载 0.7 度电/小时 ≈ <code>$0.07</code>，加散热 ≈ <code>$0.09/小时</code>。但<strong>总持有成本</strong>：</p>
+  <div class="table-wrap">
+  <table>
+    <tbody>
+      <tr><td>折旧 (3 年摊销 $30k)</td><td>$1.00 / 小时</td></tr>
+      <tr><td>电 + 冷</td><td>$0.09 / 小时</td></tr>
+      <tr><td>数据中心摊销 + 运维</td><td>$0.30 / 小时</td></tr>
+      <tr><td>资金成本（5–8%/年）</td><td>$0.20 / 小时</td></tr>
+      <tr><td><strong>合计</strong></td><td><strong>≈ $1.6 / 小时</strong></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>电费只占总成本约 5–6%。</strong>真正贵的是硬件折旧（H100 3–4 年就过时）+ 训练研发摊销 + 资金成本。</p>
+
+  <h3><span class="num">05</span> 价格构成与未来趋势</h3>
+  <div class="card accent-blue">
+    <p>当前 token 价格里大致：</p>
+    <ul>
+      <li><strong>~5%</strong> 电费</li>
+      <li><strong>~30%</strong> 硬件折旧</li>
+      <li><strong>~40%</strong> 训练 / 研发摊销（GPT-5 训练据传花了几十亿）</li>
+      <li><strong>~25%</strong> 利润 + 风险溢价</li>
+    </ul>
+  </div>
+  <p>过去 2 年同等智能水平的 token 价格降了 ~100 倍：GPT-4 ($30) → GPT-4o ($2.5) → Haiku/Flash ($0.25–1) → 开源本地跑 (~$0)。</p>
+  <p><strong>终局</strong>：5–10 年后主流模型 token 成本可能真的逼近"电费 + 微薄折旧"；但<strong>前沿模型永远贵</strong>——总有人愿意为最聪明的那个付溢价。</p>
+</section>
+
+<hr>
+
+<!-- ============ SECTION 2: AGENT ============ -->
+<section id="agent">
+  <span class="tag">🤖 Agent 实战</span>
+  <h2>Agent 是什么，个人如何开发</h2>
+  <p class="sub">从"对话机器人"到"会自己用工具的同事"——Agent 的本质、最小可跑实现、进阶方向。</p>
+
+  <h3><span class="num">01</span> 一句话定义</h3>
+  <blockquote>
+    <strong>Agent = LLM + 工具 + 循环。</strong>模型自己决定调什么工具、读什么结果、下一步做什么，直到任务完成。
+  </blockquote>
+  <p>区别在于：</p>
+  <ul>
+    <li><strong>普通对话</strong>：你问一句，它答一句</li>
+    <li><strong>RAG</strong>：检索一次知识库后回答</li>
+    <li><strong>Workflow</strong>：开发者预先编排好的步骤链</li>
+    <li><strong>Agent</strong>：模型自主规划路径、自主停止</li>
+  </ul>
+
+  <h3><span class="num">02</span> 四个核心组件</h3>
+  <div class="grid">
+    <div class="card accent-blue"><h4>① 模型 (Brain)</h4><p>规划、决策、生成。Claude Sonnet / GPT / Gemini 都可以。</p></div>
+    <div class="card accent-purple"><h4>② 工具 (Tools)</h4><p>读文件、调 API、跑代码、查数据库——任何"动作"。</p></div>
+    <div class="card accent-green"><h4>③ 记忆 (Memory)</h4><p>对话历史、向量库、长期 notes 文件。</p></div>
+    <div class="card accent-orange"><h4>④ 循环 (Loop)</h4><p>"思考 → 调工具 → 看结果 → 再思考"，直到模型说"完成"。</p></div>
+  </div>
+
+  <h3><span class="num">03</span> 最小可跑实现（Python）</h3>
+  <p>用 Anthropic SDK，约 50 行就能跑出一个会查天气和算数的 Agent：</p>
+<pre><code><span class="kw">import</span> anthropic, json
+
+client = anthropic.Anthropic()
+
+<span class="cm"># 1. 定义工具</span>
+tools = [
+  {
+    <span class="str">"name"</span>: <span class="str">"get_weather"</span>,
+    <span class="str">"description"</span>: <span class="str">"查询某城市当前天气"</span>,
+    <span class="str">"input_schema"</span>: {
+      <span class="str">"type"</span>: <span class="str">"object"</span>,
+      <span class="str">"properties"</span>: {<span class="str">"city"</span>: {<span class="str">"type"</span>: <span class="str">"string"</span>}},
+      <span class="str">"required"</span>: [<span class="str">"city"</span>]
+    }
+  },
+  {
+    <span class="str">"name"</span>: <span class="str">"calculator"</span>,
+    <span class="str">"description"</span>: <span class="str">"计算数学表达式"</span>,
+    <span class="str">"input_schema"</span>: {
+      <span class="str">"type"</span>: <span class="str">"object"</span>,
+      <span class="str">"properties"</span>: {<span class="str">"expr"</span>: {<span class="str">"type"</span>: <span class="str">"string"</span>}},
+      <span class="str">"required"</span>: [<span class="str">"expr"</span>]
+    }
+  }
+]
+
+<span class="cm"># 2. 工具的真实执行函数</span>
+<span class="kw">def</span> <span class="fn">run_tool</span>(name, args):
+    <span class="kw">if</span> name == <span class="str">"get_weather"</span>:
+        <span class="kw">return</span> <span class="str">f"</span>{args[<span class="str">'city'</span>]}<span class="str">: 18°C 多云"</span>
+    <span class="kw">if</span> name == <span class="str">"calculator"</span>:
+        <span class="kw">return</span> <span class="kw">str</span>(<span class="fn">eval</span>(args[<span class="str">"expr"</span>]))
+
+<span class="cm"># 3. 主循环</span>
+messages = [{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"北京气温的两倍是多少度？"</span>}]
+
+<span class="kw">while</span> <span class="num">True</span>:
+    resp = client.messages.create(
+        model=<span class="str">"claude-sonnet-4-6"</span>,
+        max_tokens=<span class="num">1024</span>,
+        tools=tools,
+        messages=messages,
+    )
+    messages.append({<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: resp.content})
+
+    <span class="kw">if</span> resp.stop_reason == <span class="str">"end_turn"</span>:
+        <span class="fn">print</span>(resp.content[<span class="num">0</span>].text); <span class="kw">break</span>
+
+    <span class="cm"># 4. 模型要求调工具 → 执行 → 把结果喂回去</span>
+    tool_results = []
+    <span class="kw">for</span> block <span class="kw">in</span> resp.content:
+        <span class="kw">if</span> block.type == <span class="str">"tool_use"</span>:
+            result = <span class="fn">run_tool</span>(block.name, block.input)
+            tool_results.append({
+              <span class="str">"type"</span>: <span class="str">"tool_result"</span>,
+              <span class="str">"tool_use_id"</span>: block.id,
+              <span class="str">"content"</span>: result
+            })
+    messages.append({<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: tool_results})
+</code></pre>
+  <p>就这样——一个 Agent 的"骨架"已经完整：定义工具 → while 循环 → 模型调工具 → 把结果喂回去 → 直到 <code>end_turn</code>。</p>
+
+  <h3><span class="num">04</span> 个人开发的进阶清单</h3>
+  <div class="card accent-purple">
+    <h4>稳定性</h4>
+    <ul>
+      <li>限制最大循环次数（防止死循环烧 token）</li>
+      <li>工具失败时返回错误信息而不是抛异常——让模型有机会重试</li>
+      <li>工具输出加长度上限，避免 context 爆炸</li>
+    </ul>
+    <h4>效果</h4>
+    <ul>
+      <li>System prompt 写清楚"什么时候该用什么工具"——比工具描述更影响成功率</li>
+      <li>关键路径加 few-shot 示例</li>
+      <li>开 <strong>extended thinking</strong> 让模型先想再动</li>
+    </ul>
+    <h4>规模化</h4>
+    <ul>
+      <li>子 Agent / 多 Agent 协作（一个规划、一个执行、一个验证）</li>
+      <li>持久化 memory（向量库 / 文件 / SQLite）</li>
+      <li>人工 checkpoint：高风险动作前必须人确认</li>
+    </ul>
+  </div>
+
+  <h3><span class="num">05</span> 不用从零写 — 可用的脚手架</h3>
+  <ul>
+    <li><strong>Claude Agent SDK</strong>（Anthropic 官方）— 自带工具循环、文件系统、bash、子 Agent</li>
+    <li><strong>LangGraph</strong> — 状态机式 Agent 编排，适合复杂分支</li>
+    <li><strong>OpenAI Agents SDK</strong> — 多 Agent handoff 模式</li>
+    <li><strong>Mastra / CrewAI</strong> — TypeScript / Python 生态</li>
+  </ul>
+  <blockquote>
+    <strong>建议</strong>：第一个 Agent 用上面的 ~50 行原生写一遍——理解 tool use 循环的本质比直接套框架更重要。第二个项目再上脚手架。
+  </blockquote>
+</section>
+
+<hr>
+
+<!-- ============ SECTION 3: SKILLS ============ -->
+<section id="skills">
+  <span class="tag">🛠️ Skills 开发</span>
+  <h2>Skills 是什么，个人如何开发</h2>
+  <p class="sub">把"做某件事的最佳实践"打包成模型能按需加载的能力——比 Prompt 工程更工程化的复用方式。</p>
+
+  <h3><span class="num">01</span> Skills 解决什么问题</h3>
+  <p>过去你想让 Claude 学会"按公司规范写周报"，要么：</p>
+  <ul>
+    <li>每次粘贴一大段 system prompt（占 context、容易忘）</li>
+    <li>微调一个模型（贵、不灵活）</li>
+  </ul>
+  <p><strong>Skill</strong> 是第三条路：把这套规范写成一个文件夹，模型在<strong>需要时</strong>自己读进来用，不需要时不占 context。</p>
+  <blockquote>
+    <strong>类比</strong>：Skill 之于 LLM ≈ 函数库之于程序员。你不会把所有库都 import 进每个文件——用到再 import。Skill 也一样。
+  </blockquote>
+
+  <h3><span class="num">02</span> Skill 的物理结构</h3>
+  <p>一个 Skill 就是一个目录，至少包含一个 <code>SKILL.md</code>：</p>
+<pre><code>my-skill/
+├── SKILL.md          <span class="cm"># 必需：描述 + 触发条件 + 操作指引</span>
+├── reference.md      <span class="cm"># 可选：详细参考（按需读）</span>
+├── template.html     <span class="cm"># 可选：模板文件</span>
+└── scripts/
+    └── helper.py     <span class="cm"># 可选：工具脚本</span>
+</code></pre>
+
+  <p><code>SKILL.md</code> 头部用 YAML frontmatter 声明元数据：</p>
+<pre><code><span class="cm">---</span>
+<span class="kw">name</span>: weekly-report
+<span class="kw">description</span>: 按公司规范生成周报。当用户说"写周报""周总结"
+             "本周工作汇报"时使用。
+<span class="cm">---</span>
+
+<span class="cm"># 周报生成指引</span>
+
+<span class="cm">## 触发条件</span>
+当用户要求生成周报、周总结、周工作汇报时使用。
+
+<span class="cm">## 输出格式</span>
+1. **本周完成**（3–5 条，每条带数据）
+2. **下周计划**（按优先级排序）
+3. **风险与求助**（明确写出阻塞）
+
+<span class="cm">## 写作要求</span>
+- 每条工作必须带可量化指标（数字、百分比、链接）
+- 避免"推进""跟进""协调"等模糊动词
+- 详细规范见 reference.md
+</code></pre>
+
+  <h3><span class="num">03</span> 模型怎么"知道"该用哪个 Skill</h3>
+  <p>关键机制叫 <strong>Progressive Disclosure（渐进式暴露）</strong>：</p>
+  <ol>
+    <li>启动时，<strong>只把所有 SKILL.md 的 <code>name + description</code></strong> 加载进 context（每个 Skill 几十 token）</li>
+    <li>模型根据用户请求判断"哪个 Skill 的 description 匹配"</li>
+    <li>匹配到再读完整的 <code>SKILL.md</code> 正文</li>
+    <li>需要细节时再读 <code>reference.md</code> 等附件</li>
+  </ol>
+  <p>所以 <code>description</code> 写得好不好，决定 Skill 会不会被触发。<strong>必须包含触发场景关键词</strong>（"当用户说 X / 看到 Y 文件 / 需要做 Z 时使用"）。</p>
+
+  <h3><span class="num">04</span> 个人开发流程（Claude Code 为例）</h3>
+  <div class="card accent-green">
+    <h4>Step 1 — 选位置</h4>
+    <ul>
+      <li><strong>个人全局</strong>：<code>~/.claude/skills/my-skill/</code> 所有项目可用</li>
+      <li><strong>项目本地</strong>：<code>.claude/skills/my-skill/</code> 跟着 git 走，团队共享</li>
+    </ul>
+    <h4>Step 2 — 写 SKILL.md</h4>
+    <ul>
+      <li>name 用 kebab-case，全局唯一</li>
+      <li>description 第一句说"做什么"，第二句说"什么时候用"</li>
+      <li>正文按"前置条件 → 步骤 → 输出格式 → 边界情况"组织</li>
+    </ul>
+    <h4>Step 3 — 拆分大文件</h4>
+    <p>SKILL.md 控制在 500 行以内。详细 API 参考、长示例、模板放到独立文件，正文里写"详见 reference.md"。模型按需打开。</p>
+    <h4>Step 4 — 测试</h4>
+    <ul>
+      <li>新开会话，输入触发场景的话，看模型是否自动调用</li>
+      <li>没触发 → 改 description 加更多关键词</li>
+      <li>触发了但效果差 → 改正文，加更多约束和示例</li>
+    </ul>
+    <h4>Step 5 — 分享</h4>
+    <p>打包成 git 仓库即可。Anthropic 也有官方 <strong>anthropic-skills</strong> 仓库收录优质 Skill（pdf、xlsx、pptx、brand-guidelines 等）。</p>
+  </div>
+
+  <h3><span class="num">05</span> 一个真实可用的最小 Skill</h3>
+  <p>新建 <code>~/.claude/skills/commit-message/SKILL.md</code>：</p>
+<pre><code><span class="cm">---</span>
+<span class="kw">name</span>: commit-message
+<span class="kw">description</span>: 生成 Conventional Commits 规范的提交信息。
+             当用户要求"写 commit message""生成提交信息"
+             或运行 git diff 后想提交时使用。
+<span class="cm">---</span>
+
+<span class="cm"># Conventional Commits 生成指引</span>
+
+<span class="cm">## 格式</span>
+&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;
+
+&lt;body&gt;
+
+<span class="cm">## type 取值</span>
+feat / fix / docs / style / refactor / perf / test / chore
+
+<span class="cm">## 规则</span>
+1. subject 用祈使句，小写开头，不超过 50 字符
+2. 重点写"为什么"，不是"做了什么"——diff 已经能看出 what
+3. break change 在 footer 加 BREAKING CHANGE: 前缀
+4. 不写 "update code" "fix bug" 这种空话
+
+<span class="cm">## 流程</span>
+1. 先 git diff 看改动
+2. 判断主要变更类型
+3. 用一句话总结意图
+4. 输出符合格式的 commit message
+</code></pre>
+  <p>放好后下次说"帮我写个 commit message"，Claude 就会自动遵循这套规范。</p>
+
+  <h3><span class="num">06</span> Skills vs Agents vs MCP — 别搞混</h3>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>概念</th><th>本质</th><th>解决什么</th></tr></thead>
+    <tbody>
+      <tr><td>Prompt</td><td>一段文字</td><td>告诉模型当下做什么</td></tr>
+      <tr><td><strong>Skill</strong></td><td>可按需加载的<strong>知识包</strong></td><td>"该怎么做某件事"的最佳实践复用</td></tr>
+      <tr><td><strong>Tool / MCP</strong></td><td>可执行的<strong>动作接口</strong></td><td>让模型连接外部系统（数据库、API、文件）</td></tr>
+      <tr><td><strong>Agent</strong></td><td>模型 + 工具 + 循环</td><td>自主完成多步任务的实体</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>一个完整的 Agent 系统 = <strong>模型</strong>（大脑）+ <strong>MCP/Tool</strong>（手脚）+ <strong>Skills</strong>（专业知识手册）+ <strong>Loop</strong>（行动力）。</p>
+
+</section>
+
+<footer>
+  <p>📖 LLM 延伸阅读 · 与 <a href="llm-guide.html" style="color:var(--blue);text-decoration:none">主指南</a> 配套</p>
+  <p>本页为静态长文，内容截至 2026年4月</p>
+</footer>
+
+</div>
+</body>
+</html>
