@@ -24,7 +24,7 @@
     --radius:12px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;scroll-padding-top:76px}
   body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   a{color:inherit;text-decoration:none}
 
@@ -131,8 +131,33 @@
     .nav-search{display:none}
     .container{padding:0 20px}
     .hero{padding:56px 20px 48px}
-    .hero-stats{gap:28px;flex-wrap:wrap}
+    h1{font-size:clamp(2rem,9vw,2.6rem)}
+    .hero-sub{font-size:1rem}
+    .hero-stats{gap:24px;flex-wrap:wrap}
+    .stat b{font-size:1.3rem}
     .grid{grid-template-columns:1fr;gap:16px}
+    .section-head{margin-bottom:12px;align-items:flex-start}
+    .section-title{font-size:1.25rem}
+
+    /* Sticky filter bar under nav — fixes "menu vs content" conflict on mobile */
+    .cat-tabs{
+      position:sticky;
+      top:59px;
+      z-index:40;
+      flex-wrap:nowrap;
+      overflow-x:auto;
+      overflow-y:hidden;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+      margin:0 -20px 24px;
+      padding:12px 20px;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:saturate(180%) blur(16px);
+      border-bottom:1px solid var(--line);
+      gap:6px;
+    }
+    .cat-tabs::-webkit-scrollbar{display:none}
+    .cat-tab{flex-shrink:0;padding:7px 12px;font-size:.82rem}
   }
   @media (min-width:901px) and (max-width:1200px){
     .grid{grid-template-columns:repeat(2,1fr)}
