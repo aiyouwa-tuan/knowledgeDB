@@ -555,41 +555,44 @@
 </style>
 </head>
 <body>
-<!-- shuaiqing.xyz home button (injected v1.2.0) -->
+<!-- shuaiqing.xyz home button (injected v1.2.1) -->
 <style id="sq-home-btn-style">
-  .sq-home-btn{
-    position:fixed;top:16px;left:16px;z-index:99999;
-    display:inline-flex;align-items:center;gap:7px;
-    padding:7px 13px 7px 11px;border-radius:999px;
-    background:rgba(15,15,17,.78);
-    -webkit-backdrop-filter:saturate(180%) blur(14px);
-    backdrop-filter:saturate(180%) blur(14px);
-    border:1px solid rgba(255,255,255,.12);
-    color:#fafafa;text-decoration:none;
-    font:500 12.5px/1 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-    letter-spacing:.01em;
-    box-shadow:0 4px 16px rgba(0,0,0,.18);
-    transition:transform .18s ease,background .18s ease,box-shadow .18s ease;
-    cursor:pointer
+  #sq-home-btn{
+    position:fixed!important;top:16px!important;left:16px!important;z-index:2147483647!important;
+    display:inline-flex!important;align-items:center!important;gap:7px!important;
+    padding:7px 13px 7px 11px!important;border-radius:999px!important;
+    background:rgba(15,15,17,.78)!important;
+    -webkit-backdrop-filter:saturate(180%) blur(14px)!important;
+    backdrop-filter:saturate(180%) blur(14px)!important;
+    border:1px solid rgba(255,255,255,.12)!important;
+    color:#fafafa!important;text-decoration:none!important;
+    font:500 12.5px/1 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif!important;
+    letter-spacing:.01em!important;
+    box-shadow:0 4px 16px rgba(0,0,0,.18)!important;
+    transition:transform .18s ease,background .18s ease,box-shadow .18s ease!important;
+    cursor:pointer!important;
+    visibility:visible!important;opacity:1!important;
+    transform:none;margin:0!important;
+    pointer-events:auto!important
   }
-  .sq-home-btn:hover{transform:translateY(-1px);background:rgba(15,15,17,.92);box-shadow:0 6px 20px rgba(0,0,0,.25)}
-  .sq-home-btn:active{transform:translateY(0)}
-  .sq-home-btn svg{width:13px;height:13px;flex-shrink:0;transition:transform .18s ease}
-  .sq-home-btn:hover svg{transform:translateX(-2px)}
-  .sq-home-btn b{font-weight:500}
-  .sq-home-btn em{font-style:normal;opacity:.62;font-weight:400}
+  #sq-home-btn:hover{transform:translateY(-1px)!important;background:rgba(15,15,17,.92)!important;box-shadow:0 6px 20px rgba(0,0,0,.25)!important}
+  #sq-home-btn:active{transform:translateY(0)!important}
+  #sq-home-btn svg{width:13px!important;height:13px!important;flex-shrink:0!important;transition:transform .18s ease!important;display:inline-block!important;vertical-align:middle!important}
+  #sq-home-btn:hover svg{transform:translateX(-2px)!important}
+  #sq-home-btn b{font-weight:500!important;font-style:normal!important;color:inherit!important}
+  #sq-home-btn em{font-style:normal!important;opacity:.62!important;font-weight:400!important;color:inherit!important}
+  #sq-home-btn .sq-label{display:inline-block!important;white-space:nowrap!important}
   @media (max-width:600px){
-    .sq-home-btn{top:12px;left:12px;padding:7px 11px}
-    .sq-home-btn .sq-label{display:none}
+    #sq-home-btn{top:12px!important;left:12px!important;padding:7px 11px!important}
+    #sq-home-btn .sq-label{display:none!important}
   }
-  @media print{ .sq-home-btn{display:none} }
+  @media print{ #sq-home-btn{display:none!important} }
 </style>
-<a class="sq-home-btn" href="https://shuaiqing.xyz/" aria-label="返回 shuaiqing.xyz 首页">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
+<a id="sq-home-btn" href="https://shuaiqing.xyz/" aria-label="返回 shuaiqing.xyz 首页">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
   <span class="sq-label"><b>shuaiqing</b><em>.xyz</em></span>
 </a>
 <!-- /shuaiqing.xyz home button -->
-
 <!-- 进度条 -->
 <div id="progress-bar"><div id="progress-fill"></div></div>
 
